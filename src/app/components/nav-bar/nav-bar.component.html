@@ -41,16 +41,16 @@
 
         <div class="inline-flex rounded-md shadow-sm" role="group">
         <button *ngIf="authSvc.sesionActiva == false"  type="button"
-          class="flex py-1 px-2 items-center border borde-color-[#bee8f4] text-white md:hover:bg-primary md:hover:text-black rounded-s md:me-0 focus:ring-2 focus:ring-gray-300"
+          class="flex py-1 px-2 items-center cursor-pointer transition-all border borde-color-[#bee8f4] text-white md:hover:bg-primary md:hover:text-black rounded-s md:me-0 focus:ring-2 focus:ring-gray-300"
           aria-expanded="false">
           <ng-icon name="tablerLogin2" ></ng-icon>
-          <h1 class="flex items-center ps-2 pe-2">Iniciar Sesión</h1>
+          <h1 class="flex items-center ps-2 pe-2 cursor-pointer">Iniciar Sesión</h1>
         </button>
         <button *ngIf="authSvc.sesionActiva == false"  type="button"
-        class="flex py-1 px-2 items-center border borde-color-[#bee8f4] text-white md:hover:bg-primary md:hover:text-black rounded-e md:me-0 focus:ring-2 focus:ring-gray-300"
+        class="flex py-1 px-2 items-center cursor-pointer transition-all border borde-color-[#bee8f4] text-white md:hover:bg-primary md:hover:text-black rounded-e md:me-0 focus:ring-2 focus:ring-gray-300"
         aria-expanded="false">
         <ng-icon name="tablerUserPlus" ></ng-icon>
-        <h1 class="flex items-center ps-2 pe-2">Registro</h1>
+        <h1 class="flex items-center ps-2 pe-2 cursor-pointer">Registro</h1>
       </button>
   
     </div>
