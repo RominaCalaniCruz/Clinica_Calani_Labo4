@@ -1,0 +1,24 @@
+.fondo{
+    // margin-top: 10px;
+    // background: rgba(255, 255, 255, 0.267);
+    // background-color: #081d25a1;
+    background: #006780;
+    width: 100%;
+    // border-radius: 5px;
+    // color: white;
+}
+// .nombre{
+//     background-image: url('/forma.png');
+//     // width: 200px;
+//     background-size: contain;
+//     background-repeat: no-repeat;
+//     background-position: center center;
+// }
+.active-route {
+    color: #bee8f4;
+    border-bottom: solid;
+    border-top: solid;
+}
+.active-route:hover{
+    background-color: transparent !important;
+}

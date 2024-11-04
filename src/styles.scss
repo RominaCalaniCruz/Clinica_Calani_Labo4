@@ -2,3 +2,67 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: "Enriqueta";
+    src: url("/Enriqueta-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: "Lato";
+    src: url("/Lato-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Noto";
+    src: url("/NotoSerif-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    // letter-spacing: 1px;
+    font-size: 18px;
+    // color: white;
+    
+    .estilo.toast-info{
+      background-color:#3498dbdc;
+      @media (max-width: 767px) {
+        font-size: medium;
+      }
+    }
+    .estilo.toast-error{
+      background-color:#f24c4cdc;
+      // f24c4c94
+      @media (max-width: 767px) {
+        font-size: medium;
+      }
+    }
+    .estilo.toast-success{
+      background-color:#0abf31dc;
+      @media (max-width: 767px) {
+        font-size: medium;
+      }
+    }
+    .estilo.toast-warning{
+      background-color:#e9bd0cdc;
+      @media (max-width: 767px) {
+        font-size: medium;
+      }
+    }
+    
+    background-image: url("/fondo-gris.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    will-change: background-position;
+  }
+  
