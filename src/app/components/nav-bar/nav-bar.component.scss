@@ -16,9 +16,15 @@
 // }
 .active-route {
     color: #bee8f4;
-    border-bottom: solid;
+    // border-bottom: solid;
     border-top: solid;
+    // border-left: solid;
 }
 .active-route:hover{
     background-color: transparent !important;
+}
+
+.active-route-b{
+    background-color: #bee8f4;
+    color: black;
 }

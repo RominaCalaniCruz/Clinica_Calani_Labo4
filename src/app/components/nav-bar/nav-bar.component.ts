@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { tablerHomeFill, tablerUserFill} from '@ng-icons/tabler-icons/fill';
@@ -27,5 +27,13 @@ export class NavBarComponent {
   }
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
+  }
+  @HostListener('document:click', ['$event'])
+  closeDropdownOnClickOutside(event: Event) {
+    const dropdownButton = document.getElementById('user-menu-button');
+    const dropdownMenu = document.getElementById('user-dropdown');
+    if (dropdownButton && dropdownMenu && !dropdownButton.contains(event.target as Node) && !dropdownMenu.contains(event.target as Node)) {
+      this.isDropdownOpen = false;
+    }
   }
 }

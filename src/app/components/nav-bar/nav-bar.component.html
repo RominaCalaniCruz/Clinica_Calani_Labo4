@@ -1,111 +1,101 @@
 <nav class="border-gray-200 dark:bg-gray-900 fondo">
-    <div class="max-w-screen-xl flex flex-wrap items-center justify-center sm:justify-between mx-auto px-2">
-      <a routerLink="inicio" class="flex items-center space-x-3 rtl:space-x-reverse nombre">
-         <img src="/logo.png" alt="" class="h-14 hover:scale-125 transition-all">
-        <span style="letter-spacing: 3px; text-shadow: 3px 3px 8px #000000be;"
-          class=" self-center text-white py-2 md:text-lg font-bold font-noto text-primary hover:scale-105 transition-all">CLINICA <br> FAMILIAR</span>
-      </a>
-      <div class="flex items-center  md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-  
-  
-  
-  
-  
-        <div *ngIf="authSvc.sesionActiva" class="relative inline-block">
-          <button (click)="toggleDropdown()" type="button"
-            class="flex text-sm items-center bg-transparent rounded-full md:me-0 focus:ring-2 focus:ring-primary dark:focus:ring-gray-600"
-            id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown">
-            <span class="sr-only">Open user menu</span>
-  
-            <ng-icon name="matAccountCircle" size="35px"></ng-icon>
-             <h1 class="flex items-center ps-2 pe-2">{{(authSvc.usuarioActual?.displayName) ? 
-               authSvc.usuarioActual?.displayName : authSvc.usuarioActual?.email}}</h1>
-          </button>
-          <!-- Dropdown menu -->
-          <div [class.hidden]="!isDropdownOpen"
-            class="  right-0 z-50 absolute w-max my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
-            id="user-dropdown">
-            <!-- <div class="px-4 py-3">
-        <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-      </div> -->
-            <ul class="py-2" aria-labelledby="user-menu-button">
-  
-              <li>
-  
-                <a (click)="cerrarSesion()" class="flex items-center px-2 py-2 text-m text-gray-700 hover:bg-gray-100 "> 
-                  <ng-icon name="tablerSquareX" size="1.2em" class="me-2"></ng-icon>Cerrar Sesión</a>
-              </li>
-            </ul>
+  <div class="max-w-screen-xl flex flex-wrap items-center justify-center sm:justify-between mx-auto px-2">
+    <a routerLink="inicio" class="flex items-center space-x-3 rtl:space-x-reverse nombre">
+      <img src="/logo.png" alt="" class="h-14 hover:scale-125 transition-all">
+      <span style="letter-spacing: 3px; text-shadow: 3px 3px 8px #000000be;"
+        class=" self-center text-white py-2 md:text-lg font-bold font-noto text-primary hover:scale-105 transition-all">CLINICA
+        <br> FAMILIAR</span>
+    </a>
+    <div class="flex items-center  md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+      <div *ngIf="authSvc.sesionActiva" class="relative inline-block">
+        <button (click)="toggleDropdown()" type="button"
+          class="flex text-sm items-center bg-transparent rounded-full md:me-0 focus:ring-2 focus:ring-primary dark:focus:ring-gray-600"
+          id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown">
+          <span class="sr-only">Open user menu</span>
+          <img class="w-12 h-12 rounded-full" *ngIf="authSvc.usuarioActual?.photoURL"
+            [src]="authSvc.usuarioActual?.photoURL" alt="user photo">
+          <ng-icon name="matAccountCircle" *ngIf="!authSvc.usuarioActual?.photoURL" color="white" size="35px"></ng-icon>
+          <h1 class="flex items-center text-[17px] ps-2 pe-2 text-white cursor-pointer">
+            {{(authSvc.usuarioActual?.displayName) ?
+            authSvc.usuarioActual?.displayName : authSvc.usuarioActual?.email}}</h1>
+        </button>
+        <!-- Dropdown menu -->
+        <div [class.hidden]="!isDropdownOpen"
+          class="transition-all  right-0 z-50 absolute w-max my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+          id="user-dropdown">
+          <div class="px-4 pt-3 pb-1">
+            <span class="block text-sm text-gray-900">{{authSvc.usuarioActual?.email}}</span>
+            <span class="block text-sm text-gray-500 truncate">Perfil</span>
           </div>
+          <ul class="py-2" aria-labelledby="user-menu-button">
+            <li>
+              <a (click)="cerrarSesion()"
+                class="flex cursor-pointer justify-center items-center text-m text-gray-700 hover:bg-gray-100 ">
+                <ng-icon name="tablerSquareX" size="1.2em" class="me-2"></ng-icon>Salir</a>
+            </li>
+          </ul>
         </div>
+      </div>
 
-        <div class="inline-flex rounded-md shadow-sm" role="group">
-        <button *ngIf="authSvc.sesionActiva == false"  type="button"
+      <div class="inline-flex rounded-md shadow-sm" role="group">
+        <button *ngIf="authSvc.sesionActiva == false" type="button"
           class="flex py-1 px-2 items-center cursor-pointer transition-all border borde-color-[#bee8f4] text-white md:hover:bg-primary md:hover:text-black rounded-s md:me-0 focus:ring-2 focus:ring-gray-300"
-          aria-expanded="false">
-          <ng-icon name="tablerLogin2" ></ng-icon>
+          aria-expanded="false" routerLink="iniciar-sesion" routerLinkActive="active-route-b">
+          <ng-icon name="tablerLogin2"></ng-icon>
           <h1 class="flex items-center ps-2 pe-2 cursor-pointer">Iniciar Sesión</h1>
         </button>
-        <button *ngIf="authSvc.sesionActiva == false"  type="button"
-        class="flex py-1 px-2 items-center cursor-pointer transition-all border borde-color-[#bee8f4] text-white md:hover:bg-primary md:hover:text-black rounded-e md:me-0 focus:ring-2 focus:ring-gray-300"
-        aria-expanded="false">
-        <ng-icon name="tablerUserPlus" ></ng-icon>
-        <h1 class="flex items-center ps-2 pe-2 cursor-pointer">Registro</h1>
-      </button>
-  
-    </div>
-
-  
-  
-  
-  
-  
-        <button data-collapse-toggle="navbar-user" type="button"
-          class="inline-flex  items-center m-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-gray-200"
-          aria-controls="navbar-user" aria-expanded="false">
-          <span class="sr-only">Open main menu</span>
-          <ng-icon name="tablerMenu4" size="35px"></ng-icon>
+        <button *ngIf="authSvc.sesionActiva == false" type="button"
+          class="flex py-1 px-2 items-center cursor-pointer transition-all border borde-color-[#bee8f4] text-white md:hover:bg-primary md:hover:text-black rounded-e md:me-0 focus:ring-2 focus:ring-gray-300"
+          aria-expanded="false" routerLink="registro" routerLinkActive="active-route-b">
+          <ng-icon name="tablerUserPlus"></ng-icon>
+          <h1 class="flex items-center ps-2 pe-2 cursor-pointer">Registro</h1>
         </button>
-  
+
       </div>
-      <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
-        <ul
-          class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-transparent md:space-x-2 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-          <li>
-            <a routerLink="inicio" routerLinkActive="active-route"
-              class="flex items-center block py-2 px-3 cursor-pointer transition-all  font-semibold md:hover:bg-primary md:hover:text-secondary md:bg-transparent text-white md:py-2 md:dark:text-blue-500"
-              aria-current="page">
-              <ng-icon name="tablerHomeFill " class="me-2" ></ng-icon> 
-              Inicio</a>
-          </li>
-          <li *ngIf="authSvc.sesionActiva">
-            <a routerLink="juegos" routerLinkActive="active-route"
-              class="flex items-center block py-2 px-3 cursor-pointer transition-all font-semibold  text-white rounded hover:bg-gray-100  md:hover:text-secondary md:hover:bg-primary md:py-2 ">
-              <ng-icon name="tablerUserFill " class="me-2" ></ng-icon> 
-              Mi perfil</a>
-          </li>
-          <li *ngIf="authSvc.sesionActiva">
-            <a routerLink="chat" routerLinkActive="active-route"
-              class="flex items-center block py-2 px-3 cursor-pointer transition-all font-semibold  text-white rounded hover:bg-gray-100  md:hover:text-secondary md:hover:bg-primary md:py-2 ">
-              <ng-icon name="matEditCalendar " class="me-2" ></ng-icon> 
-              Solicitar Turno</a>
-          </li >
-          <li *ngIf="authSvc.sesionActiva">
-            <a routerLink="sobre-mi" routerLinkActive="active-route"
-              class="flex items-center block py-2 px-3 cursor-pointer transition-all text-white rounded hover:bg-gray-100  font-semibold  md:hover:text-secondary md:hover:bg-primary md:py-2">
-              <ng-icon name="matLockClock " class="me-2" ></ng-icon> 
-              Mis Turnos</a>
-          </li>
-          <li *ngIf="authSvc.sesionActiva">
-            <a routerLink="sobre-mi" routerLinkActive="active-route"
-              class="flex items-center block py-2 px-3 cursor-pointer transition-all text-white rounded hover:bg-gray-100  font-semibold  md:hover:text-secondary md:hover:bg-primary md:py-2">
-              <ng-icon name="tablerListDetails " class="me-2" ></ng-icon> 
-              Usuarios</a>
-          </li>
-        </ul>
-      </div>
+
+      <button data-collapse-toggle="navbar-user" type="button"
+        class="inline-flex  items-center m-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-gray-200"
+        aria-controls="navbar-user" aria-expanded="false">
+        <span class="sr-only">Open main menu</span>
+        <ng-icon name="tablerMenu4" size="35px"></ng-icon>
+      </button>
+
     </div>
-  </nav>
-  
-  
-  <!-- <app-register #register></app-register> -->
+    <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
+      <ul
+        class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-transparent md:space-x-2 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        <li>
+          <a routerLink="inicio" routerLinkActive="active-route"
+            class="flex items-center block py-2 px-3 cursor-pointer transition-all  font-semibold md:hover:bg-primary md:hover:text-secondary md:bg-transparent text-white md:py-2 md:dark:text-blue-500"
+            aria-current="page">
+            <ng-icon name="tablerHomeFill " class="me-2"></ng-icon>
+            Inicio</a>
+        </li>
+        <li *ngIf="authSvc.sesionActiva">
+          <a routerLink="mi-perfil" routerLinkActive="active-route"
+            class="flex items-center block py-2 px-3 cursor-pointer transition-all font-semibold  text-white  hover:bg-gray-100  md:hover:text-secondary md:hover:bg-primary md:py-2 ">
+            <ng-icon name="tablerUserFill " class="me-2"></ng-icon>
+            Mi perfil</a>
+        </li>
+        <li *ngIf="authSvc.sesionActiva">
+          <a routerLink="chat" routerLinkActive="active-route"
+            class="flex items-center block py-2 px-3 cursor-pointer transition-all font-semibold  text-white  hover:bg-gray-100  md:hover:text-secondary md:hover:bg-primary md:py-2 ">
+            <ng-icon name="matEditCalendar " class="me-2"></ng-icon>
+            Solicitar Turno</a>
+        </li>
+        <li *ngIf="authSvc.sesionActiva">
+          <a routerLink="sobre-mi" routerLinkActive="active-route"
+            class="flex items-center block py-2 px-3 cursor-pointer transition-all text-white  hover:bg-gray-100  font-semibold  md:hover:text-secondary md:hover:bg-primary md:py-2">
+            <ng-icon name="matLockClock " class="me-2"></ng-icon>
+            Mis Turnos</a>
+        </li>
+        <li *ngIf="authSvc.sesionActiva">
+          <a routerLink="sobre-mi" routerLinkActive="active-route"
+            class="flex items-center block py-2 px-3 cursor-pointer transition-all text-white  hover:bg-gray-100  font-semibold  md:hover:text-secondary md:hover:bg-primary md:py-2">
+            <ng-icon name="tablerListDetails " class="me-2"></ng-icon>
+            Usuarios</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

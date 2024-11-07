@@ -9,6 +9,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { provideHttpClient } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
+import { provideStorage,getStorage } from '@angular/fire/storage';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,9 +20,10 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() => initializeApp(env.firebaseConfig)), 
     provideAuth(() => getAuth()), 
     provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
     provideHttpClient(),
     provideToastr({
-      timeOut: 2000,
+      timeOut: 2500,
       progressBar: true,
       closeButton: true,
       toastClass:'estilo ngx-toastr'

@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { getAuth, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, User, onAuthStateChanged, updateProfile } from '@angular/fire/auth';
+import { getAuth, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword, User, onAuthStateChanged, updateProfile, sendEmailVerification } from '@angular/fire/auth';
 import { ToastrService } from 'ngx-toastr';
 import { FirestoreService } from './firestore.service';
 
@@ -21,11 +21,18 @@ export class AuthService {
     const auth = getAuth();
     return signInWithEmailAndPassword(auth, email, pass)
       .then((userCredential) => {
+
         const user = userCredential.user;
+        if(!user.emailVerified){
+          this.toastM.error("Primero debes validar tu cuenta, revisa tu correo.","Acceso denegado!");
+          this.closeSession();
+          this.router.navigate(['iniciar-sesion']);
+          return;
+        }
         console.log(user.email);
         this.toastM.info(`Hola, ${(user.displayName) ?  user.displayName : user.email}`, 'Bienvenido');
         this.fireSvc.guardarLog(email);
-        this.router.navigate(['juegos']);
+        this.router.navigate(['mi-perfil']);
         return user;
       }).catch((error) => {
         const errorCode = error.code;
@@ -38,19 +45,22 @@ export class AuthService {
   }
 
 
-  registerAccount(username: string, email: string, pass: string) {
+  async registerAccount(username: string, email: string, pass: string,photoProfileURL:string) {
     const auth = getAuth();
     return createUserWithEmailAndPassword(auth, email, pass)
       .then((userCredential) => {
         const user = userCredential.user;
         if (user) {
-          updateProfile(user, { displayName: username });
+          updateProfile(user, { displayName: username , photoURL: photoProfileURL});
         }
+        sendEmailVerification(user).then(()=>{
+          this.toastM.success(`Revisa tu correo ${user.email} para verificar tu cuenta.`,`¡Registro exitoso!`)
+        });
         console.log(user.email);
-        this.toastM.success(`Hola, ${(user.displayName) ?  user.displayName : user.email}`, 'Bienvenido');
-        this.fireSvc.guardarLog(email);
-        this.router.navigate(['juegos']);
-        return user;
+        // this.toastM.success(`Hola, ${(user.displayName) ?  user.displayName : user.email}`, 'Bienvenido');
+        this.closeSession();
+        // this.fireSvc.guardarLog(email);
+        // return user;
       }).catch((error) => {
         const errorCode = error.code;
         let mensajeTexto: string = this.convertirError(errorCode);
@@ -96,7 +106,9 @@ export class AuthService {
   closeSession() {
     const auth = getAuth();
     signOut(auth).then(() => {
-      this.toastM.info("adios!");
+      // this.toastM.info("adios!");
+      this.router.navigate(['iniciar-sesion']);
+
     }).catch((error) => {
       // An error happened.
       this.toastM.error(error);
@@ -112,6 +124,8 @@ export class AuthService {
         const uid = user.uid;
         console.log(user.email);
         console.log(user.displayName);
+        console.log(user.photoURL);
+        
 
         this.usuarioActual = user;
         this.sesionActiva = true;

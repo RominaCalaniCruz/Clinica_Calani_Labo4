@@ -1,0 +1,31 @@
+.tabla{
+    min-height: calc(100vh - 130px); 
+
+  }
+  
+select:not([size]) {
+  background-image: none !important;
+}
+ 
+//  Scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Barra fondo */
+::-webkit-scrollbar-track {
+  background: #00668049; 
+  border-radius: 3px;
+}
+ 
+/* Handle-barra */
+::-webkit-scrollbar-thumb {
+  background: #006680; 
+  border-radius: 3px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #bee8f4; 
+}

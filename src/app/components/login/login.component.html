@@ -1,0 +1,97 @@
+<div class="flex justify-center items-center  overflow-y-auto">
+
+    <a
+        class="flex mt-1 mx-3 w-full md:max-w-[50%]  md:min-w-[40%] mb-10 md:mt-5   bg-transparent border border-secondary ">
+
+        <div class="flex w-full flex-col  justify-center">
+
+            <div class="flex justify-center bg-gray-100 py-1">
+
+                <h5 class="mb-2 mt-2 text-4xl text-center font-extrabold tracking-tight text-[#006680]">Iniciar Sesión
+                </h5>
+            </div>
+
+            <hr class="flex h-px px-4 justify-center bg-black border-1 border-secondary">
+            <div class="p-4 md:p-5">
+                <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()" (keypress.enter)="iniciarSesion()"
+                    class="space-y-4" action="#">
+                    <div>
+                        <label for="email" class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Correo
+                            Electrónico</label>
+                            <div class="flex">
+                                <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                    <ng-icon name="tablerAt" size="20px"></ng-icon>
+                                </span>
+                                <input [formControl]="loginForm.controls.email" type="email" name="email" id="email" class=" bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                [ngClass]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid ? 'bg-red-50 border border-red-500 placeholder-red-700 text-red-900':'bg-gray-50 border border-gray-300 text-gray-900'" placeholder="usuario@email.com" required>
+                                
+                              </div>
+                              <div class="text-red-500 mt-2" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+                                <label *ngIf="loginForm.controls.email.getError('required')">Debe ingresar un correo</label>
+                                <label *ngIf="loginForm.controls.email.getError('pattern')">Caracteres invalidos en el correo</label>
+                            </div>
+                    </div>
+                    <div>
+                        <label for="password"
+                            class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Contraseña</label>
+                        <div class="relative flex">
+                            <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                <ng-icon name="tablerLockFill" size="20px"></ng-icon>
+                            </span>
+                            <input [type]="isPasswordVisible ? 'text' : 'password'" [formControl]="loginForm.controls.password"
+                                name="password" id="password" placeholder="••••••••"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
+                                [ngClass]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid ? 'bg-red-50 border border-red-500 placeholder-red-700 text-red-900':'bg-gray-50 border border-gray-300 text-gray-900'"
+                                required />
+                            <button type="button" (click)="togglePasswordVisibility()"
+                                class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+                                <ng-icon *ngIf="!isPasswordVisible" name="jamEyeF" size="20px"></ng-icon>
+                                <ng-icon *ngIf="isPasswordVisible" name="jamEyeCloseF" size="20px"></ng-icon>
+                            </button>
+                            
+                        </div>
+                        <div class="text-red-500 mt-2" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+                            <label *ngIf="loginForm.controls.password.getError('required')">Debe ingresar una contraseña</label>
+                            <label *ngIf="loginForm.controls.password.getError('minlength')">La contraseña debe tener al menos 6 caracteres</label>
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full flex items-center justify-center text-white bg-gradient-to-r from-[#9DDA47] via-[#72B835] to-[#449424] hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  px-5 py-2.5 text-center">Ingresar
+                        <ng-icon name="jamArrowSquareRightF" color="white" class="ms-2"></ng-icon></button>
+
+
+                </form>
+            </div>
+        </div>
+
+    </a>
+</div>
+
+<div class="flex justify-center items-center overflow-y-auto">
+
+    <a class="block max-w-full pt-4 px-3 pb-5 bg-secondary border border-gray-200 shadow ">
+        <h5 class="mb-4 text-center text-2xl font-bold tracking-tight text-primary">Acceso rápido</h5>
+<!-- 3 pacientes , 2 especialistas y 1 admin = 6 total -->
+        <div class="md:flex md:flex-row grid grid-cols-3 gap-3  items-center ">
+            <img (click)="autocompletar('paciente_pablo@yopmail.com','June25')" data-tooltip-target="tooltip-default" class="rounded-full mx-2 h-20 w-auto md:w-20 md:h-20 cursor-pointer hover:scale-125 border border-white transition-all hover:border-[#72b835]"
+                src="https://firebasestorage.googleapis.com/v0/b/clinica-calani-utn.firebasestorage.app/o/fotos_perfil%2FPablo_45678900.webp?alt=media&token=75367efb-39a3-4cd7-a943-bfe37363fc3f" alt="image description" />
+            <img (click)="autocompletar('romi_user@yopmail.com','Gatito123')" class="rounded-full mx-2 h-20 w-auto md:w-20 md:h-20 cursor-pointer hover:scale-125 border border-white transition-all hover:border-[#72b835]"
+                src="https://firebasestorage.googleapis.com/v0/b/clinica-calani-utn.firebasestorage.app/o/fotos_perfil%2FRomina_43402697.webp?alt=media&token=acc468b1-43f1-4afc-821f-01992b462abf" alt="image description" />
+            <img (click)="autocompletar('camila_r@yopmail.com','Medicos123')" class="rounded-full mx-2 h-20 w-auto md:w-20 md:h-20 cursor-pointer hover:scale-125 border border-white transition-all hover:border-[#72b835]"
+                src="https://firebasestorage.googleapis.com/v0/b/clinica-calani-utn.firebasestorage.app/o/fotos_perfil%2FCamila_12345678.webp?alt=media&token=48f5aa0a-5e0a-4fa7-aac0-b527cac9c76f" alt="image description" />
+            <img class="rounded-full mx-2 h-20 w-auto md:w-20 md:h-auto cursor-pointer hover:scale-125 border border-white transition-all hover:border-[#72b835]"
+                src="/persona-enferma.png" alt="image description" />
+            <img class="rounded-full mx-2 h-20 w-auto md:w-20 md:h-auto cursor-pointer hover:scale-125 border border-white transition-all hover:border-[#72b835]"
+                src="/persona-enferma.png" alt="image description" />
+            <img class="rounded-full mx-2 h-20 w-auto md:w-20 md:h-auto cursor-pointer hover:scale-125 border border-white transition-all hover:border-[#72b835]"
+                src="/persona-enferma.png" alt="image description" />
+
+        </div>
+    </a>
+</div>
+
+<ngx-spinner type="ball-clip-rotate-multiple" size="large"
+color="#bee8f4">
+  <p style="font-size: 20px; color: white;">Espere...</p>
+</ngx-spinner>

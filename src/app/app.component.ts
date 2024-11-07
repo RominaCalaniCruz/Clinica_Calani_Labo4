@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { initFlowbite } from 'flowbite';
 import { NgxSpinnerComponent, NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +14,12 @@ import { NgxSpinnerComponent, NgxSpinnerModule, NgxSpinnerService } from 'ngx-sp
 })
 export class AppComponent implements OnInit{
   title = 'tp-clinica';
+  authSvc = inject(AuthService);
   spinnerSvc = inject(NgxSpinnerService);
   ngOnInit(): void {
     initFlowbite();
+    this.authSvc.traerUsuarioActual();
+
   }
 
   showSpinner() {
