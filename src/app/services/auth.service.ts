@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FirestoreService } from './firestore.service';
 
 import { Router } from '@angular/router';
+import { Especialista, Paciente, Perfil, Usuario } from '../models/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -14,19 +15,26 @@ export class AuthService {
   fireSvc = inject(FirestoreService);
   router = inject(Router);
   usuarioActual?: User;
+  tipoPerfilActual!: Perfil | null;
   sesionActiva: boolean = false;
   constructor() { }
 
-  login(email: string, pass: string) {
+  async login(email: string, pass: string) {
     const auth = getAuth();
+    const personaLogueada = await this.fireSvc.obtenerUsuarioDatos(email) as any;
+    
     return signInWithEmailAndPassword(auth, email, pass)
       .then((userCredential) => {
-
         const user = userCredential.user;
-        if(!user.emailVerified){
-          this.toastM.error("Primero debes validar tu cuenta, revisa tu correo.","Acceso denegado!");
+        let mensaje = '';
+        if(!user.emailVerified && personaLogueada.perfil != Perfil.Administrador){
+          this.toastM.error("Debes verificar tu cuenta, revisa tu correo.","Acceso denegado!",{timeOut:4000});
           this.closeSession();
-          this.router.navigate(['iniciar-sesion']);
+          return;
+        }        
+        if(!personaLogueada.cuenta_habilitada && personaLogueada.perfil == Perfil.Especialista){
+          this.toastM.error(`Tu cuenta ${user.email} no ha sido habilitada, comunicate con un administrador.`,"Acceso denegado!", {timeOut:4000});
+          this.closeSession();
           return;
         }
         console.log(user.email);
@@ -45,20 +53,49 @@ export class AuthService {
   }
 
 
-  async registerAccount(username: string, email: string, pass: string,photoProfileURL:string) {
+  async registerAccount(username: string, email: string, pass: string, photoProfileURL:string, perfil: Perfil) {
     const auth = getAuth();
+    const emailActual = this.usuarioActual?.email;
+    const passActual = this.fireSvc.obtenerAdminLogueado(emailActual as string);
     return createUserWithEmailAndPassword(auth, email, pass)
       .then((userCredential) => {
         const user = userCredential.user;
+        let mensaje = "";
         if (user) {
           updateProfile(user, { displayName: username , photoURL: photoProfileURL});
         }
-        sendEmailVerification(user).then(()=>{
-          this.toastM.success(`Revisa tu correo ${user.email} para verificar tu cuenta.`,`¡Registro exitoso!`)
-        });
+        switch(perfil){
+          case Perfil.Paciente:            
+            mensaje = `Tu cuenta como Paciente fue creada.\nRevisa tu correo ${user.email} para verificar tu cuenta.`;
+            sendEmailVerification(user).then(()=>{
+              this.toastM.success(mensaje,`¡Registro exitoso!`,{timeOut:4000})
+            });
+            this.closeSession();
+            break;
+          case Perfil.Especialista:
+            mensaje = `Tu cuenta como Especialista fue creada.\nUn Administrador pronto aprobara tu registro, mientras tanto revisa tu correo ${user.email} para verificar tu usuario.`;
+            sendEmailVerification(user).then(()=>{
+              this.toastM.success(mensaje,`¡Registro exitoso!`,{timeOut:10000})
+            });
+            this.closeSession();
+            break;
+          case Perfil.Administrador:
+            if(emailActual && passActual){
+              signOut(auth).then(()=>{
+                signInWithEmailAndPassword(auth, emailActual, passActual.password).then(()=>{
+                  mensaje = `Un nuevo Administrador fue registrado.\nEl usuario ${user.email} puede comenzar a usar su cuenta.`;
+                  this.toastM.success(mensaje,`¡Registro exitoso!`,{timeOut:10000})
+                });
+              });
+            }
+            else{
+              this.toastM.error('Error');
+            }
+            break; 
+        }
         console.log(user.email);
         // this.toastM.success(`Hola, ${(user.displayName) ?  user.displayName : user.email}`, 'Bienvenido');
-        this.closeSession();
+        // this.closeSession();
         // this.fireSvc.guardarLog(email);
         // return user;
       }).catch((error) => {
@@ -117,7 +154,7 @@ export class AuthService {
 
   traerUsuarioActual() {
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/auth.user
@@ -128,12 +165,20 @@ export class AuthService {
         
 
         this.usuarioActual = user;
+        const usuarioDatos = await this.fireSvc.obtenerUsuarioDatos(user.email as string) as any;
+        this.tipoPerfilActual = usuarioDatos.perfil;
+        console.log(this.tipoPerfilActual);
+
         this.sesionActiva = true;
         // ...
       } else {
         console.log("no hay usuario");
         this.usuarioActual = undefined;
         this.sesionActiva = false;
+        this.tipoPerfilActual = null;
+        console.log(this.tipoPerfilActual);
+        
+
         // User is signed out
         // ...
       }

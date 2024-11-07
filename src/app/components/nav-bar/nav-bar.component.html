@@ -25,7 +25,7 @@
           id="user-dropdown">
           <div class="px-4 pt-3 pb-1">
             <span class="block text-sm text-gray-900">{{authSvc.usuarioActual?.email}}</span>
-            <span class="block text-sm text-gray-500 truncate">Perfil</span>
+            <span class="block text-sm text-gray-500 truncate"> Perfil: {{authSvc.tipoPerfilActual}}</span>
           </div>
           <ul class="py-2" aria-labelledby="user-menu-button">
             <li>
@@ -71,7 +71,7 @@
             <ng-icon name="tablerHomeFill " class="me-2"></ng-icon>
             Inicio</a>
         </li>
-        <li *ngIf="authSvc.sesionActiva">
+        <!-- <li *ngIf="authSvc.sesionActiva">
           <a routerLink="mi-perfil" routerLinkActive="active-route"
             class="flex items-center block py-2 px-3 cursor-pointer transition-all font-semibold  text-white  hover:bg-gray-100  md:hover:text-secondary md:hover:bg-primary md:py-2 ">
             <ng-icon name="tablerUserFill " class="me-2"></ng-icon>
@@ -88,9 +88,9 @@
             class="flex items-center block py-2 px-3 cursor-pointer transition-all text-white  hover:bg-gray-100  font-semibold  md:hover:text-secondary md:hover:bg-primary md:py-2">
             <ng-icon name="matLockClock " class="me-2"></ng-icon>
             Mis Turnos</a>
-        </li>
-        <li *ngIf="authSvc.sesionActiva">
-          <a routerLink="sobre-mi" routerLinkActive="active-route"
+        </li> -->
+        <li *ngIf="authSvc.sesionActiva && authSvc.tipoPerfilActual == 'Administrador'">
+          <a routerLink="lista-usuarios" routerLinkActive="active-route"
             class="flex items-center block py-2 px-3 cursor-pointer transition-all text-white  hover:bg-gray-100  font-semibold  md:hover:text-secondary md:hover:bg-primary md:py-2">
             <ng-icon name="tablerListDetails " class="me-2"></ng-icon>
             Usuarios</a>

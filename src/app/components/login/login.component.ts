@@ -71,7 +71,7 @@ export class LoginComponent {
       });
 
     } else {
-      this.toastM.info("Faltan campos", "Aviso");
+      this.toastM.info("Debes ingresar el corrreo y la contraseña");
 
     }
   }

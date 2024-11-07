@@ -7,6 +7,8 @@ import {matAccountCircle, matEditCalendar,matLockClock} from '@ng-icons/material
 import { tablerListDetails, tablerLogin2, tablerMenu4, tablerSquareX, tablerUserPlus} from '@ng-icons/tabler-icons';
 import {jamLogIn} from '@ng-icons/jam-icons';
 import { AuthService } from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
+import { Perfil } from '../../models/usuario';
 
 @Component({
   selector: 'app-nav-bar',
@@ -16,14 +18,15 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss'
 })
-export class NavBarComponent {
+export class NavBarComponent{
   authSvc = inject(AuthService);
+  toastM = inject(ToastrService);
   isDropdownOpen: boolean = false;
   router = inject(Router);
   cerrarSesion() {
     this.authSvc.closeSession();
+    this.toastM.info("Cerraste sesón");
     this.isDropdownOpen = false;
-    this.router.navigate(['']);
   }
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;

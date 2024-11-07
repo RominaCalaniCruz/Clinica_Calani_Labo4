@@ -25,4 +25,10 @@ export const routes: Routes = [
         loadComponent: () =>
             import('./components/mi-perfil/mi-perfil.component').then((c) => c.MiPerfilComponent),
     },
+    {
+        path: 'lista-usuarios',
+        loadComponent: () =>
+            import('./components/lista-usuarios/lista-usuarios.component').then((c) => c.ListaUsuariosComponent),
+        
+    },
 ];

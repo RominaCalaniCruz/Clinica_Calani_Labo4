@@ -9,6 +9,7 @@ export interface Usuario {
     edad: number;
     dni: number;
     foto1: string;
+    perfil: Perfil 
 }
 export interface Paciente extends Usuario{
     obraSocial:string;
