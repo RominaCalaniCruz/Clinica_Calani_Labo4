@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import {  addDoc, collection, collectionData, doc, Firestore, orderBy, query, Timestamp, updateDoc} from '@angular/fire/firestore';
+import {  addDoc, collection, collectionData, doc, Firestore, getDocs, orderBy, query, Timestamp, updateDoc} from '@angular/fire/firestore';
 import {
   getDownloadURL,
   getStorage,
@@ -44,18 +44,36 @@ export class FirestoreService {
 
   traerLista(coleccionNombre:string){
     let col = collection(this.firestore, coleccionNombre);
-    const consulta = query(col, orderBy('fecha', 'desc'));
-    return collectionData(query(col, orderBy('fecha', 'desc')));
+    return collectionData(col);
   }
   traerEspecialidades(){
     let col = collection(this.firestore, 'especialidades');
     const consulta = query(col, orderBy('nombre', 'asc'));
     return collectionData(query(col, orderBy('nombre', 'asc')));
   }
+  async traerListass(coleccion: string) {
+    const collectionRef = collection(this.firestore, coleccion);
+    const querySnapshot = await getDocs(query(collectionRef, orderBy('nombre', 'asc')));
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  }
 
   async subirFotoPerfil(file: File, imageName: string){
     const storage = getStorage();
     const filePath = `fotos_perfil/${imageName}`;
+    const fileRef = ref(storage,filePath);
+    // const task = this.storage.upload(filePath, file);
+    // const url = getDownloadURL(fileRef);
+    try {
+      await uploadBytes(fileRef, file);
+      return await getDownloadURL(fileRef);
+    } catch (error) {
+      console.error('Error al subir el archivo:', error);
+      throw error; 
+    }
+  }
+  async subirFotoEspecialidad(file: File, imageName: string){
+    const storage = getStorage();
+    const filePath = `fotos_especialidades/${imageName}`;
     const fileRef = ref(storage,filePath);
     // const task = this.storage.upload(filePath, file);
     // const url = getDownloadURL(fileRef);
@@ -90,7 +108,17 @@ export class FirestoreService {
       throw error;
     }
   }
-
+  async nuevoAdmin(admin: Usuario) {
+    try {
+      const docRef = await addDoc(collection(this.firestore, 'usuarios'), admin);
+      admin.id = docRef.id;
+      await updateDoc(doc(this.firestore, 'usuarios', admin.id), { ...admin });
+      return docRef;
+    } catch (error) {
+      console.error('Error al agregar documento:', error);
+      throw error;
+    }
+  }
   async nuevoPaciente(paciente: Paciente) {
     try {
       const docRef = await addDoc(collection(this.firestore, 'usuarios'), paciente);
@@ -103,17 +131,15 @@ export class FirestoreService {
     }
   }
 
-  obtenerAdminLogueado(email:string){
-    const usersRef = collection(this.firestore, 'admins');
-    const observable = collectionData(usersRef);
-    let usuarios:Array<Usuario> = [];
-    observable.subscribe((respuesta:any)=>{
-      usuarios = respuesta as Array<Usuario>;      
-      return usuarios.find((x)=>x.email ==email);
+  cambiarEstado(estado: boolean, idUsuario : string){
+    const coleccion = collection(this.firestore, 'usuarios');
+    const documento = doc(coleccion,idUsuario);
+    //console.log(cliente.nombre);
+    //console.log(cliente.uid);
+    return updateDoc(documento,{
+      cuenta_habilitada: estado
     });
-    return usuarios.find((x)=>x.email ==email);
   }
-
   obtenerUsuarioDatos(email:string){
     const usersRef = collection(this.firestore, 'usuarios');
     const observable = collectionData(usersRef);
@@ -132,30 +158,5 @@ export class FirestoreService {
     });
   }
 
-  obtenerDoctorLogueado(email:string){
-    const usersRef = collection(this.firestore, 'especialistas');
-    const observable = collectionData(usersRef) as Observable<Especialista[]>;
-    // let usuarios:Array<Especialista> = [];
-    // observable.subscribe((respuesta:any)=>{
-    //   usuarios = respuesta as Array<Especialista>;      
-    //   return usuarios.find((x)=>x.email == email);
-    // });
-    // return usuarios.find((x)=>x.email ==email);
-    return observable.pipe(map((users: Especialista[])=> users.find((x:Especialista)=>x.email == email)));
-  }
-
-  async buscarUsuarioPorEmail(email: string): Promise<any | null> {
-    const colecciones = ['pacientes', 'especialistas', 'adminis'];
-  
-    for (const coleccion of colecciones) {
-      const usersRef = collection(this.firestore, coleccion);
-      const observable = await collectionData(usersRef).toPromise() as Array<any>;
-      const usuarioEncontrado = observable.find((user) => user.email === email);
-      if (usuarioEncontrado) {
-        return { ...usuarioEncontrado }; 
-      }
-    }
-    return null;
-  }
 
 }

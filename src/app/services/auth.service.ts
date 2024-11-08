@@ -22,23 +22,23 @@ export class AuthService {
   async login(email: string, pass: string) {
     const auth = getAuth();
     const personaLogueada = await this.fireSvc.obtenerUsuarioDatos(email) as any;
-    
+
     return signInWithEmailAndPassword(auth, email, pass)
       .then((userCredential) => {
         const user = userCredential.user;
         let mensaje = '';
-        if(!user.emailVerified && personaLogueada.perfil != Perfil.Administrador){
-          this.toastM.error("Debes verificar tu cuenta, revisa tu correo.","Acceso denegado!",{timeOut:4000});
+        if (!user.emailVerified && personaLogueada.perfil != Perfil.Administrador) {
+          this.toastM.error("Debes verificar tu cuenta, revisa tu correo.", "Acceso denegado!", { timeOut: 4000 });
           this.closeSession();
           return;
-        }        
-        if(!personaLogueada.cuenta_habilitada && personaLogueada.perfil == Perfil.Especialista){
-          this.toastM.error(`Tu cuenta ${user.email} no ha sido habilitada, comunicate con un administrador.`,"Acceso denegado!", {timeOut:4000});
+        }
+        if (!personaLogueada.cuenta_habilitada && personaLogueada.perfil == Perfil.Especialista) {
+          this.toastM.error(`Tu cuenta ${user.email} no ha sido habilitada, comunicate con un administrador.`, "Acceso denegado!", { timeOut: 4000 });
           this.closeSession();
           return;
         }
         console.log(user.email);
-        this.toastM.info(`Hola, ${(user.displayName) ?  user.displayName : user.email}`, 'Bienvenido');
+        this.toastM.info(`Hola, ${(user.displayName) ? user.displayName : user.email}`, 'Bienvenido');
         this.fireSvc.guardarLog(email);
         this.router.navigate(['mi-perfil']);
         return user;
@@ -53,46 +53,65 @@ export class AuthService {
   }
 
 
-  async registerAccount(username: string, email: string, pass: string, photoProfileURL:string, perfil: Perfil) {
+  async registerAccount(username: string, email: string, pass: string, photoProfileURL: string, perfil: Perfil) {
     const auth = getAuth();
     const emailActual = this.usuarioActual?.email;
-    const passActual = this.fireSvc.obtenerAdminLogueado(emailActual as string);
+    // const passActual = this.fireSvc.obtenerAdminLogueado(emailActual as string);
+    const personaLogueada = await this.fireSvc.obtenerUsuarioDatos(emailActual as string) as any;
+
     return createUserWithEmailAndPassword(auth, email, pass)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user;
         let mensaje = "";
+
         if (user) {
-          updateProfile(user, { displayName: username , photoURL: photoProfileURL});
+          updateProfile(user, { displayName: username, photoURL: photoProfileURL });
         }
-        switch(perfil){
-          case Perfil.Paciente:            
-            mensaje = `Tu cuenta como Paciente fue creada.\nRevisa tu correo ${user.email} para verificar tu cuenta.`;
-            sendEmailVerification(user).then(()=>{
-              this.toastM.success(mensaje,`¡Registro exitoso!`,{timeOut:4000})
-            });
-            this.closeSession();
-            break;
-          case Perfil.Especialista:
-            mensaje = `Tu cuenta como Especialista fue creada.\nUn Administrador pronto aprobara tu registro, mientras tanto revisa tu correo ${user.email} para verificar tu usuario.`;
-            sendEmailVerification(user).then(()=>{
-              this.toastM.success(mensaje,`¡Registro exitoso!`,{timeOut:10000})
-            });
-            this.closeSession();
-            break;
-          case Perfil.Administrador:
-            if(emailActual && passActual){
-              signOut(auth).then(()=>{
-                signInWithEmailAndPassword(auth, emailActual, passActual.password).then(()=>{
-                  mensaje = `Un nuevo Administrador fue registrado.\nEl usuario ${user.email} puede comenzar a usar su cuenta.`;
-                  this.toastM.success(mensaje,`¡Registro exitoso!`,{timeOut:10000})
-                });
+        if (personaLogueada.perfil == Perfil.Administrador) {
+          switch (perfil) {
+            case Perfil.Paciente:
+              mensaje = `Creaste un nuevo Paciente.\nEl usuario ${email} debe verificar su cuenta.`;
+              await sendEmailVerification(user);
+              break;
+            case Perfil.Especialista:
+              mensaje = `Creaste un nuevo Especialista.\nEl usuario ${email} debe verificar su cuenta.`;
+              await sendEmailVerification(user);
+              break;
+            case Perfil.Administrador:
+              mensaje = `Un nuevo Administrador fue registrado.\nEl usuario ${email} puede comenzar a usar su cuenta.`;
+              break;
+          }
+
+          if (personaLogueada.email && personaLogueada.password) {
+            await signOut(auth);
+            await signInWithEmailAndPassword(auth, personaLogueada.email, personaLogueada.password);
+
+            this.toastM.success(mensaje, `¡Registro exitoso!`, { timeOut: 10000 })
+          }
+          else {
+            this.toastM.error('Error al loguearse');
+          }
+        }
+        else {
+          switch (perfil) {
+            case Perfil.Paciente:
+              mensaje = `Tu cuenta como Paciente fue creada.\nRevisa tu correo ${user.email} para verificar tu cuenta.`;
+              await sendEmailVerification(user).then(() => {
+                this.toastM.success(mensaje, `¡Registro exitoso!`, { timeOut: 4000 })
               });
-            }
-            else{
-              this.toastM.error('Error');
-            }
-            break; 
+              this.closeSession();
+              break;
+            case Perfil.Especialista:
+              mensaje = `Tu cuenta como Especialista fue creada.\nUn Administrador pronto aprobara tu registro, mientras tanto revisa tu correo ${user.email} para verificar tu usuario.`;
+              await sendEmailVerification(user).then(() => {
+                this.toastM.success(mensaje, `¡Registro exitoso!`, { timeOut: 10000 })
+              });
+              this.closeSession();
+              break;
+          }
+
         }
+
         console.log(user.email);
         // this.toastM.success(`Hola, ${(user.displayName) ?  user.displayName : user.email}`, 'Bienvenido');
         // this.closeSession();
@@ -130,7 +149,7 @@ export class AuthService {
       case 'auth/email-already-exists':
         msg = 'Correo en uso, inicie sesion o use otro.';
         break;
-        case 'auth/email-already-in-use':
+      case 'auth/email-already-in-use':
         msg = 'Correo en uso, inicie sesion o use otro.';
         break;
       default:
@@ -162,7 +181,7 @@ export class AuthService {
         console.log(user.email);
         console.log(user.displayName);
         console.log(user.photoURL);
-        
+
 
         this.usuarioActual = user;
         const usuarioDatos = await this.fireSvc.obtenerUsuarioDatos(user.email as string) as any;
@@ -177,7 +196,7 @@ export class AuthService {
         this.sesionActiva = false;
         this.tipoPerfilActual = null;
         console.log(this.tipoPerfilActual);
-        
+
 
         // User is signed out
         // ...

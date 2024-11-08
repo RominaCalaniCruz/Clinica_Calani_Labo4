@@ -24,6 +24,27 @@
   }
 
   body {
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    /* Barra fondo */
+    ::-webkit-scrollbar-track {
+      background: #00668049; 
+      border-radius: 3px;
+    }
+     
+    /* Handle-barra */
+    ::-webkit-scrollbar-thumb {
+      background: #006680; 
+      border-radius: 3px;
+    }
+    
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #bee8f4; 
+    }
     margin: 0;
     padding: 0;
     height: 100vh;

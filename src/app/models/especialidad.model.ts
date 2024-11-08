@@ -3,6 +3,7 @@ export interface Especialidad {
     nombre: string;
     duracionTurno: number;
     horariosAtencion: HorarioAtencion[] | null;
+    foto: string | null | File;
 }
 
 export interface HorarioAtencion {

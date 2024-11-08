@@ -1,0 +1,79 @@
+<div class="max-w-4xl mt-5 animate-fadeInFromBottom mx-auto bg-white shadow-md p-6">
+    <form [formGroup]="adminForm">
+      <h2 class="text-2xl text-center tracking-wide font-semibold mb-3 text-secondary font-noto ">Registro de Administrador</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label for="nombre" class="block text-sm font-medium">Nombre</label>
+          <input type="text" formControlName="nombre" class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50" placeholder="Nombre">
+          <p *ngIf="adminForm.get('nombre')?.invalid && adminForm.get('nombre')?.touched"
+            class="text-red-500 text-sm mt-1">Debe ingresar solo letras.</p>
+        </div>
+
+        <div>
+          <label for="apellido" class="block text-sm font-medium">Apellido</label>
+          <input type="text" formControlName="apellido" class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50"
+            placeholder="Apellido">
+          <p *ngIf="adminForm.get('apellido')?.invalid && adminForm.get('apellido')?.touched"
+            class="text-red-500 text-sm">Debe ingresar solo letras.</p>
+        </div>
+
+        <div>
+          <label for="edad" class="block text-sm font-medium">Edad</label>
+          <input type="number" formControlName="edad" class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50" placeholder="Edad">
+          <p *ngIf="adminForm.get('edad')?.invalid && adminForm.get('edad')?.touched"
+            class="text-red-500 text-sm">La edad debe ser entre 1 a 99 años.</p>
+        </div>
+
+        <div>
+          <label for="dni" class="block text-sm font-medium">DNI</label>
+          <input type="text" formControlName="dni" class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50" placeholder="12345678">
+          <p *ngIf="adminForm.get('dni')?.invalid && adminForm.get('dni')?.touched" class="text-red-500 text-sm">
+            Formato de DNI inválido.</p>
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm font-medium">Correo</label>
+          <input type="email" formControlName="email" class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50"
+            placeholder="ejemplo@email.com">
+          <p *ngIf="adminForm.get('email')?.invalid && adminForm.get('email')?.touched"
+            class="text-red-500 text-sm">Formato de correo inválido.</p>
+        </div>
+
+        <div>
+          <label for="imagen1" class="block text-sm font-medium">Imagen de Perfil</label>
+          <input type="file" (change)="onFileSelected($event, 1)"  formControlName="imagen1" accept="image/*" class="mt-1 block text-sm w-full focus:ring-2 focus:ring-primary border border-gray-300  bg-gray-50 "
+            required>
+          <p *ngIf="adminForm.get('imagen1')?.invalid && adminForm.get('imagen1')?.touched"
+            class="text-red-500 text-sm">La imagen es requerida.</p>
+        </div>
+        
+        <div>
+          <label for="password" class="block text-sm font-medium">Contraseña</label>
+          <input type="password" formControlName="password" class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50"
+            placeholder="**********">
+          <p *ngIf="adminForm.get('password')?.invalid && adminForm.get('password')?.touched"
+            class="text-red-500 text-sm">Debe tener al menos 6 caracteres.</p>
+        </div>
+
+        <div>
+          <label for="passwordRep" class="block text-sm font-medium">Repetir Contraseña</label>
+          <input type="password" formControlName="passwordRep" class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50"
+            placeholder="**********">
+          <p *ngIf="adminForm.get('passwordRep')?.touched" class="text-red-500 text-sm">
+            {{getPasswordRep?.getError('noCoincide')}}</p>
+        </div>
+
+      </div>
+
+      <div class="w-full flex justify-center">
+
+        <button type="submit"
+          class="w-2/5 tracking-wide text-center justify-center mt-6 text-white font-bold py-2 px-4 bg-gradient-to-r from-[#3CB0E1] via-[#3CB0E1] to-[#6078EA] hover:bg-gradient-to-br"
+          [disabled]="adminForm.invalid" [appCursor]="adminForm.invalid" (click)="crearAdmin()"
+          >
+          Crear Cuenta
+        </button>
+      </div>
+    </form>
+  </div>
