@@ -10,11 +10,12 @@ import { confirmarClaveValidator } from '../../validators/match-pass';
 import { Especialista, Perfil } from '../../models/usuario';
 import { CommonModule } from '@angular/common';
 import { CursorDirective } from '../../directives/cursor.directive';
+import { CaptchaComponent } from '../captcha/captcha.component';
 
 @Component({
   selector: 'app-form-especialista',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,FormsModule,CursorDirective,NgxSpinnerModule],
+  imports: [CommonModule,ReactiveFormsModule,FormsModule,CursorDirective,NgxSpinnerModule,CaptchaComponent],
   templateUrl: './form-especialista.component.html',
   styleUrl: './form-especialista.component.scss'
 })
@@ -22,10 +23,12 @@ export class FormEspecialistaComponent implements OnInit {
   especialistaForm: FormGroup;
  opcionesSelec : Especialidad[] = [];
 selectedFile1!: File;
-  selectedFile2!: File | null;
+  selectedFile2: File | null = null;
+  captchaResp: boolean = false;
 especialidades : Especialidad[] = [];
 listaOriginal:Especialidad[] = [];
 otraEspecialidad:string ="";
+nuevaOpcion = false;
   fireSvc = inject(FirestoreService);
   authSvc = inject(AuthService);
   toastM = inject(ToastrService);
@@ -99,6 +102,7 @@ otraEspecialidad:string ="";
         await this.fireSvc.nuevoEspecialista(especialista);
         await this.authSvc.registerAccount(especialista.nombre,especialista.email,especialista.password, especialista.foto1,especialista.perfil);
         this.especialistaForm.reset();
+
       } catch (error) {
         console.log("ERROR"+error);    
         this.toastM.error(error as string,"ERROR");    
@@ -115,6 +119,10 @@ otraEspecialidad:string ="";
     return this.especialistaForm.get('passwordRep');
   }
 
+  cambiarEstado(estado : boolean){
+    this.nuevaOpcion = estado;
+    this.selectedFile2 = null;
+  }
   
   onFileSelected(event: Event, imageNumber: number) {
     const file = (event.target as HTMLInputElement).files?.[0];
@@ -159,6 +167,7 @@ console.log(areasXAgregar);
         this.selectedFile2 = null;
         // await this.fireSvc.nuevaEsp(nuevaEspecialidad);
         this.toastM.success("Especialidad agregada a la lista","¡Lista actualizada!");
+        this.nuevaOpcion = false;
       }
       else{
         this.toastM.error("Esa especialidad existe en la lista.");

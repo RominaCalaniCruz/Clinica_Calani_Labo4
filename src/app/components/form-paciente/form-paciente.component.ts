@@ -9,11 +9,12 @@ import { confirmarClaveValidator } from '../../validators/match-pass';
 import { Paciente, Perfil } from '../../models/usuario';
 import { CommonModule } from '@angular/common';
 import { CursorDirective } from '../../directives/cursor.directive';
+import { CaptchaComponent } from '../captcha/captcha.component';
 
 @Component({
   selector: 'app-form-paciente',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,CursorDirective],
+  imports: [CommonModule,ReactiveFormsModule,CursorDirective,CaptchaComponent],
   templateUrl: './form-paciente.component.html',
   styleUrl: './form-paciente.component.scss'
 })
@@ -21,6 +22,7 @@ export class FormPacienteComponent{
   pacienteForm: FormGroup;
   selectedFile1!: File;
     selectedFile2!: File;
+    captchaResp = false;
   fireSvc = inject(FirestoreService);
     authSvc = inject(AuthService);
     toastM = inject(ToastrService);
@@ -38,7 +40,7 @@ export class FormPacienteComponent{
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       passwordRep: new FormControl('', [Validators.required]),
       imagen1: new FormControl('', Validators.required),
-      imagen2: new FormControl('', [Validators.required]),
+      imagen2: new FormControl('', [Validators.required])
     }, [confirmarClaveValidator(), Validators.required]);
 
 
@@ -50,7 +52,7 @@ export class FormPacienteComponent{
   }
   
   async crearPaciente(){
-    if(this.pacienteForm.valid){
+    if(this.pacienteForm.valid && this.captchaResp){
       this.spinnerSvc.show();
       const formValues = this.pacienteForm.getRawValue();
       let paciente : Paciente = {
@@ -108,5 +110,5 @@ export class FormPacienteComponent{
       }
     }
   }
-
+ 
 }

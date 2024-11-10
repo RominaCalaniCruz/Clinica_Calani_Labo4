@@ -55,7 +55,7 @@
                             <label *ngIf="loginForm.controls.password.getError('minlength')">La contraseña debe tener al menos 6 caracteres</label>
                         </div>
                     </div>
-
+<!-- <app-captcha></app-captcha> -->
                     <button type="submit"
                         class="w-full flex items-center justify-center text-white bg-gradient-to-r from-[#9DDA47] via-[#72B835] to-[#449424] hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  px-5 py-2.5 text-center">Ingresar
                         <ng-icon name="jamArrowSquareRightF" color="white" class="ms-2"></ng-icon></button>
@@ -74,7 +74,7 @@
         <h5 class="mb-4 text-center text-2xl font-bold tracking-tight text-primary">Acceso rápido</h5>
 <!-- 3 pacientes , 2 especialistas y 1 admin = 6 total -->
         <div class="md:flex md:flex-row grid grid-cols-3 gap-3  items-center ">
-            <img (click)="autocompletar('paciente_pablo@yopmail.com','June25')" data-tooltip-target="tooltip-default" class="rounded-full mx-2 h-20 w-auto md:w-20 md:h-20 cursor-pointer hover:scale-125 border border-white transition-all hover:border-[#72b835]"
+            <img (click)="autocompletar('paciente_pablo@yopmail.com','June25')" class="rounded-full mx-2 h-20 w-auto md:w-20 md:h-20 cursor-pointer hover:scale-125 border border-white transition-all hover:border-[#72b835]"
                 src="https://firebasestorage.googleapis.com/v0/b/clinica-calani-utn.firebasestorage.app/o/fotos_perfil%2Fpablo_34506909_Pic1.jpeg?alt=media&token=57248d52-8b67-4772-9787-df7a5742fd60" alt="image description" />
             <img (click)="autocompletar('romi_user@yopmail.com','Gatito123')" class="rounded-full mx-2 h-20 w-auto md:w-20 md:h-20 cursor-pointer hover:scale-125 border border-white transition-all hover:border-[#72b835]"
                 src="https://firebasestorage.googleapis.com/v0/b/clinica-calani-utn.firebasestorage.app/o/fotos_perfil%2FRomina_43402697_Pic1.png?alt=media&token=30cab5d5-3981-4405-89d4-a5bf6f236c78" alt="image description" />

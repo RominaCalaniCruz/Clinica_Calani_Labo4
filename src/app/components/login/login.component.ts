@@ -12,11 +12,12 @@ import { Timestamp } from '@angular/fire/firestore';
 import { tablerAt } from '@ng-icons/tabler-icons';
 import { tablerLockFill } from '@ng-icons/tabler-icons/fill';
 import { NgxSpinnerComponent, NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { CaptchaComponent } from '../captcha/captcha.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, NgIconComponent, FormsModule, ReactiveFormsModule,NgxSpinnerComponent,NgxSpinnerModule],
+  imports: [CommonModule, NgIconComponent, FormsModule, ReactiveFormsModule,NgxSpinnerComponent,NgxSpinnerModule,CaptchaComponent],
   providers: [provideIcons({ tablerLockFill,jamGamepadRetroF,tablerAt, jamEyeF, jamEyeCloseF, jamCloseRectangleF, jamArrowSquareRightF, jamAndroid, jamGhostF, jamPadlockF })],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'

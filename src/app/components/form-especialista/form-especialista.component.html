@@ -1,105 +1,209 @@
-<div class="mt-2 max-w-4xl mx-auto bg-white shadow-md p-6 animate-fadeInFromBottom">
-    <form [formGroup]="especialistaForm">
-      <h2 class="text-2xl text-center tracking-wide font-semibold mb-3 text-secondary font-noto ">Registro del Especialista</h2>
+<div class="max-w-4xl md:mx-auto bg-white shadow-md py-4 px-6 animate-fadeInFromBottom">
+  <form [formGroup]="especialistaForm">
+    <h2 class="text-2xl text-center tracking-wide font-semibold mb-3 text-secondary font-noto ">Registro del
+      Especialista</h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label for="nombre" class="block text-sm font-medium">Nombre</label>
-          <input type="text" id="nombre" formControlName="nombre" class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50" placeholder="Nombre">
-          <p *ngIf="especialistaForm.get('nombre')?.invalid && especialistaForm.get('nombre')?.touched"
-            class="text-red-500 text-sm mt-1">Debe ingresar solo letras.</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+      <div>
+        <div class="relative">
+          <input type="text" id="nombre" formControlName="nombre"
+            class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50 peer"
+            placeholder="">
+          <label for="nombre"
+            class="absolute text-sm text-gray-500  font-medium duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  bg-gray-50 px-2 peer-focus:px-2 peer-focus:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">Nombre</label>
         </div>
-
-        <div>
-          <label for="apellido" class="block text-sm font-medium">Apellido</label>
-          <input type="text" id="apellido" formControlName="apellido" class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50"
-            placeholder="Apellido">
-          <p *ngIf="especialistaForm.get('apellido')?.invalid && especialistaForm.get('apellido')?.touched"
-            class="text-red-500 text-sm">Debe ingresar solo letras.</p>
-        </div>
-
-        <div>
-          <label for="edad" class="block text-sm font-medium">Edad</label>
-          <input type="number" id="edad" formControlName="edad" class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50" placeholder="Edad">
-          <p *ngIf="especialistaForm.get('edad')?.invalid && especialistaForm.get('edad')?.touched"
-            class="text-red-500 text-sm">La edad debe ser entre 1 a 99 años.</p>
-        </div>
-
-        <div>
-          <label for="dni" class="block text-sm font-medium">DNI</label>
-          <input type="text" id="dni" formControlName="dni" class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50" placeholder="12345678">
-          <p *ngIf="especialistaForm.get('dni')?.invalid && especialistaForm.get('dni')?.touched" class="text-red-500 text-sm">
-            Formato de DNI inválido.</p>
-        </div>
-
-        <div>
-          <label for="email" class="block text-sm font-medium">Correo</label>
-          <input type="email" id="email" formControlName="email" class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50"
-            placeholder="ejemplo@email.com">
-          <p *ngIf="especialistaForm.get('email')?.invalid && especialistaForm.get('email')?.touched"
-            class="text-red-500 text-sm">Formato de correo inválido.</p>
-        </div>
-
-        <div>
-          <label for="imagen1" class="block text-sm font-medium">Imagen de Perfil</label>
-          <input type="file" id="imagen1" (change)="onFileSelected($event, 1)"  formControlName="imagen1" accept="image/*" class="file:bg-primary mt-1 block text-sm w-full focus:ring-2 focus:ring-primary border border-gray-300  bg-gray-50 "
-            required>
-          <p *ngIf="especialistaForm.get('imagen1')?.invalid && especialistaForm.get('imagen1')?.touched"
-            class="text-red-500 text-sm">La imagen es requerida.</p>
-        </div>
-        
-        <div>
-          <label for="password" class="block text-sm font-medium">Contraseña</label>
-          <input type="password" id="password" formControlName="password" class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50"
-            placeholder="**********">
-          <p *ngIf="especialistaForm.get('password')?.invalid && especialistaForm.get('password')?.touched"
-            class="text-red-500 text-sm">Debe tener al menos 6 caracteres.</p>
-        </div>
-
-        <div>
-          <label for="passwordRep" class="block text-sm font-medium">Repetir Contraseña</label>
-          <input type="password" id="passwordRep" formControlName="passwordRep" class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50"
-            placeholder="**********">
-          <p *ngIf="especialistaForm.get('passwordRep')?.touched" class="text-red-500 text-sm">
-            {{getPasswordEspRep?.getError('noCoincide')}}</p>
-        </div>
-
-          <div class="me-4">
-
-            <label for="especialidad" class="block text-sm font-medium">Especialidad/es</label>
-            <select (change)="ver()" multiple formControlName="especialidad" class="h-5/6 mt-1 block w-full p-2.5 pt-[6px]  bg-gray-50 border border-gray-300" name="especialidad" id="especialidad">
-              <option value="" disabled>Seleccione uno o más</option>
-              <option *ngFor="let esp of especialidades" [value]="esp.nombre">
-                {{ esp.nombre }}
-              </option>
-            </select>
-            <p *ngIf="especialistaForm.get('especialidad')?.invalid && especialistaForm.get('especialidad')?.touched"
-              class="text-red-500 text-sm">Debe seleccionar una al menos.</p>
-          </div>
-          <div>
-            <label for="otraEspecialidad" class="block text-sm font-medium">Nueva especialidad</label>
-            <input type="text" id="otraEspecialidad" formControlName="otraEsp" class="mt-1  p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50"
-            placeholder="Nombre de la especialidad">
-            <input type="file" (change)="onFileSelected($event, 2)"  formControlName="imagenEsp" accept="image/*" class="file:bg-primary mt-1 block text-sm w-full focus:ring-2 focus:ring-primary border border-gray-300  bg-gray-50 "
-            >
-            <p *ngIf="especialistaForm.get('otraEsp')?.invalid"
-            class="text-red-500 text-sm">Debe ingresar solo letras.</p>
-            <button [disabled]="!especialistaForm.get('otraEsp')?.value" (click)="agregarEspecialidad()" type="button" class="mt-2 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-2 focus:ring-green-300 font-medium text-sm px-3 py-2 me-2">Agregar</button>
-            
-          </div>
-        
-
+        <p *ngIf="especialistaForm.get('nombre')?.invalid && especialistaForm.get('nombre')?.touched"
+          class="text-red-500 text-sm mt-1">Debe ingresar solo letras.</p>
       </div>
 
-      <div class="w-full flex justify-center">
+      <div>
+        <div class="relative">
+          <input type="text" id="apellido" formControlName="apellido"
+            class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50 peer"
+            placeholder=" ">
+          <label for="apellido"
+            class="absolute text-sm text-gray-500  font-medium duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  bg-gray-50 px-2 peer-focus:px-2 peer-focus:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">Apellido</label>
+        </div>
+        <p *ngIf="especialistaForm.get('apellido')?.invalid && especialistaForm.get('apellido')?.touched"
+          class="text-red-500 text-sm">Debe ingresar solo letras.</p>
+      </div>
 
-        <button type="submit"
-          class="w-2/5 tracking-wide text-center justify-center mt-6 text-white font-bold py-2 px-4 bg-gradient-to-r from-[#3CB0E1] via-[#3CB0E1] to-[#6078EA] hover:bg-gradient-to-br"
-          [disabled]="especialistaForm.invalid" (click)="crearEspecialista()" [appCursor]="especialistaForm.invalid">
-          Crear Cuenta
+      <div>
+        <div class="relative">
+          <input type="number" id="edad" formControlName="edad"
+            class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50 peer"
+            placeholder=" ">
+          <label for="edad"
+            class="absolute text-sm text-gray-500  font-medium duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  bg-gray-50 px-2 peer-focus:px-2 peer-focus:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">Edad</label>
+        </div>
+        <p *ngIf="especialistaForm.get('edad')?.invalid && especialistaForm.get('edad')?.touched"
+          class="text-red-500 text-sm">La edad debe ser entre 1 a 99 años.</p>
+      </div>
+
+
+
+      <div>
+        <div class="relative">
+          <input type="text" id="dni" formControlName="dni"
+            class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50 peer"
+            placeholder=" ">
+          <label for="dni"
+            class="absolute text-sm text-gray-500  font-medium duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  bg-gray-50 px-2 peer-focus:px-2 peer-focus:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">DNI</label>
+        </div>
+        <p *ngIf="especialistaForm.get('dni')?.invalid && especialistaForm.get('dni')?.touched"
+          class="text-red-500 text-sm">
+          Formato de DNI inválido.</p>
+      </div>
+
+      <div>
+        <div class="relative">
+          <input type="email" id="email" formControlName="email"
+            class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50 peer"
+            placeholder=" ">
+          <label for="email"
+            class="absolute text-sm text-gray-500  font-medium duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  bg-gray-50 px-2 peer-focus:px-2 peer-focus:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">Correo
+            electrónico</label>
+        </div>
+        <p *ngIf="especialistaForm.get('email')?.invalid && especialistaForm.get('email')?.touched"
+          class="text-red-500 text-sm">Formato de correo inválido.</p>
+      </div>
+
+      <!-- imagen de perfil aqui  -->
+      <div>
+        <!-- <label for="imagen1" class="block text-sm font-medium">Imagen de Perfil</label>
+        <input type="file" id="imagen1" (change)="onFileSelected($event, 1)" formControlName="imagen1" accept="image/*"
+          class="file:bg-primary mt-1 block text-sm w-full focus:ring-2 focus:ring-primary border border-gray-300  bg-gray-50 "
+          required>
+        <p *ngIf="especialistaForm.get('imagen1')?.invalid && especialistaForm.get('imagen1')?.touched"
+          class="text-red-500 text-sm">La imagen es requerida.</p> -->
+
+
+
+        <div class="flex items-center justify-center w-full">
+          <label for="imagen1"
+            class="flex flex-col items-center justify-center w-full h-12 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+            <div class="flex flex-row items-center justify-center ">
+              <svg class="me-4 w-8 h-8 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 20 16">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+              </svg>
+              <p class="text-sm text-gray-500"><span class="font-semibold">{{!selectedFile1 ? 'Cargar foto de perfil':
+                  selectedFile1.name}}</span></p>
+            </div>
+            <input id="imagen1" type="file" (change)="onFileSelected($event, 1)" formControlName="imagen1"
+              accept="image/*" class="hidden" required />
+          </label>
+        </div>
+      </div>
+
+      <div>
+        <div class="relative">
+          <input type="password" id="password" formControlName="password"
+            class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50 peer"
+            placeholder=" ">
+          <label for="password"
+            class="absolute text-sm text-gray-500  font-medium duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  bg-gray-50 px-2 peer-focus:px-2 peer-focus:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">Contraseña</label>
+        </div>
+        <p *ngIf="especialistaForm.get('password')?.invalid && especialistaForm.get('password')?.touched"
+          class="text-red-500 text-sm">Debe tener al menos 6 caracteres.</p>
+      </div>
+
+      <div>
+        <div class="relative">
+          <input type="password" id="passwordRep" formControlName="passwordRep"
+            class="mt-1 p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50 peer"
+            placeholder=" ">
+          <label for="passwordRep"
+            class="absolute text-sm text-gray-500  font-medium duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  bg-gray-50 px-2 peer-focus:px-2 peer-focus:text-secondary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 start-1">Repetir
+            Contraseña</label>
+        </div>
+        <p *ngIf="especialistaForm.get('passwordRep')?.touched" class="text-red-500 text-sm">
+          {{getPasswordEspRep?.getError('noCoincide')}}</p>
+      </div>
+
+      <div>
+
+        <label for="especialidad" class="block text-sm font-medium">Especialidad/es</label>
+        <select (change)="ver()" multiple formControlName="especialidad"
+          class="h-5/6 mt-1 block w-full p-2.5 pt-[6px]  bg-gray-50 border border-gray-300" name="especialidad"
+          id="especialidad">
+          <option value="" disabled>Seleccione uno o más</option>
+          <option *ngFor="let esp of especialidades" [value]="esp.nombre">
+            {{ esp.nombre }}
+          </option>
+        </select>
+        <p *ngIf="especialistaForm.get('especialidad')?.invalid && especialistaForm.get('especialidad')?.touched"
+          class="text-red-500 text-sm">Debe seleccionar una al menos.</p>
+      </div>
+
+      <!-- otra posicion de imagen -->
+
+      <div *ngIf="!nuevaOpcion">
+        <button (click)="cambiarEstado(true)"
+          class="mt-2 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-2 focus:ring-green-300 font-medium text-sm px-3 py-2 me-2">
+          Agregar Especialidad
+
         </button>
       </div>
-    </form>
-  </div>
 
-  
+      <div *ngIf="nuevaOpcion" class="animate-fadeInFromBottom">
+        <label for="otraEsp" class="block text-sm font-medium">Nueva especialidad</label>
+        <div class="flex flex-row w-full">
+          <input type="text" id="otraEsp" formControlName="otraEsp"
+            class="mt-1  p-2 block w-full border border-gray-300 focus:ring-2 focus:ring-primary bg-gray-50"
+            placeholder="Nombre de la especialidad">
+
+          <div class="flex items-center justify-center ms-3 w-full">
+            <label for="foto-esp"
+              class="flex flex-col items-center justify-center w-full h-10 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-100">
+              <div class="flex flex-row items-center justify-center">
+                <svg class="w-8 h-8 me-3 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                  fill="none" viewBox="0 0 20 16">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                </svg>
+                <p class=" text-sm text-gray-500 font-bold">{{!selectedFile2 ? 'Cargar foto': selectedFile2.name}}</p>
+                <!-- <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p> -->
+              </div>
+              <input id="foto-esp" type="file" class="hidden" (change)="onFileSelected($event, 2)"
+                formControlName="imagenEsp" accept="image/*" />
+            </label>
+          </div>
+
+        </div>
+
+        <!-- <input type="file" (change)="onFileSelected($event, 2)" formControlName="imagenEsp" accept="image/*"
+          class="file:bg-primary mt-1 block text-sm w-full focus:ring-2 focus:ring-primary border border-gray-300  bg-gray-50 "> -->
+
+        <p *ngIf="especialistaForm.get('otraEsp')?.invalid" class="text-red-500 text-sm">Debe ingresar solo letras.</p>
+
+        <button [disabled]="!especialistaForm.get('otraEsp')?.value" (click)="agregarEspecialidad()" type="button"
+          class="mt-2 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-2 focus:ring-green-300 font-medium text-sm px-3 py-2 me-2"
+          [appCursor]="!especialistaForm.get('otraEsp')?.value">Agregar</button>
+        <button (click)="cambiarEstado(false)" type="button"
+          class="mt-2 focus:outline-none text-white bg-gray-700 font-medium text-sm px-3 py-2 me-2">Cerrar</button>
+
+      </div>
+
+
+    </div>
+
+    <div class="w-full flex flex-col justify-center ">
+      <div class="">
+
+        <app-captcha (captchaVerificado)="captchaResp = $event"> </app-captcha>
+        
+      </div>
+
+      <div class="flex w-full justify-center">
+      <button type="submit"
+        class="w-full md:w-2/5 tracking-wide text-center justify-center mt-0 text-white font-bold py-2 px-4 bg-gradient-to-r from-[#3CB0E1] via-[#3CB0E1] to-[#6078EA] hover:bg-gradient-to-br"
+        [disabled]="especialistaForm.invalid" (click)="crearEspecialista()" [appCursor]="especialistaForm.invalid">
+        Crear Cuenta
+      </button>
+      </div>
+    </div>
+  </form>
+</div>

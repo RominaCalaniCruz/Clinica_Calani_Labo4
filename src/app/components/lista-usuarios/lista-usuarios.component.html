@@ -42,7 +42,7 @@
                 </tr>
             </thead>
             <tbody>
-            <tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" *ngFor="let item of listaFiltrada">
+            <tr class="bg-neutral-100	  border-b hover:bg-gray-50 " *ngFor="let item of listaFiltrada">
                 <td scope="row" class="flex justify-center items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                         <img class="w-16 h-16 object-cover rounded" [src]="item.foto1" alt="foto">
 
@@ -52,7 +52,7 @@
                         </div>
                     
                 </td>
-                <td class="px-6 py-4 text-base font-semibold">
+                <td class="px-6 py-4 text-base  font-semibold">
                     {{item.nombre}}
                 </td>
                 <td class="px-6 py-4">
@@ -63,7 +63,7 @@
                 </td>
                 <td class="p-4 border-b border-blue-gray-50">
                     
-                    <div class="w-max hover:scale-105 transition-all" (click)="cambiarEstado(item)" *ngIf="item.cuenta_habilitada !=null">
+                    <div class="w-max hover:scale-[1.17] transition-all" (click)="cambiarEstado(item)" *ngIf="item.cuenta_habilitada !=null">
                       <div 
                         class="relative cursor-pointer grid items-center px-2 py-1 md:px-4 md:py-3 font-sans text-[12px] font-bold  uppercase rounded-md select-none whitespace-nowrap"
                         [appColorEstado]="item.cuenta_habilitada"

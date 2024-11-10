@@ -22,7 +22,9 @@
     font-weight: normal;
     font-style: normal;
   }
-
+  router-outlet {
+    display: contents;
+  }
   body {
     ::-webkit-scrollbar {
       width: 8px;
