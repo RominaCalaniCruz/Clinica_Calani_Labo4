@@ -1,28 +1,43 @@
-# TpClinica
-[📌 Clinica TP Laboratorio](https://clinica-calani-utn.web.app/)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.1.
+![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+# Airline Service
 
-## Code scaffolding
+A brief description of what this project does and who it's for
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+<br />
+<p align="center">
+  <img src="public/logo.png" alt="angular-logo" width="120px" height="120px"/>
+  <br>
+  <em>Angular is a development platform for building mobile and desktop web applications
+    <br> using TypeScript/JavaScript and other languages.</em>
+  <br>
+</p>
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## 🚀 About Me
+Empece programando en secundaria, desde la primera vez que tuve contacto con la programacion, supe que era lo que me gustaba. 
+Este proyecto fue un gran desafio para mi, ya que la creacion fue desde cero, lo cual implica un nivel alto de abstraccion.
+Aprendi varias cosas porque este proyecto implico mucha investigacion tanto del contexto de negocio como controles del framework para distintas funcionalidades.
+## Features
 
-## Running unit tests
+- Light/dark mode toggle
+- Live previews
+- Fullscreen mode
+- Cross platform
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+## Badges
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Add badges from somewhere like: [shields.io](https://shields.io/)
 
-## Further help
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
+[![AGPL License](https://img.shields.io/badge/license-AGPL-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Screenshots
+
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+
