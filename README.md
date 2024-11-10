@@ -12,7 +12,7 @@ Sistema de Gestion de turnos para una Clinica.
 
 <img src="public/readmeImgs/home.png" alt="ClinicaHome">
 
-## Perfiles
+## 🔒 Perfiles
 
 - Administrador
 - Especialista
@@ -40,12 +40,12 @@ Add badges from somewhere like: [shields.io](https://shields.io/)
 
 <hr>
 <p align="center" justify-content="center">
-<img width=50 alt="AngularIcon" src="https://github.com/EmmaVZ89/Clinica-Online-TP2-Laboratorio-IV/blob/main/src/assets/readme/angular.png"/>
-<img width=50 alt="TSicon" src="https://github.com/EmmaVZ89/Clinica-Online-TP2-Laboratorio-IV/blob/main/src/assets/readme/ts.png"/>
-<img width=50 alt="FireIcon" src="https://github.com/EmmaVZ89/Clinica-Online-TP2-Laboratorio-IV/blob/main/src/assets/readme/firebase.png"/>
-<img width=50 alt="HtmlIcon" src="https://github.com/EmmaVZ89/Clinica-Online-TP2-Laboratorio-IV/blob/main/src/assets/readme/html.png"/>
-<img width=50 alt="ScssIcon" src="https://github.com/EmmaVZ89/Clinica-Online-TP2-Laboratorio-IV/blob/main/src/assets/readme/sass.png"/>
-<img width=50 alt="Chatrjs" src="https://github.com/EmmaVZ89/Clinica-Online-TP2-Laboratorio-IV/blob/main/src/assets/readme/chartjs.png"/>
+<img width=70 alt="AngularIcon" src="public/readmeImgs/angular_icon_gradient.gif"/>
+<img width=70 alt="TSicon" src="public/readmeImgs/tsicon.png"/>
+<img width=70 alt="FireIcon" src="public/readmeImgs/fire.png"/>
+<img width=70 alt="HtmlIcon" src="public/readmeImgs/html-icon.png"/>
+<img width=70 alt="tailwindcss" src="public/readmeImgs/tailwindcss.png"/>
+<img width=70 alt="Flowbite" src="public/readmeImgs/flowbite-logo.png"/>
 </p>
 <hr>
 
