@@ -1,11 +1,11 @@
 
 
-<div *ngIf="!agregarUsuario" class="pt-3 pb-5 md:mx-16">
+<div *ngIf="!agregarUsuario" class="pt-3 pb-5 mx-1 md:mx-16">
     
     <div class="relative overflow-x-auto sm:rounded-lg">
-        <div class="flex items-center pt-2 justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-transparent dark:bg-gray-900">
+        <div class="flex items-center pt-2 justify-center md:justify-between flex-wrap md:flex-row space-y-0 space-x-4 md:space-y-0 pb-4 bg-transparent dark:bg-gray-900">
             <div>
-                <select (change)="filtrarLista($event)" id="countries" class="bg-gray-50 ms-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                <select (change)="filtrarLista($event)" id="countries" class="bg-gray-50 md:ms-10 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                     <option value="Todos" selected>Todos los usuarios</option>
                     <option value="Paciente">Pacientes</option>
                     <option value="Especialista">Especialistas</option>
@@ -13,30 +13,30 @@
                   </select>
             </div>
             <div class="relative">
-                <button type="button" class="flex items-center text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-lg px-5 py-2.5 text-center me-2 mb-2"
+                <button type="button" class="flex items-center text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm md:text-lg px-5 py-2.5 text-center md:me-2 md:mb-2"
                 (click)="verOpciones()">
-                    <ng-icon name="matAddBoxRound" class="me-2" size="22px"></ng-icon> 
-                     Agregar Usuario
+                    <ng-icon name="matAddBoxRound" class="sm:me-2" size="22px"></ng-icon> 
+                    <p class="hidden md:mostrar-lg">Agregar Usuario</p> 
                 </button>
 
             </div>
         </div>
         <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-            <thead class="text-sm text-secondary uppercase bg-primary">
+            <thead class=" w-full text-sm text-secondary uppercase bg-primary">
                 <tr>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 ">
                         Imagen
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 ">
                         Nombre
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 hidden md:mostrar-lg">
                         Correo
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 hidden md:mostrar-lg">
                         Perfil
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 ">
                         Estado
                     </th>
                 </tr>
@@ -53,12 +53,12 @@
                     
                 </td>
                 <td class="px-6 py-4 text-base  font-semibold">
-                    {{item.nombre}}
+                    {{item.nombre + " " + item.apellido}}
                 </td>
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 hidden md:mostrar-lg">
                     {{item.email}}
                 </td>
-                <td class="px-6 py-4 font-bold tracking-wide" [appColorPerfil]="item.perfil" >
+                <td class="px-6 py-4 font-bold tracking-wide hidden md:mostrar-lg" [appColorPerfil]="item.perfil" >
                     {{item.perfil}}
                 </td>
                 <td class="p-4 border-b border-blue-gray-50">
@@ -80,21 +80,21 @@
 </div>
 
 <div *ngIf="agregarUsuario && (!agregarAdmin && !agregarDoctor && !agregarPaciente)" class="animate-fadeInFromBottom">
-    <div class="tabla flex items-center mx-auto px-4 py-8 grid gap-x-10 gap-y-4 grid-cols-1 sm:grid-cols-3">
+    <div class="tabla flex items-center mx-auto px-4 py-3 grid gap-x-10 gap-y-4 grid-cols-1 sm:grid-cols-3">
   
-        <div (click)="nuevoUsuario('Administrador')" class="relative hover:scale-105 transition-all bg-cover bg-center h-96 rounded-lg overflow-hidden shadow-lg" style="background-image: url('/admin-foto.jpg')">
+        <div (click)="nuevoUsuario('Administrador')" class="relative !shadow-[0_10px_60px_-15px_#000] hover:scale-105 transition-all bg-cover bg-center h-40 md:h-96 rounded-lg overflow-hidden " style="background-image: url('/admin-foto.jpg')">
           <div class="absolute top-0 left-0 w-full bg-black bg-opacity-60 text-white py-2 px-4 text-center font-semibold">
            Administrador
           </div>
         </div>
         
-        <div (click)="nuevoUsuario('Paciente')" class="relative hover:scale-105 transition-all bg-cover bg-center h-96 rounded-lg overflow-hidden shadow-lg" style="background-image: url('/persona-enferma.png')">
+        <div (click)="nuevoUsuario('Paciente')" class="relative !shadow-[0_10px_60px_-15px_#000] hover:scale-105 transition-all bg-cover bg-center h-40 md:h-96 rounded-lg overflow-hidden " style="background-image: url('/persona-enferma.png')">
           <div class="absolute top-0 left-0 w-full bg-black bg-opacity-60 text-white py-2 px-4 text-center font-semibold">
             Paciente
           </div>
         </div>
         
-        <div (click)="nuevoUsuario('Especialista')" class="relative hover:scale-105 transition-all bg-cover bg-center h-96 rounded-lg overflow-hidden shadow-lg" style="background-image: url('/doctores_foto.png')">
+        <div (click)="nuevoUsuario('Especialista')" class="relative !shadow-[0_10px_60px_-15px_#000] hover:scale-105 transition-all bg-cover bg-center h-40 md:h-96 rounded-lg overflow-hidden" style="background-image: url('/doctores_foto.png')">
           <div class="absolute top-0 left-0 w-full bg-black bg-opacity-60 text-white py-2 px-4 text-center font-semibold">
             Especialista
           </div>

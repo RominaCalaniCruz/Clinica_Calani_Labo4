@@ -3,6 +3,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities{
+  .mostrar-lg{
+    display: revert !important;
+  }
+}
 @font-face {
     font-family: "Enriqueta";
     src: url("/Enriqueta-Regular.ttf") format("truetype");

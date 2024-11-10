@@ -1,18 +1,18 @@
-<div class="flex justify-center items-center  overflow-y-auto">
+<div class="flex justify-center items-center ">
 
     <a
-        class="flex mt-1 mx-3 w-full md:max-w-[50%]  md:min-w-[40%] mb-10 md:mt-5   bg-transparent border border-secondary ">
+        class="flex mt-1 mx-3 w-full md:max-w-[50%]  md:min-w-[40%] mb-3 sm:mb-10 md:mt-5   bg-transparent border border-secondary ">
 
         <div class="flex w-full flex-col  justify-center">
 
             <div class="flex justify-center bg-gray-100 py-1">
 
-                <h5 class="mb-2 mt-2 text-4xl text-center font-extrabold tracking-tight text-[#006680]">Iniciar Sesión
+                <h5 class="my-1 sm:my-2 text-2xl sm:text-4xl text-center font-extrabold tracking-tight text-[#006680]">Iniciar Sesión
                 </h5>
             </div>
 
             <hr class="flex h-px px-4 justify-center bg-black border-1 border-secondary">
-            <div class="p-4 md:p-5">
+            <div class="py-2 px-4 md:p-5">
                 <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()" (keypress.enter)="iniciarSesion()"
                     class="space-y-4" action="#">
                     <div>
@@ -68,9 +68,9 @@
     </a>
 </div>
 
-<div class="flex justify-center items-center overflow-y-auto">
+<div class="flex justify-center items-center ">
 
-    <a class="block max-w-full pt-4 px-3 pb-5 bg-secondary border border-gray-200 shadow ">
+    <a class="block max-w-full pt-3 md:pt-4 px-1 md:px-3 mb-2 pb-3 md:pb-5 bg-secondary border border-gray-200 shadow ">
         <h5 class="mb-4 text-center text-2xl font-bold tracking-tight text-primary">Acceso rápido</h5>
 <!-- 3 pacientes , 2 especialistas y 1 admin = 6 total -->
         <div class="md:flex md:flex-row grid grid-cols-3 gap-3  items-center ">
@@ -79,7 +79,7 @@
             <img (click)="autocompletar('romi_user@yopmail.com','Gatito123')" class="rounded-full mx-2 h-20 w-auto md:w-20 md:h-20 cursor-pointer hover:scale-125 border border-white transition-all hover:border-[#72b835]"
                 src="https://firebasestorage.googleapis.com/v0/b/clinica-calani-utn.firebasestorage.app/o/fotos_perfil%2FRomina_43402697_Pic1.png?alt=media&token=30cab5d5-3981-4405-89d4-a5bf6f236c78" alt="image description" />
             <img (click)="autocompletar('camila_r@yopmail.com','Medicos123')" class="rounded-full mx-2 h-20 w-auto md:w-20 md:h-20 cursor-pointer hover:scale-125 border border-white transition-all hover:border-[#72b835]"
-                src="https://firebasestorage.googleapis.com/v0/b/clinica-calani-utn.firebasestorage.app/o/fotos_perfil%2FCamila_12345678_Pic1.webp?alt=media&token=2f3277d6-0c4b-4a3e-8d2b-abf462c105bc" alt="image description" />
+                src="/flor.jpg" alt="image description" />
             <img (click)="autocompletar('flor_hospital@yopmail.com','Doctora2024')" class="rounded-full mx-2 h-20 w-auto md:w-20 md:h-auto cursor-pointer hover:scale-125 border border-white transition-all hover:border-[#72b835]"
                 src="https://firebasestorage.googleapis.com/v0/b/clinica-calani-utn.firebasestorage.app/o/fotos_perfil%2FDoc_23111333.jpeg?alt=media&token=c9089477-5c5a-4d85-8161-e5c6ff6d454d" alt="image description" />
             <img (click)="autocompletar('luci_wang@yopmail.com','SaludComunitaria')" class="rounded-full mx-2 h-20 w-auto md:w-20 md:h-auto cursor-pointer hover:scale-125 border border-white transition-all hover:border-[#72b835]"
