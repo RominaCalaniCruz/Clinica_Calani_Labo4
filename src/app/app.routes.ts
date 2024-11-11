@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { noEstaLogueadoGuard } from './guards/no-esta-logueado.guard';
+import { estaLogueadoGuard } from './guards/esta-logueado.guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'inicio', pathMatch: 'full' },
@@ -23,7 +24,7 @@ export const routes: Routes = [
     {
         path: 'mi-perfil',
         loadComponent: () =>
-            import('./components/mi-perfil/mi-perfil.component').then((c) => c.MiPerfilComponent),
+            import('./components/mi-perfil/mi-perfil.component').then((c) => c.MiPerfilComponent)
     },
     {
         path: 'lista-usuarios',

@@ -5,11 +5,17 @@ import { FirestoreService } from './firestore.service';
 
 import { Router } from '@angular/router';
 import { Especialista, Paciente, Perfil, Usuario } from '../models/usuario';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private sesionActivaSubject = new BehaviorSubject<boolean>(false);
+  private userSubject = new BehaviorSubject<User|null>(null);
+
+  sesionActiva$ = this.sesionActivaSubject.asObservable();
+  userLog$ = this.userSubject.asObservable();
 
   toastM = inject(ToastrService);
   fireSvc = inject(FirestoreService);
@@ -29,7 +35,9 @@ export class AuthService {
         let mensaje = '';
         if (!user.emailVerified && personaLogueada.perfil != Perfil.Administrador) {
           this.toastM.error("Debes verificar tu cuenta, revisa tu correo.", "Acceso denegado!", { timeOut: 4000 });
+          this.sesionActiva=false;
           this.closeSession();
+          // this.traerUsuarioActual();
           return;
         }
         if (!personaLogueada.cuenta_habilitada && personaLogueada.perfil == Perfil.Especialista) {
@@ -122,7 +130,7 @@ export class AuthService {
         let mensajeTexto: string = this.convertirError(errorCode);
         console.error(errorCode);
 
-        this.toastM.error(`Error: ${mensajeTexto}`, 'Error en el inicio de sesión');
+        this.toastM.error(`Error: ${mensajeTexto}`, 'Error en el registro');
         throw errorCode;
 
       });
@@ -164,7 +172,8 @@ export class AuthService {
     signOut(auth).then(() => {
       // this.toastM.info("adios!");
       this.router.navigate(['iniciar-sesion']);
-
+      this.sesionActivaSubject.next(false); // Notificar que la sesión está inactiva
+      this.userSubject.next(null);
     }).catch((error) => {
       // An error happened.
       this.toastM.error(error);
@@ -178,16 +187,11 @@ export class AuthService {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/auth.user
         const uid = user.uid;
-        console.log(user.email);
-        console.log(user.displayName);
-        console.log(user.photoURL);
-
-
+        this.sesionActivaSubject.next(true); // Notificar que la sesión está activa
+        this.userSubject.next(user);
         this.usuarioActual = user;
         const usuarioDatos = await this.fireSvc.obtenerUsuarioDatos(user.email as string) as any;
         this.tipoPerfilActual = usuarioDatos.perfil;
-        console.log(this.tipoPerfilActual);
-
         this.sesionActiva = true;
         // ...
       } else {
@@ -195,8 +199,8 @@ export class AuthService {
         this.usuarioActual = undefined;
         this.sesionActiva = false;
         this.tipoPerfilActual = null;
-        console.log(this.tipoPerfilActual);
-
+        this.sesionActivaSubject.next(false); // Notificar que la sesión está inactiva
+        this.userSubject.next(null);
 
         // User is signed out
         // ...

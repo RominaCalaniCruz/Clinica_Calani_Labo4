@@ -1,4 +1,4 @@
-<!-- <div class="h-[80vh] bg-transparent dark:bg-gray-800   flex flex-wrap items-center  justify-center  ">
+<!-- <div *ngIf="this.authSvc.sesionActiva" class="h-[80vh] bg-transparent dark:bg-gray-800   flex flex-wrap items-center  justify-center  ">
     <div class="container lg:w-2/6 xl:w-2/7 sm:w-full md:w-2/3    bg-white  shadow-lg    transform   duration-200 easy-in-out">
         <div class=" h-32 overflow-hidden" >
             <img class="w-full" src="https://scontent.faep23-1.fna.fbcdn.net/v/t39.30808-6/311469879_421796386796858_233914348463110657_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=kq5pnWfLcqMQ7kNvgFPsLQk&_nc_zt=23&_nc_ht=scontent.faep23-1.fna&_nc_gid=AZY884aikv3JCtFGVgffBlw&oh=00_AYAnM-3HUzKj7Ks7qhP4Ya4rXUna49B7HA7NBdxpj8sDeA&oe=673635B8" alt="" />
@@ -8,10 +8,10 @@
             <img class="h-32 w-32 bg-white p-2 ms-10  " src="/doc.jpg" alt="" />
 
         </div>
-        <div class=" ">
-            <div class="text-center px-14">
-                <h2 class="text-gray-800 text-3xl font-bold">Nombre del usuario</h2>
-                <a class="text-gray-400 mt-2 hover:text-blue-500" href="https://www.instagram.com/immohitdhiman/" target="BLANK()">Tipo de perfil</a>
+        <div class=" " >
+            <div  class="text-center px-14">
+                <h2  class="text-gray-800 text-3xl font-bold">{{usuarioInfo?.nombre + " " + usuarioInfo?.apellido}}</h2>
+                <a  class="text-gray-400 mt-2 hover:text-blue-500" href="https://www.instagram.com/immohitdhiman/" target="BLANK()">{{usuarioInfo?.perfil}}</a>
                 <p class="mt-2 text-gray-500 text-sm">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
             </div>
             <hr class="mt-6" />
@@ -28,42 +28,271 @@
         </div>
     </div>
 </div> -->
-<div class='flex items-center justify-center mt-10'>
-    <ul class="mx-auto grid max-w-full w-full grid-cols-3 gap-x-5 px-8">
-      <li class="">
-        <input class="peer sr-only" type="radio" value="yes" name="answer" id="yes" checked />
-        <label class="flex justify-center cursor-pointer rounded-full border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out" for="yes">Mis Datos</label>
-    
-            <div class="absolute bg-white shadow-lg left-0 p-6 border mt-2 border-indigo-300 rounded-lg w-[97vw] mx-auto transition-all duration-500 ease-in-out translate-x-40 opacity-0 invisible peer-checked:opacity-100 peer-checked:visible peer-checked:translate-x-1">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
+
+<!-- <div class="min-h-[90vh] p-20 bg-black grid grid-rows-4 grid-flow-col gap-4">
+  <div class="bg-secondary">05</div>
+  <div class="row-span-3">
+      <div class="h-full bg-white row-start-2">06</div>
+  </div>
+  <div class="bg-primary">07</div>
+  <div class="bg-secondary">08</div>
+  <div class="bg-primary">09</div>
+  <div class="bg-secondary">10</div>
+</div> -->
+<!-- <div *ngIf="!loading" class="animate-fadeInFromBottom min-h-[90vh] flex items-center justify-center">
+
+  <div class="w-full flex justify-center">
+
+    <a  class="w-[90vw] sm:w-4/6 flex flex-col items-center bg-transparent rounded-lg justify-center md:flex-row ">
+      <div class="flex flex-row sm:flex-col sm:w-4/6">
+        <img class="m-3 me-0 object-cover w-20 rounded h-20 md:h-auto md:w-64 " [src]="usuarioInfo?.foto1" alt="">
+        
+        <img class="m-3 me-0 object-cover w-20 rounded h-20 md:h-auto md:w-64 " [src]="usuarioInfo?.foto2" alt="">
+      </div>
+  
+      <div class="bg-primary flex w-full flex-col justify-between p-4 leading-normal">
+        <div class="grid grid-cols-2 gap-4  ">
+         
+          <div class="col-span-2 p-4 border rounded-md bg-gray-100">
+            <div class="bg-gray-100">
+              Información del usuario
+              
+            </div>
+          </div>
+  
+          <div class="p-4 border rounded-md bg-gray-100">
+            <div class="block">Nombre:</div>
+            {{usuarioInfo?.nombre}}
+          </div>
+      
+          <div class="p-4 border rounded-md bg-gray-100">
+            <div class="block">Apellido:</div>
+            {{usuarioInfo?.apellido}}
+          </div>
+
+          <div class="p-4 border rounded-md bg-gray-100">
+            <div class="block">DNI:</div>
+            {{usuarioInfo?.dni}}
+          </div>
+      
+          <div class="p-4 border rounded-md bg-gray-100">
+            <div class="block">Edad:</div>
+            {{usuarioInfo?.edad + "año(s)"}}
+          </div>
+      
+          <div class="p-4 border rounded-md bg-gray-100">
+            <div class="block">Obra Social:</div>
+            {{usuarioInfo?.edad + "año(s)"}}
+          </div>
+      
+          <div class="p-4 border rounded-md bg-gray-100">
+            Ver mis horarios
+          </div>
+        </div>    
+      </div>    
+
+    </a>
+  </div>
+</div> -->
+
+<div class="bg-transparent max-w-6xl mx-auto">
+  <div class="container py-8 pt-4">
+    <div class="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4">
+      <div class="col-span-4 sm:col-span-3">
+        <div class="bg-tertiary rounded">
+          <div class="flex flex-col items-center">
+
+            <div class="relative mt-8  mb-0 w-5/6 h-full overflow-hidden">
+              <img src="https://randomuser.me/api/portraits/men/94.jpg" alt="Imagen 1"
+                class="w-full h-full object-cover">
+
+              <div
+                class="absolute inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                <span class="text-white text-xl font-semibold">Foto N°1</span>
+              </div>
+            </div>
+
+            <div class="relative my-8 w-4/6 h-full overflow-hidden">
+              <img src="https://randomuser.me/api/portraits/men/94.jpg" alt="Imagen 1"
+                class="w-full h-full object-cover ">
+
+              <div
+                class="absolute inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                <span class="text-white text-xl font-semibold">Foto N°2</span>
+              </div>
+            </div>
+          </div>
         </div>
-      </li>
-    
-      <li class="">
-        <input class="peer sr-only" type="radio" value="no" name="answer" id="no" />
-        <label class="flex justify-center cursor-pointer rounded-full border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out" for="no">Mis horarios</label>
-    
-            <div class="absolute bg-white shadow-lg left-0 p-6 border mt-2 border-indigo-300 rounded-lg w-[97vw] mx-auto transition-all duration-500 ease-in-out translate-x-40 opacity-0 invisible peer-checked:opacity-100 peer-checked:visible peer-checked:translate-x-1">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
+      </div>
+
+      <div class="col-span-4 sm:col-span-9">
+        <div class="bg-white overflow-hidden shadow rounded-lg border">
+          <div class="flex flex-row px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-bold text-gray-900">
+              Información del Usuario
+            </h3>
+            <p class="bg-secondary ml-auto	 text-sm text-primary w-min px-4 py-1 font-bold rounded">
+              Perfil
+            </p>
+          </div>
+          <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+            <div class="sm:divide-y sm:divide-gray-200">
+
+              <div class="py-2 items-center sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+                <div class="text-sm font-medium text-gray-500">
+                  <p class="bg-gray-300 w-max px-4 py-1 font-bold rounded">Nombre</p>
+                </div>
+                <div class="mt-1 tracking-wider text-sm font-bold text-gray-900 sm:mt-0">
+                  John Doe
+                </div>
+                <div class=" text-sm font-medium text-gray-500">
+                  <p class="bg-gray-300  w-max px-4 py-1 font-bold rounded">Apellido</p>
+                </div>
+                <div class="mt-1tracking-wider font-bold text-sm text-gray-900 sm:mt-0">
+                  John Doe
+                </div>
+
+              </div>
+
+              <div class="py-2 items-center sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+                <div class="text-sm font-medium text-gray-500">
+                  <p class="bg-gray-300 w-max px-4 py-1 font-bold rounded">D.N.I.</p>
+                </div>
+                <div class="mt-1 tracking-wider text-sm font-bold text-gray-900 sm:mt-0">
+                  John Doe
+                </div>
+                <div class=" text-sm font-medium text-gray-500">
+                  <p class="bg-gray-300  w-max px-4 py-1 font-bold rounded">Edad</p>
+                </div>
+                <div class="mt-1tracking-wider font-bold text-sm text-gray-900 sm:mt-0">
+                  John Doe
+                </div>
+
+              </div>
+
+              <div class="py-2 items-center sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+
+                <div class=" text-sm font-medium text-gray-500">
+                  <p class="bg-gray-300  w-max px-4 py-1 font-bold rounded">Correo</p>
+                </div>
+                <div class="mt-1tracking-wider font-bold text-sm text-gray-900 sm:mt-0">
+                  John Doe
+                </div>
+
+
+                <div class="text-sm font-medium text-gray-500">
+                  <p class="bg-gray-300 w-max px-4 py-1 font-bold rounded">Obra Social</p>
+                </div>
+                <div class="mt-1 tracking-wider text-sm font-bold text-gray-900 sm:mt-0">
+                  John Doe
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
-      </li>
-    
-      <li class="">
-        <input class="peer sr-only" type="radio" value="yesno" name="answer" id="yesno" />
-        <label class="flex justify-center cursor-pointer rounded-full border border-gray-300 bg-white py-2 px-4 hover:bg-gray-50 focus:outline-none peer-checked:border-transparent peer-checked:ring-2 peer-checked:ring-indigo-500 transition-all duration-500 ease-in-out " for="yesno">Something</label>
-    
-            <div class="absolute bg-white shadow-lg left-0 p-6 border mt-2 border-indigo-300 rounded-lg w-[97vw] mx-auto transition-all duration-500 ease-in-out translate-x-40 opacity-0 invisible peer-checked:opacity-100 peer-checked:visible peer-checked:translate-x-1">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, voluptatum! Sequi consequatur error nulla quaerat rem fugit provident tempore nihil a aspernatur ad laboriosam, dolor nisi qui? Esse, mollitia? Nostrum?
+
+
+        <div *ngIf="!loading" class="animate-fadeInFromBottom col-span-4 mt-4 sm:col-span-9">
+          <div class="bg-white shadow rounded-lg px-6 py-3">
+            <h2 class="text-xl font-bold mb-4">Mis Horarios</h2>
+            <div *ngIf="!loading" class="w-full mx-auto">
+              <div class="bg-primary py-1.5 rounded">
+                <div class="flex justify-center space-x-4">
+
+                  <button *ngFor="let tab of especialidades"
+                    class="px-4 py-1 text-secondary transition-all font-semibold border-b-2 border-white hover:bg-secondary hover:text-white focus:outline-none tab-button"
+                    [ngClass]="{'active': activeTab === tab.id}" (click)="showTab(tab.id)">
+                    {{tab.nombre}}
+                  </button>
+
+                </div>
+              </div>
+
+              <div *ngFor="let tab of especialidades" class="px-4 py-2 tab-content bg-white shadow-md rounded-lg"
+                [class.hidden]="activeTab !== tab.id">
+                <div *ngIf="items.length <= 0 && tab.horariosAtencion == null" class="block w-full text-center">
+                  No hay Horarios Asignados para esta especialidad
+                </div>
+                <div *ngIf="items.length < 6" class="flex justify-evenly mb-2 items-center w-full">
+
+                  <select #diasSelect id="countries" onc
+                    class="w-max bg-gray-50 w-full border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5">
+
+                    <option value=" " disabled selected>Seleccione un día</option>
+                    <option *ngFor="let dia of opcionesDias" [value]="dia">{{ dia }}</option>
+                  </select>
+                  <button type="button" (click)="agregarDia()"
+                    class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-2 focus:ring-green-300 rounded text-[15px] px-5 py-2">Agregar
+                    Día</button>
+
+                    <button type="button"
+                    class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 rounded text-[15px] px-5 py-2">Guardar Cambios</button>
+                </div>
+                
+                
+               <div  class="grid grid-cols-2 gap-4">
+                <div *ngFor="let item of items" class="animate-fadeInFromBottom border border-green-400 bg-green-100 text-green-800 p-4 flex justify-center border rounded bg-gray-100" appHorarioSeleccionado>
+                  <div  class="flex justify-start items-end">
+                    <div class="flex px-4 py-5 w-max" >
+                      <input checked id="monday" name="days" type="checkbox" value="monday"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 ">
+                      <label for="monday" class="ms-2 text-sm font-medium text-gray-900">{{item.day}}</label>
+                    </div>
+                    <div class="w-full max-w-[7rem]">
+                      <label for="start-time-monday"
+                        class="block mb-2 text-sm font-medium text-gray-900">Desde:</label>
+                      <div class="relative">
+                        <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                              d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
+                              clip-rule="evenodd" />
+                          </svg>
+                        </div>
+                        <input type="number" id="start-time-monday" name="start-time-monday"
+                          class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                          required
+                          />
+                      </div>
+                    </div>
+                    <div class="w-full max-w-[7rem]">
+                      <label for="end-time-monday"
+                        class="block mb-2 text-sm font-medium text-gray-900">Hasta:</label>
+                      <div class="relative">
+                        <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                          <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                              d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
+                              clip-rule="evenodd" />
+                          </svg>
+                        </div>
+                        <input type="number" id="end-time-monday" name="end-time-monday"
+                          class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                          required />
+                      </div>
+                    </div>
+                    <div>
+                      <button type="button" (click)="eliminarDia(item.day)"
+                        class="inline-flex items-center p-1.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100">
+                        <svg class="w-5 h-5 text-red-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                          width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                          <path fill-rule="evenodd"
+                            d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z"
+                            clip-rule="evenodd" />
+                        </svg>
+                        <span class="sr-only">Delete</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                            </div>
+            </div>
+          </div>
         </div>
-      </li>
-    </ul>
-    
+      </div>
     </div>
+  </div>
+</div>

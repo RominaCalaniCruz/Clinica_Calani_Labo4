@@ -1,0 +1,19 @@
+.active {
+    background-color: #006680; /* Cambia el color para indicar la pestaña activa */
+    color: white;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

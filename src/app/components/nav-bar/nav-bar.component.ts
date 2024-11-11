@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { tablerHomeFill, tablerUserFill} from '@ng-icons/tabler-icons/fill';
@@ -18,11 +18,17 @@ import { Perfil } from '../../models/usuario';
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss'
 })
-export class NavBarComponent{
+export class NavBarComponent implements OnInit{
   authSvc = inject(AuthService);
   toastM = inject(ToastrService);
   isDropdownOpen: boolean = false;
   router = inject(Router);
+  estaLogueado = false;
+ngOnInit(): void {
+  this.authSvc.sesionActiva$.subscribe(res=>{
+    this.estaLogueado = res;
+  });
+}
   cerrarSesion() {
     this.authSvc.closeSession();
     this.toastM.info("Cerraste sesón");
