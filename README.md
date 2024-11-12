@@ -1,3 +1,14 @@
+<hr>
+<p align="center" justify-content="center">
+<img width=50 alt="AngularIcon" src="public/readmeImgs/angular_icon_gradient.gif"/>
+<img width=50 alt="TSicon" src="public/readmeImgs/tsicon.png"/>
+<img width=50 alt="HtmlIcon" src="public/readmeImgs/html-icon.png"/>
+<img width=50 alt="tailwindcss" src="public/readmeImgs/tailwindcss.png"/>
+<img width=50 alt="Flowbite" src="public/readmeImgs/flowbite-logo.png"/>
+<img width=50 alt="FireIcon" src="public/readmeImgs/fire.png"/>
+</p>
+<hr>
+
 <h1 align="center">Clinica Familiar</h1>
 <h3 align="center">
   <a href="https://clinica-calani-utn.web.app/inicio"><img src="public/logo.png" alt="ClinicaLogo" width="200"></a>
@@ -33,6 +44,7 @@ Un nuevo Paciente registrado debe verificar su cuenta usando el link enviado a s
 - Especialista
 
 Un nuevo Especialista registrado debe verificar su cuenta usando el link enviado a su correo personal y además un usuario con perfil Administrador debe habilitar su cuenta.
+Podra agregar una especialidad y opcionalmente una foto asociada a esta.
 
 <img src="public/readmeImgs/registro-esp.png" alt="Registro Especialista">
 
@@ -51,20 +63,4 @@ Visualiza los datos del usuario.
 
 - Los usuarios con perfil de Especialista tendrán la opción de agregar horarios específicos para cada especialidad, asegurando que no haya cruces entre los horarios de distintas especialidades. Además podra editar la duracion del turno por Especialidad, esta duración debe estar en el rango de 15 a 60 minutos.
 
-<img src="public/readmeImgs/usuarios-admin.gif" alt="Registro Especialista">
-
-
-<hr>
-<p align="center" justify-content="center">
-<img width=70 alt="AngularIcon" src="public/readmeImgs/angular_icon_gradient.gif"/>
-<img width=70 alt="TSicon" src="public/readmeImgs/tsicon.png"/>
-<img width=70 alt="HtmlIcon" src="public/readmeImgs/html-icon.png"/>
-<img width=70 alt="tailwindcss" src="public/readmeImgs/tailwindcss.png"/>
-<img width=70 alt="Flowbite" src="public/readmeImgs/flowbite-logo.png"/>
-<img width=70 alt="FireIcon" src="public/readmeImgs/fire.png"/>
-</p>
-<hr>
-
-## Screenshots
-
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+<img src="public/readmeImgs/mis-horarios.gif" alt="Registro Especialista">
