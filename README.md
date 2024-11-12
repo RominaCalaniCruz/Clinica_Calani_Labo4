@@ -18,9 +18,41 @@ Sistema de Gestion de turnos para una Clinica.
 - Especialista
 - Paciente
 
-## 🔒 Acceso
+## 🔒 Acceso rápido
 
-<img src="public/readmeImgs/login.png" alt="ClinicaLogin">
+<img src="public/readmeImgs/login.gif" alt="ClinicaLogin">
+
+## ➕ Registro 
+
+- Paciente
+
+Un nuevo Paciente registrado debe verificar su cuenta usando el link enviado a su correo personal.
+
+<img src="public/readmeImgs/registro-paciente.png" alt="Registro Paciente">
+
+- Especialista
+
+Un nuevo Especialista registrado debe verificar su cuenta usando el link enviado a su correo personal y además un usuario con perfil Administrador debe habilitar su cuenta.
+
+<img src="public/readmeImgs/registro-esp.png" alt="Registro Especialista">
+
+
+## 👤 Sección Usuarios
+
+Acceso permitido únicamente para usuarios con perfil de Administrador. Desde esta sección, es posible crear nuevos usuarios con perfil de Paciente, Especialista o Administrador. Los Administradores creados aquí no requieren validación de cuenta, mientras que los perfiles de Paciente y Especialista sí deben validarla.
+
+<img src="public/readmeImgs/usuarios-admin.gif" alt="Registro Especialista">
+
+## 🪪 Mi perfil
+
+Visualiza los datos del usuario. 
+
+<img src="public/readmeImgs/perfil-paciente.png" alt="Mi perfil Paciente">
+
+- Los usuarios con perfil de Especialista tendrán la opción de agregar horarios específicos para cada especialidad, asegurando que no haya cruces entre los horarios de distintas especialidades. Además podra editar la duracion del turno por Especialidad, esta duración debe estar en el rango de 15 a 60 minutos.
+
+<img src="public/readmeImgs/usuarios-admin.gif" alt="Registro Especialista">
+
 
 <hr>
 <p align="center" justify-content="center">

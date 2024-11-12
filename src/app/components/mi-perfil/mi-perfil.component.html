@@ -1,6 +1,6 @@
 <div class="bg-transparent max-w-6xl mx-auto flex justify-center">
   <div class="container py-8 pt-4">
-    <div class="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4">
+    <div class="grid grid-cols-4 md:grid-cols-12 gap-6 px-4">
       <div *ngIf="!loading" class="col-span-4 sm:col-span-3">
         <div class="bg-tertiary rounded">
           <div class="flex flex-col items-center">
@@ -40,17 +40,17 @@
               {{usuarioInfo?.perfil}}
             </p>
           </div>
-          <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+          <div class="border-t border-gray-200 px-2 py-2 sm:p-0">
             <div class="sm:divide-y sm:divide-gray-200">
 
-              <div class="py-2 items-center sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
-                <div class="text-sm font-medium text-gray-500">
+              <div class="py-2 text-center sm:text-justify items-center grid-cols-1 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+                <div class="text-sm flex justify-center sm:justify-start	 font-medium text-gray-500">
                   <p class="bg-gray-300 w-max px-4 py-1 font-bold rounded">Nombre</p>
                 </div>
-                <div class="mt-1 tracking-wider text-sm font-bold text-gray-900 sm:mt-0">
+                <div class="mt-1 mb-3 sm:mb-0 tracking-wider text-sm font-bold text-gray-900 sm:mt-0">
                   {{usuarioInfo?.nombre}}
                 </div>
-                <div class=" text-sm font-medium text-gray-500">
+                <div class=" text-sm font-medium flex justify-center sm:justify-start	 text-gray-500">
                   <p class="bg-gray-300  w-max px-4 py-1 font-bold rounded">Apellido</p>
                 </div>
                 <div class="mt-1tracking-wider font-bold text-sm text-gray-900 sm:mt-0">
@@ -59,14 +59,14 @@
 
               </div>
 
-              <div class="py-2 items-center sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
-                <div class="text-sm font-medium text-gray-500">
+              <div class="py-2 text-center sm:text-justify items-center grid-cols-1 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+                <div class="text-sm flex justify-center sm:justify-start	 font-medium text-gray-500">
                   <p class="bg-gray-300 w-max px-4 py-1 font-bold rounded">D.N.I.</p>
                 </div>
-                <div class="mt-1 tracking-wider text-sm font-bold text-gray-900 sm:mt-0">
+                <div class="mt-1 mb-3 sm:mb-0 tracking-wider text-sm font-bold text-gray-900 sm:mt-0">
                   {{usuarioInfo?.dni}}
                 </div>
-                <div class=" text-sm font-medium text-gray-500">
+                <div class=" text-sm flex justify-center sm:justify-start	 font-medium text-gray-500">
                   <p class="bg-gray-300  w-max px-4 py-1 font-bold rounded">Edad</p>
                 </div>
                 <div class="mt-1tracking-wider font-bold text-sm text-gray-900 sm:mt-0">
@@ -75,17 +75,17 @@
 
               </div>
 
-              <div class="py-2 items-center sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+              <div class="py-2 text-center sm:text-justify items-center grid-cols-1 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
 
-                <div class=" text-sm font-medium text-gray-500">
+                <div class=" text-sm flex justify-center sm:justify-start	 font-medium text-gray-500">
                   <p class="bg-gray-300  w-max px-4 py-1 font-bold rounded">Correo</p>
                 </div>
-                <div class="mt-1tracking-wider font-bold text-sm text-gray-900 sm:mt-0">
+                <div class="mt-1 mb-3 sm:mb-0 sm:tracking-wider font-bold text-sm text-gray-900 sm:mt-0">
                   {{usuarioInfo?.email}}
                 </div>
 
 
-                <div *ngIf="usuarioInfo?.obraSocial" class="text-sm font-medium text-gray-500">
+                <div *ngIf="usuarioInfo?.obraSocial" class="text-sm font-medium flex justify-center sm:justify-start	 text-gray-500">
                   <p class="bg-gray-300 w-max px-4 py-1 font-bold rounded">Obra Social</p>
                 </div>
                 <div *ngIf="usuarioInfo?.obraSocial"
@@ -123,8 +123,8 @@
                   No hay Horarios Asignados para esta especialidad
                 </div>
 
-                <div class="flex justify-evenly mb-2 items-center w-full">
-                  <div *ngIf="hayDiasDisponibles(especialidad.nombre)" class="flex justify-evenly mb-2 items-center w-full">
+                <div class="flex flex-col md:flex-row justify-evenly mb-2 items-center w-full">
+                  <div *ngIf="hayDiasDisponibles(especialidad.nombre)" class="flex flex-col sm:flex-row justify-evenly mb-2 items-center w-full">
 
                     <select #diasSelect id="dias" [(ngModel)]="selectedDays[especialidad.nombre]" 
                       class="w-max bg-gray-50 w-full border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5">
@@ -132,6 +132,7 @@
                       <option value=" " disabled selected>Seleccione un día</option>
                       <option *ngFor="let dia of diasDisponiblesPorEspecialidad[especialidad.nombre]" [value]="dia">{{ dia }}</option>
                     </select>
+
                     <div class="w-full max-w-[5rem]">                        
                       <label for="start-time"
                         class="block mb-2 text-sm font-medium text-gray-900">Hora desde:</label>
@@ -184,7 +185,7 @@
 
               <!-- ESPECIALIDAD HORARIO-->
 
-                <div *ngIf="especialidad?.horariosAtencion" class="grid grid-cols-2 gap-4">
+                <div *ngIf="especialidad?.horariosAtencion" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div *ngFor="let horario of especialidad?.horariosAtencion"
                     class="animate-fadeInFromBottom py-2 px-1 flex justify-center border rounded bg-gray-100"
                     [appHorarioSeleccionado]="horario.habilitado">
