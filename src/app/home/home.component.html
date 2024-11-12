@@ -37,8 +37,8 @@
                 <h5 class="mb-3 text-lg sm:text-2xl font-bold tracking-tight text-gray-700 ">☗ Bienvenid&#64; a nuestra clínica ☗</h5>
                 <p class="mb-3 text-sm sm:text-base font-normal text-justify text-gray-600 dark:text-gray-400">
                     Aquí podras: <br> ◆ Sacar un turno con un especialista <br> ◆ Gestionar tus turnos <br> ◆ Como admin: visualizar informes <br> Y mucho más..</p>
-                <p class="text-center md:text-xl text-gray-700 italic">Comienza ingresando a tu cuenta o creando una nueva ➙</p>
-                <div class="flex items-center w-full h-auto mt-3 justify-center">
+                <p *ngIf="!estaLogueado" class="text-center md:text-xl text-gray-700 italic">Comienza ingresando a tu cuenta o creando una nueva ➙</p>
+                <div *ngIf="!estaLogueado" class="flex items-center w-full h-auto mt-3 justify-center">
                     <button type="button" routerLink="/iniciar-sesion" class="hover:scale-105 transition-all  text-white bg-gradient-to-r from-[#9DDA47] via-[#72B835] to-[#449424] hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-green-400  font-medium text-sm sm:text-lg w-full h-full px-5 py-2.5 text-center  mx-2">Ingresar</button>
                     <button type="button" routerLink="/registro" class="hover:scale-105 transition-all  text-white bg-gradient-to-r from-[#3CB0E1] via-[#3CB0E1] to-[#6078EA] hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-teal-300  font-medium text-sm sm:text-lg px-5 w-full h-full py-2.5 text-center  mx-2">Nuevo usuario</button>
 

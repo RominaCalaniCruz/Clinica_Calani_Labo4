@@ -1,21 +1,20 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr'
-import { AuthService } from '../services/auth.service';
-import { getAuth } from '@angular/fire/auth';
-import { lastValueFrom } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { getAuth, onAuthStateChanged } from '@angular/fire/auth';
 
 export const estaLogueadoGuard: CanActivateFn = async (route, state) => {
   const router = inject(Router);
-  const authSvc = inject(AuthService);
   const toastM = inject(ToastrService);
-  authSvc.traerUsuarioActual();
-  
-  if(authSvc.usuarioActual){
-    return true;
-  }
-
-  toastM.error("Debe estar logueado para acceder a esta pagina.","ERROR");
-  // router.navigateByUrl('/iniciar-sesion');
-  return false;
+  return new Promise((resolve)=>{
+    onAuthStateChanged(getAuth(),auth=>{
+    
+      if(auth){
+        resolve(true)
+      }else{
+        // toastM.error("Debe estar logueado para acceder a esta pagina.","ERROR");
+        resolve(router.navigateByUrl('/iniciar-sesion'))
+      }
+    })
+  });
 };

@@ -24,12 +24,14 @@ export const routes: Routes = [
     {
         path: 'mi-perfil',
         loadComponent: () =>
-            import('./components/mi-perfil/mi-perfil.component').then((c) => c.MiPerfilComponent)
+            import('./components/mi-perfil/mi-perfil.component').then((c) => c.MiPerfilComponent),
+        canActivate:[estaLogueadoGuard]
     },
     {
         path: 'lista-usuarios',
         loadComponent: () =>
             import('./components/lista-usuarios/lista-usuarios.component').then((c) => c.ListaUsuariosComponent),
+        canActivate:[estaLogueadoGuard]
         
     },
 ];

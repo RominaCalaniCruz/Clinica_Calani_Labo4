@@ -8,6 +8,6 @@ export interface Especialidad {
 
 export interface HorarioAtencion {
     dia: string;
-    rangoHorario: { inicio: string; fin: string }; 
+    rangoHorario: { inicio: number; fin: number }; 
     habilitado:boolean;
 }

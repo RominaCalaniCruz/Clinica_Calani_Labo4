@@ -95,6 +95,12 @@
             <ng-icon name="tablerListDetails " class="me-2"></ng-icon>
             Usuarios</a>
         </li>
+        <li *ngIf="estaLogueado && authSvc.tipoPerfilActual == 'Administrador'">
+          <a routerLink="Turnos" routerLinkActive="active-route"
+            class="flex items-center block py-2 px-3 cursor-pointer transition-all text-white  hover:bg-gray-100  font-semibold  md:hover:text-secondary md:hover:bg-primary md:py-2">
+            <ng-icon name="tablerListDetails " class="me-2"></ng-icon>
+            Turnos</a>
+        </li>
       </ul>
     </div>
   </div>

@@ -12,7 +12,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AuthService {
   private sesionActivaSubject = new BehaviorSubject<boolean>(false);
-  private userSubject = new BehaviorSubject<User|null>(null);
+  private userSubject = new BehaviorSubject<User | null>(null);
 
   sesionActiva$ = this.sesionActivaSubject.asObservable();
   userLog$ = this.userSubject.asObservable();
@@ -35,7 +35,7 @@ export class AuthService {
         let mensaje = '';
         if (!user.emailVerified && personaLogueada.perfil != Perfil.Administrador) {
           this.toastM.error("Debes verificar tu cuenta, revisa tu correo.", "Acceso denegado!", { timeOut: 4000 });
-          this.sesionActiva=false;
+          this.sesionActiva = false;
           this.closeSession();
           // this.traerUsuarioActual();
           return;
@@ -64,8 +64,12 @@ export class AuthService {
   async registerAccount(username: string, email: string, pass: string, photoProfileURL: string, perfil: Perfil) {
     const auth = getAuth();
     const emailActual = this.usuarioActual?.email;
-    // const passActual = this.fireSvc.obtenerAdminLogueado(emailActual as string);
-    const personaLogueada = await this.fireSvc.obtenerUsuarioDatos(emailActual as string) as any;
+    console.log(emailActual);
+    
+    let personaLogueada = null;
+    if (emailActual) {
+      personaLogueada = await this.fireSvc.obtenerUsuarioDatos(emailActual as string) as any;
+    }
 
     return createUserWithEmailAndPassword(auth, email, pass)
       .then(async (userCredential) => {
@@ -75,64 +79,78 @@ export class AuthService {
         if (user) {
           updateProfile(user, { displayName: username, photoURL: photoProfileURL });
         }
-        if (personaLogueada.perfil == Perfil.Administrador) {
+        if (personaLogueada != null && personaLogueada.perfil == Perfil.Administrador) {
+          console.log("es admin");
+
           switch (perfil) {
             case Perfil.Paciente:
               mensaje = `Creaste un nuevo Paciente.\nEl usuario ${email} debe verificar su cuenta.`;
               await sendEmailVerification(user);
+              console.log("el admin creo un paciente");
+
               break;
             case Perfil.Especialista:
               mensaje = `Creaste un nuevo Especialista.\nEl usuario ${email} debe verificar su cuenta.`;
               await sendEmailVerification(user);
+              console.log("el admin creo un especialista");
+
               break;
             case Perfil.Administrador:
               mensaje = `Un nuevo Administrador fue registrado.\nEl usuario ${email} puede comenzar a usar su cuenta.`;
+              console.log("el admin creo otro admin");
               break;
           }
 
           if (personaLogueada.email && personaLogueada.password) {
             await signOut(auth);
-            await signInWithEmailAndPassword(auth, personaLogueada.email, personaLogueada.password);
+            console.log("cerro sesion");
 
-            this.toastM.success(mensaje, `¡Registro exitoso!`, { timeOut: 10000 })
+            await signInWithEmailAndPassword(auth, personaLogueada.email, personaLogueada.password);
+            console.log("inicio sesion el admin de nuevo");
+
+            this.toastM.success(mensaje, `¡Registro exitoso!`, { timeOut: 10000 });
+            this.router.navigateByUrl('/mi-perfil');
           }
           else {
             this.toastM.error('Error al loguearse');
           }
+          return personaLogueada;
         }
-        else {
-          switch (perfil) {
-            case Perfil.Paciente:
-              mensaje = `Tu cuenta como Paciente fue creada.\nRevisa tu correo ${user.email} para verificar tu cuenta.`;
-              await sendEmailVerification(user).then(() => {
-                this.toastM.success(mensaje, `¡Registro exitoso!`, { timeOut: 4000 })
-              });
+        console.log(perfil + "- tipo perfil");
+
+        switch (perfil) {
+          case Perfil.Paciente:
+            mensaje = `Tu cuenta como Paciente fue creada.\nRevisa tu correo ${user.email} para verificar tu cuenta.`;
+            await sendEmailVerification(user).then(() => {
+              this.toastM.success(mensaje, `¡Registro exitoso!`, { timeOut: 4000 })
               this.closeSession();
-              break;
-            case Perfil.Especialista:
-              mensaje = `Tu cuenta como Especialista fue creada.\nUn Administrador pronto aprobara tu registro, mientras tanto revisa tu correo ${user.email} para verificar tu usuario.`;
-              await sendEmailVerification(user).then(() => {
-                this.toastM.success(mensaje, `¡Registro exitoso!`, { timeOut: 10000 })
-              });
+              console.log("paciente creado");
+
+            });
+            break;
+          case Perfil.Especialista:
+            mensaje = `Tu cuenta como Especialista fue creada.\nUn Administrador pronto aprobara tu registro, mientras tanto revisa tu correo ${user.email} para verificar tu usuario.`;
+            await sendEmailVerification(user).then(() => {
+              this.toastM.success(mensaje, `¡Registro exitoso!`, { timeOut: 10000 })
               this.closeSession();
-              break;
-          }
+              console.log("doctor  creado");
+
+            });
+            break;
+          default:
+            console.log(perfil);
+            console.log("Error en el tipo de perfil");
+            break;
 
         }
-
         console.log(user.email);
-        // this.toastM.success(`Hola, ${(user.displayName) ?  user.displayName : user.email}`, 'Bienvenido');
-        // this.closeSession();
-        // this.fireSvc.guardarLog(email);
-        // return user;
+        return user;
       }).catch((error) => {
         const errorCode = error.code;
         let mensajeTexto: string = this.convertirError(errorCode);
-        console.error(errorCode);
-
+        console.error(mensajeTexto);
         this.toastM.error(`Error: ${mensajeTexto}`, 'Error en el registro');
         throw errorCode;
-
       });
   }
 

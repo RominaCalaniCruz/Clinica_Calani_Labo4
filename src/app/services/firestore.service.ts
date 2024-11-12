@@ -158,5 +158,11 @@ export class FirestoreService {
     });
   }
 
+  actualizarEspecialidadesUsuario(userId: string, especialidades: any[]): Promise<void> {
+    const coleccion = collection(this.firestore, 'usuarios');
+    const documento = doc(coleccion,userId);
+
+    return updateDoc(documento,{ especialidades });
+  }
 
 }
