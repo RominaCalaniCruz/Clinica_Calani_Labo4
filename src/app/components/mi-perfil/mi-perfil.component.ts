@@ -20,6 +20,8 @@ import { firstValueFrom } from 'rxjs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import moment from 'moment';
 import { env } from '../../../environmentConfig';
+import { EdadPipe } from '../../pipes/edad.pipe';
+import { DniPipe } from '../../pipes/dni.pipe';
 
 interface RangoHorario {
   rangoHorario: [number, number];
@@ -33,9 +35,8 @@ type HorariosPorDia = { [dia: string]: RangoHorario[] };
   standalone: true,
   imports: [
     CommonModule,
-    HorarioSeleccionadoDirective,
-    ReactiveFormsModule,
-    FormsModule,
+    HorarioSeleccionadoDirective,    
+    FormsModule, EdadPipe, DniPipe
   ],
   templateUrl: './mi-perfil.component.html',
   styleUrl: './mi-perfil.component.scss',
@@ -159,7 +160,9 @@ export class MiPerfilComponent implements OnInit {
       especialidadId: especialidad.nombre,
       habilitado: true,
     });
-    this.toastM.success(`Nuevo horario para el día ${dia} agregado. Recuerde GUARDAR CAMBIOS.`)
+    this.toastM.success(
+      `Nuevo horario agregado para el día ${dia} agregado. Recuerde GUARDAR CAMBIOS.`
+    );
     console.log('Horario agregado:', nuevoHorario);
     console.log(this.horariosXDias);
     if (diaIndex > -1) {
@@ -254,7 +257,7 @@ export class MiPerfilComponent implements OnInit {
     } else {
       this.horariosXDias[dia] = horariosActualizados;
     }
-    // this.toastM.success(`Horpara el día ${horarioProp.dia} agregado. Recuerde GUARDAR CAMBIOS.`)
+    this.toastM.success(`Horario eliminado. Recuerde GUARDAR CAMBIOS.`);
     console.log(`Horario eliminado exitosamente para el día ${dia}.`);
     return true;
   }
@@ -274,6 +277,9 @@ export class MiPerfilComponent implements OnInit {
         )
         .then(() => {
           this.toastM.success('Horarios actualizados.');
+        })
+        .catch(() => {
+          this.toastM.error('ERROR al guardar horarios');
         });
       this.spinnerSvc.hide();
     }
@@ -281,19 +287,14 @@ export class MiPerfilComponent implements OnInit {
 
   verificarDuracionTurnos() {
     for (let i = 0; i < this.especialidades.length; i++) {
-      const { nombre, duracionTurno } =
-        this.especialidades[i];
+      const { nombre, duracionTurno } = this.especialidades[i];
 
-      console.log(nombre+"-"+duracionTurno);
-
+      console.log(nombre + '-' + duracionTurno);
 
       // Verificar si la duración está fuera del rango permitido
-      if (
-        duracionTurno < 15 ||
-        duracionTurno > 60
-      ) {
+      if (duracionTurno < 30 || duracionTurno > 60) {
         this.toastM.error(
-          `La especialidad ${nombre} debe tener una duración entre 15 y 60 minutos.`
+          `La especialidad ${nombre} debe tener una duración entre 30 y 60 minutos.`
         );
         return false; // Si encontramos un error, devolvemos false y salimos de la función
       }
@@ -427,7 +428,9 @@ export class MiPerfilComponent implements OnInit {
           if (this.verificarSolapamiento2(nuevoHorario, horarioProp.dia)) {
             horarioProp.habilitado = true;
             horario.habilitado = horarioProp.habilitado;
-            this.toastM.success(`Dia ${horarioProp.dia} habilitado. Recuerde GUARDAR CAMBIOS.`)
+            this.toastM.success(
+              `Dia ${horarioProp.dia} habilitado. Recuerde GUARDAR CAMBIOS.`
+            );
             console.log(
               `Habilitado modificado para ${especialidad.nombre} en ${horarioProp.dia} a ${horarioProp.habilitado}.`
             );
@@ -435,7 +438,11 @@ export class MiPerfilComponent implements OnInit {
             horarioProp.habilitado = false;
             horario.habilitado = horarioProp.habilitado;
             values.currentTarget.checked = false;
-            this.toastM.error(`El horario para el día ${horarioProp.dia} se superpone con otra Especialidad.`,"Conflicto de horarios",{timeOut: 3500});
+            this.toastM.error(
+              `El horario para el día ${horarioProp.dia} se superpone con otra Especialidad.`,
+              'Conflicto de horarios',
+              { timeOut: 3500 }
+            );
             console.log(
               `No se pudo habilitar ${especialidad.nombre} en ${horarioProp.dia} debido a solapamiento.`
             );
@@ -465,14 +472,20 @@ export class MiPerfilComponent implements OnInit {
             especialidadId: especialidad.nombre,
             habilitado: true,
           });
-          this.toastM.success(`Nuevo horario para el día ${horarioProp.dia} agregado. Recuerde GUARDAR CAMBIOS.`)
+          this.toastM.success(
+            `Nuevo horario para el día ${horarioProp.dia} agregado. Recuerde GUARDAR CAMBIOS.`
+          );
           console.log('Horario agregado:', nuevoHorario);
           console.log(this.horariosXDias);
           horarioProp.habilitado = true;
           values.currentTarget.checked = horarioProp.habilitado;
           this.cdRef.detectChanges();
         } else {
-          this.toastM.error(`El horario para el día ${horarioProp.dia} se superpone con otra Especialidad.`,"Conflicto de horarios",{timeOut: 3500});
+          this.toastM.error(
+            `El horario para el día ${horarioProp.dia} se superpone con otra Especialidad.`,
+            'Conflicto de horarios',
+            { timeOut: 3500 }
+          );
 
           console.log('El horario se solapa con otro existente');
           horarioProp.habilitado = false;

@@ -34,4 +34,11 @@ export const routes: Routes = [
         canActivate:[estaLogueadoGuard]
         
     },
+    {
+        path: 'sacar-turno',
+        loadComponent: () =>
+            import('./pages/sacar-turno/sacar-turno.component').then((c) => c.SacarTurnoComponent),
+        canActivate:[estaLogueadoGuard]
+        
+    },
 ];

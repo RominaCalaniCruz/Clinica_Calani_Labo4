@@ -11,15 +11,17 @@ export interface Usuario {
     foto1: string;
     perfil: Perfil 
 }
+export interface Especialista extends Usuario{
+    especialidades: Especialidad[];
+    cuenta_habilitada: boolean;
+}
+
+
 export interface Paciente extends Usuario{
     obraSocial:string;
     foto2: string;
 }
 
-export interface Especialista extends Usuario{
-    especialidades: Especialidad[];
-    cuenta_habilitada: boolean;
-}
 
 
 

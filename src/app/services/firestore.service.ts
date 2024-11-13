@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import {  addDoc, collection, collectionData, doc, Firestore, getDocs, orderBy, query, Timestamp, updateDoc} from '@angular/fire/firestore';
+import {  addDoc, collection, collectionData, doc, Firestore, getDocs, orderBy, query, Timestamp, updateDoc, where} from '@angular/fire/firestore';
 import {
   getDownloadURL,
   getStorage,
@@ -9,8 +9,9 @@ import {
 } from 'firebase/storage';
 import { Especialidad } from '../models/especialidad.model';
 import { LogsSistema } from '../models/logs-sistema';
-import { Especialista, Paciente, Usuario } from '../models/usuario';
+import { Especialista, Paciente, Perfil, Usuario } from '../models/usuario';
 import { map, Observable } from 'rxjs';
+import { Turno } from '../models/turno';
 export interface Message{
   email: string,
   nombre: string,
@@ -51,6 +52,25 @@ export class FirestoreService {
     const consulta = query(col, orderBy('nombre', 'asc'));
     return collectionData(query(col, orderBy('nombre', 'asc')));
   }
+
+  traerEspecialistas():Observable<any[]>{
+    let col = collection(this.firestore, 'usuarios');
+    // const consulta = query(col, orderBy('nombre', 'asc'));
+    return collectionData(query(col, where('perfil','==',Perfil.Especialista),orderBy('nombre','asc')));
+  }
+
+  traerPacientes():Observable<any[]>{
+    let col = collection(this.firestore, 'usuarios');
+    // const consulta = query(col, orderBy('nombre', 'asc'));
+    return collectionData(query(col, where('perfil','==',Perfil.Paciente),orderBy('nombre','asc')));
+  }
+
+  traerTurnos():Observable<any[]>{
+    let col = collection(this.firestore, 'turnos');
+    // const consulta = query(col, orderBy('nombre', 'asc'));
+    return collectionData(query(col, orderBy('fecha_turno','desc')));
+  }
+  
   async traerListass(coleccion: string) {
     const collectionRef = collection(this.firestore, coleccion);
     const querySnapshot = await getDocs(query(collectionRef, orderBy('nombre', 'asc')));
@@ -163,6 +183,24 @@ export class FirestoreService {
     const documento = doc(coleccion,userId);
 
     return updateDoc(documento,{ especialidades });
+  }
+
+  async traerListass2(coleccion: string) {
+    const collectionRef = collection(this.firestore, coleccion);
+    const querySnapshot = await getDocs(query(collectionRef, orderBy('nombre', 'asc')));
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  }
+
+
+  async obtenerTurnosReservados(especialistaId: string, especialidadNombre: string) {
+    // Consultar turnos reservados para el especialista y especialidad en cuestión
+    const collectionRef = collection(this.firestore, "turnos");
+
+    const querySnapshot = await getDocs(
+      query(collectionRef, where('especialista.id', '==', especialistaId),where('especialidad.nombre', '==', especialidadNombre))
+    );
+  
+    return querySnapshot.docs.map((doc:any) => doc.data() as Turno);
   }
 
 }
