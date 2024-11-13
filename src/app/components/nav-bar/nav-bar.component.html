@@ -83,17 +83,23 @@
             <ng-icon name="matEditCalendar " class="me-2"></ng-icon>
             Solicitar Turno</a>
         </li>
-        <!-- 
-        <li *ngIf="authSvc.sesionActiva">
-          <a routerLink="sobre-mi" routerLinkActive="active-route"
+        
+        <li *ngIf="estaLogueado && authSvc.tipoPerfilActual != 'Administrador'">
+          <a routerLink="mis-turnos" routerLinkActive="active-route"
             class="flex items-center block py-2 px-3 cursor-pointer transition-all text-white  hover:bg-gray-100  font-semibold  md:hover:text-secondary md:hover:bg-primary md:py-2">
-            <ng-icon name="matLockClock " class="me-2"></ng-icon>
+            <ng-icon name="matChecklist " class="me-2"></ng-icon>
             Mis Turnos</a>
-        </li> -->
+        </li>
+        <li *ngIf="estaLogueado && authSvc.tipoPerfilActual == 'Especialista'">
+          <a routerLink="pacientes" routerLinkActive="active-route"
+            class="flex items-center block py-2 px-3 cursor-pointer transition-all text-white  hover:bg-gray-100  font-semibold  md:hover:text-secondary md:hover:bg-primary md:py-2">
+            <ng-icon name="matGroups2 " class="me-2"></ng-icon>
+            Pacientes</a>
+        </li>
         <li *ngIf="estaLogueado && authSvc.tipoPerfilActual == 'Administrador'">
           <a routerLink="lista-usuarios" routerLinkActive="active-route"
             class="flex items-center block py-2 px-3 cursor-pointer transition-all text-white  hover:bg-gray-100  font-semibold  md:hover:text-secondary md:hover:bg-primary md:py-2">
-            <ng-icon name="tablerListDetails " class="me-2"></ng-icon>
+            <ng-icon name="matSettingsApplications " class="me-2"></ng-icon>
             Usuarios</a>
         </li>
         <li *ngIf="estaLogueado && authSvc.tipoPerfilActual == 'Administrador'">

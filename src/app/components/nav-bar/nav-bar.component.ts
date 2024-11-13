@@ -3,8 +3,8 @@ import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { tablerHomeFill, tablerUserFill} from '@ng-icons/tabler-icons/fill';
-import {matAccountCircle, matEditCalendar,matLockClock} from '@ng-icons/material-icons/baseline';
-import { tablerListDetails, tablerLogin2, tablerMenu4, tablerSquareX, tablerUserPlus} from '@ng-icons/tabler-icons';
+import {matAccountCircle, matChecklist, matEditCalendar,matGroups2,matLockClock, matSettingsApplications} from '@ng-icons/material-icons/baseline';
+import { tablerListDetails, tablerLogin2, tablerMenu4, tablerSquareX, tablerUserPlus, tablerUsersGroup} from '@ng-icons/tabler-icons';
 import {jamLogIn} from '@ng-icons/jam-icons';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
@@ -14,7 +14,7 @@ import { Perfil } from '../../models/usuario';
   selector: 'app-nav-bar',
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive,NgIconComponent],
-  providers: [provideIcons({tablerHomeFill,tablerUserPlus,tablerLogin2,tablerUserFill,matEditCalendar,matLockClock,tablerListDetails,matAccountCircle,tablerSquareX,jamLogIn,tablerMenu4})],
+  providers: [provideIcons({matChecklist,matGroups2,matSettingsApplications,tablerHomeFill,tablerUserPlus,tablerLogin2,tablerUserFill,matEditCalendar,matLockClock,tablerListDetails,matAccountCircle,tablerSquareX,jamLogIn,tablerMenu4})],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss'
 })

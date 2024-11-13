@@ -28,7 +28,7 @@
 <div class="pagina flex flex-col justify-center mx-auto items-center">
     <div class="">
         <div *ngIf="!mostrarEspecialidades"
-            class="animate-fadeInFromBottom grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            class=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             <div *ngFor="let especialista of doctoresLista" (click)="seleccionarEspecialista(especialista)"
                 class="relative group cursor-pointer w-32 h-32 sm:w-48 sm:h-48 bg-gray-200 overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-105">
                 <!-- Imagen cuadrada del especialista -->
