@@ -9,6 +9,7 @@ import {jamLogIn} from '@ng-icons/jam-icons';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Perfil } from '../../models/usuario';
+import { FirestoreService } from '../../services/firestore.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -21,13 +22,24 @@ import { Perfil } from '../../models/usuario';
 export class NavBarComponent implements OnInit{
   authSvc = inject(AuthService);
   toastM = inject(ToastrService);
+  fireSvc = inject(FirestoreService);
   isDropdownOpen: boolean = false;
   router = inject(Router);
   estaLogueado = false;
+  usuarioInfo : any;
+  loading = true;
 ngOnInit(): void {
   this.authSvc.sesionActiva$.subscribe(res=>{
     this.estaLogueado = res;
   });
+    this.authSvc.userLog$.subscribe(async (res) => {
+      if (res?.email) {
+        await this.fireSvc.obtenerUsuarioDatos(res.email).then((res)=>{
+          this.usuarioInfo = res;
+          this.loading = false;
+        });
+      }
+    })
 }
   cerrarSesion() {
     this.authSvc.closeSession();

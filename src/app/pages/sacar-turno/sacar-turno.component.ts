@@ -57,28 +57,31 @@ export class SacarTurnoComponent implements OnInit {
     this.spinnerSvc.show();
     this.authSvc.userLog$.subscribe(async (res) => {
       if (res?.email) {
-        this.usuarioInfo = (await this.fireSvc.obtenerUsuarioDatos(res.email)) as any;
-        // console.log(this.usuarioInfo);
-        this.esAdmin = this.usuarioInfo.perfil == Perfil.Administrador;
-        // console.log(this.esAdmin);
-
-        this.fireSvc.traerEspecialistas().subscribe((data) => {
-
-          this.doctoresLista = data.filter(esp => esp.cuenta_habilitada);
-          // console.log(this.doctoresLista);
-          this.spinnerSvc.hide();
-          this.loading = false;
-          this.mostrarDoctores = true;
-        });
-
-        if (this.esAdmin) {
-          this.fireSvc.traerPacientes().subscribe((data) => {
-
-            this.pacientesLista = data;
-            // console.log(this.pacientesLista);
-
+       await this.fireSvc.obtenerUsuarioDatos(res.email).then((resp)=>{
+          this.usuarioInfo = resp;
+          this.esAdmin = this.usuarioInfo?.perfil == Perfil.Administrador;
+          // console.log(this.esAdmin);
+  
+          this.fireSvc.traerEspecialistas().subscribe((data) => {
+  
+            this.doctoresLista = data.filter(esp => esp.cuenta_habilitada);
+            // console.log(this.doctoresLista);
+            this.spinnerSvc.hide();
+            this.loading = false;
+            this.mostrarDoctores = true;
+            
           });
-        }
+  
+          if (this.esAdmin) {
+            this.fireSvc.traerPacientes().subscribe((data) => {
+  
+              this.pacientesLista = data;
+              // console.log(this.pacientesLista);
+  
+            });
+          }
+        })
+        // console.log(this.usuarioInfo);
 
         this.fireSvc.traerTurnos().subscribe((data) => {
           this.turnosLista = data;
@@ -139,6 +142,10 @@ export class SacarTurnoComponent implements OnInit {
         let htmlPaciente = "";
         if(this.pacienteSeleccionado == null){
           this.pacienteSeleccionado = this.usuarioInfo;
+          htmlPaciente = `<tr>
+          <td style="padding: 8px; border: 1px solid #bee8f4; font-weight: bold; background-color: #f4fdf4;">Paciente:</td>
+          <td style="padding: 8px; border: 1px solid #bee8f4; background-color: #f4fdf4;">${this.pacienteSeleccionado?.nombre} ${this.pacienteSeleccionado?.apellido} (Tú)</td>
+          </tr>`
         }else{
           htmlPaciente = `<tr>
           <td style="padding: 8px; border: 1px solid #bee8f4; font-weight: bold; background-color: #f4fdf4;">Paciente:</td>

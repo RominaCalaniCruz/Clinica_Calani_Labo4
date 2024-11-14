@@ -31,7 +31,7 @@ export class FormAdminComponent {
     this.adminForm = new FormGroup({
       nombre: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]),
       apellido: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]),
-      edad: new FormControl('', [Validators.required, Validators.min(1), Validators.max(99)]),
+      edad: new FormControl('', [Validators.required, Validators.min(18), Validators.max(99)]),
       dni: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{8}$')]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
@@ -72,12 +72,13 @@ export class FormAdminComponent {
       const fileExtension = this.selectedFile1.type.split('/')[1];
       const fileName = `Admin_${admin.dni}.${fileExtension}`;
       try {
-        await this.fireSvc.subirFotoPerfil(this.selectedFile1,fileName).then(url=>admin.foto1=url).catch(()=>{
-          this.toastM.error("Error en la subida de la foto");
-        });
-        await this.fireSvc.nuevoAdmin(admin);
-        await this.authSvc.registerAccount(admin.nombre,admin.email,admin.password, admin.foto1,admin.perfil);
-        this.router.navigate(['lista-usuarios']);
+        await this.authSvc.registerAccount(admin.nombre,admin.email,admin.password, admin.foto1,admin.perfil).then(async ()=>{
+          await this.fireSvc.subirFotoPerfil(this.selectedFile1,fileName).then(url=>admin.foto1=url).catch(()=>{
+            this.toastM.error("Error en la subida de la foto");
+          });
+          await this.fireSvc.nuevoAdmin(admin);
+          // this.router.navigate(['lista-usuarios']);
+        })
 
         this.adminForm.reset();
       } catch (error) {

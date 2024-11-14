@@ -50,14 +50,14 @@
 
           <div class="flex items-center space-x-4 mb-4 md:mb-0">
             <img class="w-16 h-16 rounded object-cover" [src]="doctorSeleccionado?.foto1" alt="Especialista">
-            <div class="text-lg font-semibold text-gray-700">Especialista: {{doctorSeleccionado?.nombre}} {{doctorSeleccionado?.apellido}}</div>
+            <div class="text-lg font-semibold text-gray-700">Especialista: <br> {{doctorSeleccionado?.nombre}} {{doctorSeleccionado?.apellido}}</div>
           </div>
 
           <div class="flex items-center space-x-4">
             <img class="w-full h-16 rounded object-cover"
               [src]="especialidadSeleccionada?.foto ? especialidadSeleccionada?.foto : fotoEspecialidad"
               alt="Especialidad">
-            <div class="text-lg font-semibold text-gray-700">Especialidad: {{especialidadSeleccionada?.nombre}}</div>
+            <div class="text-lg font-semibold text-gray-700">Especialidad: <br> {{especialidadSeleccionada?.nombre}}</div>
           </div>
         </div>
 

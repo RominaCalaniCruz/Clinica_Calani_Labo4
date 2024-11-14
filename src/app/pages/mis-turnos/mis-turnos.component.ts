@@ -42,26 +42,29 @@ export class MisTurnosComponent implements OnInit {
     this.spinnerSvc.show();
     this.authSvc.userLog$.subscribe(async (res) => {
       if (res?.email) {
-        this.usuarioInfo = (await this.fireSvc.obtenerUsuarioDatos(res.email)) as any;
-        this.fireSvc.traerTurnos().subscribe((data) => {
-          this.turnosLista = data;
-          // console.log(this.turnosLista);
-          if(this.usuarioInfo.perfil == Perfil.Paciente){
-            this.esPaciente = true;
-            this.turnosLista = this.filtrarTurnosPorPaciente(data, this.usuarioInfo.id);
-          }
-          else if(this.usuarioInfo.perfil == Perfil.Especialista){
-            this.esEspecialista = true;
-            this.turnosLista = this.filtrarTurnosPorEspecialista(data, this.usuarioInfo.id);
-            console.log(this.turnosLista);            
-          }
-          else if(this.usuarioInfo.perfil == Perfil.Administrador){
-            this.esAdmin = true;
+        await this.fireSvc.obtenerUsuarioDatos(res.email).then((resp)=>{
+          this.usuarioInfo = resp;
 
-          }
-          this.spinnerSvc.hide();
-          this.loading = false;
-        });
+          this.fireSvc.traerTurnos().subscribe((data) => {
+            this.turnosLista = data;
+            // console.log(this.turnosLista);
+            if(this.usuarioInfo?.perfil == Perfil.Paciente){
+              this.esPaciente = true;
+              this.turnosLista = this.filtrarTurnosPorPaciente(data, this.usuarioInfo.id);
+            }
+            else if(this.usuarioInfo?.perfil == Perfil.Especialista){
+              this.esEspecialista = true;
+              this.turnosLista = this.filtrarTurnosPorEspecialista(data, this.usuarioInfo.id);
+              console.log(this.turnosLista);            
+            }
+            else if(this.usuarioInfo?.perfil == Perfil.Administrador){
+              this.esAdmin = true;
+  
+            }
+            this.spinnerSvc.hide();
+            this.loading = false;
+          });
+        })
       }
 
       

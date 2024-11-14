@@ -61,6 +61,6 @@ Visualiza los datos del usuario.
 
 <img src="public/readmeImgs/perfil-paciente.png" alt="Mi perfil Paciente">
 
-- Los usuarios con perfil de Especialista tendrán la opción de agregar horarios específicos para cada especialidad, asegurando que no haya cruces entre los horarios de distintas especialidades. Además podra editar la duracion del turno por Especialidad, esta duración debe estar en el rango de 15 a 60 minutos.
+- Los usuarios con perfil de Especialista tendrán la opción de agregar horarios específicos para cada especialidad, asegurando que no haya cruces entre los horarios de distintas especialidades. Además podra editar la duracion del turno por Especialidad, esta duración debe estar en el rango de 30 a 60 minutos.
 
 <img src="public/readmeImgs/mis-horarios.gif" alt="Registro Especialista">

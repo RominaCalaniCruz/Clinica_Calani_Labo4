@@ -209,7 +209,7 @@ export class AuthService {
         this.userSubject.next(user);
         this.usuarioActual = user;
         const usuarioDatos = await this.fireSvc.obtenerUsuarioDatos(user.email as string) as any;
-        this.tipoPerfilActual = usuarioDatos.perfil;
+        this.tipoPerfilActual = usuarioDatos?.perfil;
         this.sesionActiva = true;
         // ...
       } else {

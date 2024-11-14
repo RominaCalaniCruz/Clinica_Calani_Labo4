@@ -39,7 +39,7 @@ nuevaOpcion = false;
     this.especialistaForm = new FormGroup({
       nombre: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]),
       apellido: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]),
-      edad: new FormControl('', [Validators.required, Validators.min(1), Validators.max(99)]),
+      edad: new FormControl('', [Validators.required, Validators.min(18), Validators.max(99)]),
       dni: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{8}$')]),
       especialidad: new FormControl([], [Validators.required]),
       otraEsp: new FormControl('',Validators.pattern('^[a-zA-Z\\s]+$')),
@@ -96,16 +96,18 @@ nuevaOpcion = false;
       const fileExtension = this.selectedFile1.type.split('/')[1];
       const fileName = `Doc_${especialista.dni}.${fileExtension}`;
       try {
-        await this.fireSvc.subirFotoPerfil(this.selectedFile1,fileName).then(url=>especialista.foto1=url).catch(()=>{
-          this.toastM.error("Error en la subida de la foto N°1");
+        await this.authSvc.registerAccount(especialista.nombre,especialista.email,especialista.password, especialista.foto1,especialista.perfil).then(async ()=>{
+
+          await this.fireSvc.subirFotoPerfil(this.selectedFile1,fileName).then(url=>especialista.foto1=url).catch(()=>{
+            this.toastM.error("Error en la subida de la foto N°1");
+          });
+          await this.fireSvc.nuevoEspecialista(especialista);
         });
-        await this.fireSvc.nuevoEspecialista(especialista);
-        await this.authSvc.registerAccount(especialista.nombre,especialista.email,especialista.password, especialista.foto1,especialista.perfil);
         this.especialistaForm.reset();
 
       } catch (error) {
-        // console.log("ERROR"+error);    
-        this.toastM.error(error as string,"ERROR");    
+        console.log("ERROR"+error);    
+        // this.toastM.error(error as string,"ERROR");    
       }
       finally{
         this.spinnerSvc.hide();

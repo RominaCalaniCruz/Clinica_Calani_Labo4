@@ -31,7 +31,7 @@
       </div>
 
       <div class="col-span-4 sm:col-span-9">
-        <div *ngIf="!loading" class=" bg-white overflow-hidden shadow rounded-lg border">
+        <div *ngIf="!loading && this.usuarioInfo" class=" bg-white overflow-hidden shadow rounded-lg border">
           <div class="flex flex-row px-4 py-5 sm:px-6">
             <h3 class="text-lg leading-6 font-bold text-gray-900">
               Información del Usuario

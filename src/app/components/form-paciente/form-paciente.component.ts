@@ -33,7 +33,7 @@ export class FormPacienteComponent{
     this.pacienteForm = new FormGroup({
       nombre: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]),
       apellido: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]),
-      edad: new FormControl('', [Validators.required, Validators.min(1), Validators.max(99)]),
+      edad: new FormControl('', [Validators.required, Validators.min(16), Validators.max(99)]),
       dni: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{8}$')]),
       obraSocial: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z\\s]+$')]),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -76,19 +76,21 @@ export class FormPacienteComponent{
       
 
       try {
-        await this.fireSvc.subirFotoPerfil(this.selectedFile1,fileName1).then(url=>paciente.foto1=url).catch(()=>{
-          this.toastM.error("Error en la subida de la foto N°1");
-        });
+        await this.authSvc.registerAccount(paciente.nombre,paciente.email,paciente.password, paciente.foto1,paciente.perfil).then(async ()=>{
+          await this.fireSvc.subirFotoPerfil(this.selectedFile1,fileName1).then(url=>paciente.foto1=url).catch(()=>{
+            this.toastM.error("Error en la subida de la foto N°1");
+          });
+          await this.fireSvc.subirFotoPerfil(this.selectedFile2,fileName2).then(url=>paciente.foto2=url).catch(()=>{
+            this.toastM.error("Error en la subida de la foto N°2");
+          });
+          await this.fireSvc.nuevoPaciente(paciente);
+
+        })
   
-        await this.fireSvc.subirFotoPerfil(this.selectedFile2,fileName2).then(url=>paciente.foto2=url).catch(()=>{
-          this.toastM.error("Error en la subida de la foto N°2");
-        });
-        await this.fireSvc.nuevoPaciente(paciente);
-        await this.authSvc.registerAccount(paciente.nombre,paciente.email,paciente.password, paciente.foto1,paciente.perfil);
         this.pacienteForm.reset();
       } catch (error) {
         console.log("ERROR"+error);    
-        this.toastM.error(error as string,"ERROR");    
+        // this.toastM.error(error as string,"ERROR");    
       }
       finally{
         this.spinnerSvc.hide();

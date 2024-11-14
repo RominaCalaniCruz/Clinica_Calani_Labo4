@@ -67,9 +67,11 @@ export class MiPerfilComponent implements OnInit {
     this.spinnerSvc.show();
     this.authSvc.userLog$.subscribe(async (res) => {
       if (res?.email) {
-        this.usuarioInfo = (await this.fireSvc.obtenerUsuarioDatos(
-          res.email
-        )) as any;
+        await this.fireSvc.obtenerUsuarioDatos(res.email).then((res)=>{
+          this.usuarioInfo = res;
+          this.spinnerSvc.hide();
+          this.loading = false;
+        });
         if (this.usuarioInfo?.especialidades) {
           this.especialidades = this.usuarioInfo.especialidades;
 
@@ -87,6 +89,7 @@ export class MiPerfilComponent implements OnInit {
             // console.log(`Días disponibles para ${especialidad.nombre}:`, diasDisponibles);
             this.selectedDays[especialidad.nombre] = ' ';
             // console.log(this.diasDisponiblesPorEspecialidad);
+
           });
           this.horariosXDias = this.extraerHorarios(this.especialidades);
           // console.log(this.especialidades);
@@ -98,8 +101,7 @@ export class MiPerfilComponent implements OnInit {
         }
       }
 
-      this.spinnerSvc.hide();
-      this.loading = false;
+      
     });
   }
   hayDiasDisponibles(espId: string): boolean {
