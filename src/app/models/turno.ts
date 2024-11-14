@@ -43,5 +43,5 @@ export enum EstadoTurno {
     Aceptado = "Aceptado", 
     Rechazado = "Rechazado", 
     Cancelado = "Cancelado", 
-    Realizado = "Realizado", 
+    Finalizado = "Finalizado", 
   }

@@ -128,6 +128,17 @@ export class FirestoreService {
       throw error;
     }
   }
+  async nuevoTurno(turno: Turno) {
+    try {
+      const docRef = await addDoc(collection(this.firestore, 'turnos'), turno);
+      turno.id = docRef.id;
+      await updateDoc(doc(this.firestore, 'turnos', turno.id), { ...turno });
+      return docRef;
+    } catch (error) {
+      console.error('Error al agregar documento:', error);
+      throw error;
+    }
+  }
   async nuevoAdmin(admin: Usuario) {
     try {
       const docRef = await addDoc(collection(this.firestore, 'usuarios'), admin);

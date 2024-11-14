@@ -7,7 +7,6 @@ import { NgxSpinnerComponent, NgxSpinnerModule, NgxSpinnerService } from 'ngx-sp
 import { CommonModule } from '@angular/common';
 import { HabilitadoPipe } from '../../pipes/habilitado.pipe';
 import { ColorEstadoDirective } from '../../directives/color-estado.directive';
-import { InstanceOptions, Modal, ModalInterface, ModalOptions } from 'flowbite';
 import Swal from 'sweetalert2';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { matAddBoxRound } from '@ng-icons/material-icons/round';
