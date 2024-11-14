@@ -84,11 +84,11 @@
             Solicitar Turno</a>
         </li>
         
-        <li *ngIf="estaLogueado && authSvc.tipoPerfilActual != 'Administrador'">
+        <li *ngIf="estaLogueado">
           <a routerLink="mis-turnos" routerLinkActive="active-route"
             class="flex items-center block py-2 px-3 cursor-pointer transition-all text-white  hover:bg-gray-100  font-semibold  md:hover:text-secondary md:hover:bg-primary md:py-2">
             <ng-icon name="matChecklist " class="me-2"></ng-icon>
-            Mis Turnos</a>
+            {{esAdministrador ? 'Turnos' : 'Mis Turnos'}}</a>
         </li>
         <li *ngIf="estaLogueado && authSvc.tipoPerfilActual == 'Especialista'">
           <a routerLink="pacientes" routerLinkActive="active-route"
@@ -101,12 +101,6 @@
             class="flex items-center block py-2 px-3 cursor-pointer transition-all text-white  hover:bg-gray-100  font-semibold  md:hover:text-secondary md:hover:bg-primary md:py-2">
             <ng-icon name="matSettingsApplications " class="me-2"></ng-icon>
             Usuarios</a>
-        </li>
-        <li *ngIf="estaLogueado && authSvc.tipoPerfilActual == 'Administrador'">
-          <a routerLink="turnos" routerLinkActive="active-route"
-            class="flex items-center block py-2 px-3 cursor-pointer transition-all text-white  hover:bg-gray-100  font-semibold  md:hover:text-secondary md:hover:bg-primary md:py-2">
-            <ng-icon name="tablerListDetails " class="me-2"></ng-icon>
-            Turnos</a>
         </li>
       </ul>
     </div>

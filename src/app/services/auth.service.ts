@@ -45,7 +45,7 @@ export class AuthService {
           this.closeSession();
           return;
         }
-        console.log(user.email);
+        // console.log(user.email);
         this.toastM.info(`Hola, ${(user.displayName) ? user.displayName : user.email}`, 'Bienvenido');
         this.fireSvc.guardarLog(email);
         this.router.navigate(['mi-perfil']);
@@ -64,7 +64,7 @@ export class AuthService {
   async registerAccount(username: string, email: string, pass: string, photoProfileURL: string, perfil: Perfil) {
     const auth = getAuth();
     const emailActual = this.usuarioActual?.email;
-    console.log(emailActual);
+    // console.log(emailActual);
     
     let personaLogueada = null;
     if (emailActual) {
@@ -80,33 +80,33 @@ export class AuthService {
           updateProfile(user, { displayName: username, photoURL: photoProfileURL });
         }
         if (personaLogueada != null && personaLogueada.perfil == Perfil.Administrador) {
-          console.log("es admin");
+          // console.log("es admin");
 
           switch (perfil) {
             case Perfil.Paciente:
               mensaje = `Creaste un nuevo Paciente.\nEl usuario ${email} debe verificar su cuenta.`;
               await sendEmailVerification(user);
-              console.log("el admin creo un paciente");
+              // console.log("el admin creo un paciente");
 
               break;
             case Perfil.Especialista:
               mensaje = `Creaste un nuevo Especialista.\nEl usuario ${email} debe verificar su cuenta.`;
               await sendEmailVerification(user);
-              console.log("el admin creo un especialista");
+              // console.log("el admin creo un especialista");
 
               break;
             case Perfil.Administrador:
               mensaje = `Un nuevo Administrador fue registrado.\nEl usuario ${email} puede comenzar a usar su cuenta.`;
-              console.log("el admin creo otro admin");
+              // console.log("el admin creo otro admin");
               break;
           }
 
           if (personaLogueada.email && personaLogueada.password) {
             await signOut(auth);
-            console.log("cerro sesion");
+            // console.log("cerro sesion");
 
             await signInWithEmailAndPassword(auth, personaLogueada.email, personaLogueada.password);
-            console.log("inicio sesion el admin de nuevo");
+            // console.log("inicio sesion el admin de nuevo");
 
             this.toastM.success(mensaje, `¡Registro exitoso!`, { timeOut: 10000 });
             this.router.navigateByUrl('/mi-perfil');
@@ -116,7 +116,7 @@ export class AuthService {
           }
           return personaLogueada;
         }
-        console.log(perfil + "- tipo perfil");
+        // console.log(perfil + "- tipo perfil");
 
         switch (perfil) {
           case Perfil.Paciente:
@@ -124,7 +124,7 @@ export class AuthService {
             await sendEmailVerification(user).then(() => {
               this.toastM.success(mensaje, `¡Registro exitoso!`, { timeOut: 4000 })
               this.closeSession();
-              console.log("paciente creado");
+              // console.log("paciente creado");
 
             });
             break;
@@ -133,7 +133,7 @@ export class AuthService {
             await sendEmailVerification(user).then(() => {
               this.toastM.success(mensaje, `¡Registro exitoso!`, { timeOut: 10000 })
               this.closeSession();
-              console.log("doctor  creado");
+              // console.log("doctor  creado");
 
             });
             break;
@@ -143,7 +143,7 @@ export class AuthService {
             break;
 
         }
-        console.log(user.email);
+        // console.log(user.email);
         return user;
       }).catch((error) => {
         const errorCode = error.code;
@@ -213,7 +213,7 @@ export class AuthService {
         this.sesionActiva = true;
         // ...
       } else {
-        console.log("no hay usuario");
+        // console.log("no hay usuario");
         this.usuarioActual = undefined;
         this.sesionActiva = false;
         this.tipoPerfilActual = null;

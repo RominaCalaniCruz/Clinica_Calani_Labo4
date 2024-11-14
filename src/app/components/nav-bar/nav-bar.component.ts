@@ -34,6 +34,9 @@ ngOnInit(): void {
     this.toastM.info("Cerraste sesón");
     this.isDropdownOpen = false;
   }
+  get esAdministrador(){
+    return this.authSvc.tipoPerfilActual == Perfil.Administrador;
+  }
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }

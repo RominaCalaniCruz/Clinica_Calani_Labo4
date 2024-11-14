@@ -1,15 +1,4 @@
-<!-- <div *ngIf="!loading" class="animate-fadeInFromBottom grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-    <div *ngFor="let especialista of doctoresLista" 
-         (click)="seleccionarEspecialista(especialista)" 
-         class="relative group cursor-pointer rounded-lg overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-105">
-      <div class="w-full h-40 bg-cover bg-center" [style.backgroundImage]="'url(' + especialista.foto1 + ')'">
-      
-      </div>
-      <div class="absolute inset-0 flex items-end justify-center bg-black bg-opacity-50 group-hover:bg-opacity-75 transition-opacity duration-300">
-        <p class="text-white text-sm font-semibold p-2">{{ especialista.nombre }} {{ especialista.apellido }}</p>
-      </div>
-    </div>
-  </div> -->
+
 <div *ngIf="mostrarEspecialidades || mostrarHorasDisponibles || mostrarDiasDisponibles || mostrarPacientes"
   class="flex mt-1 sm:mt-3 w-full items-center justify-center flex-row  mx-auto">
   <button type="button" (click)="volver()"
@@ -30,9 +19,9 @@
     <div *ngIf="mostrarDoctores" class=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       <div *ngFor="let especialista of doctoresLista" (click)="seleccionarEspecialista(especialista)"
         class="relative group cursor-pointer w-32 h-32 sm:w-48 sm:h-48 bg-gray-200 overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-105">
-        <!-- Imagen cuadrada del especialista -->
+
         <img [src]="especialista.foto1" alt="Foto de {{especialista.nombre}}" class="object-cover w-full h-full">
-        <!-- Nombre del especialista que se muestra al hacer hover -->
+
         <div
           class="absolute inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300">
           <span>{{especialista.nombre}}</span>
@@ -43,20 +32,13 @@
       <div *ngFor="let especialidad of especialidadesXDoctor" (click)="seleccionarEspecialidad(especialidad)"
         class="group cursor-pointer w-9/12	 h-32 sm:w-96 sm:h-60 transform transition-all duration-200 hover:-translate-y-4 flex flex-col">
 
-        <!-- Nombre de la especialidad, ubicado justo arriba del contenedor de la imagen -->
         <div class="bg-primary text-secondary py-2 px-4 text-center font-semibold w-full">
           {{especialidad.nombre}}
         </div>
 
-        <!-- Contenedor de la imagen con efecto de hover y sombra -->
         <div class="relative bg-gray-200 overflow-hidden shadow-lg w-full h-full flex-grow">
           <img [src]="especialidad.foto ? especialidad.foto : fotoEspecialidad" alt="Foto de {{especialidad.nombre}}"
             class="object-cover w-full h-full">
-
-          <!-- Nombre de la especialidad que aparece en overlay al hacer hover -->
-          <!-- <div class="absolute inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span>{{especialidad.nombre}}</span>
-                </div> -->
         </div>
       </div>
     </div>
@@ -114,34 +96,13 @@
     <div *ngIf="esAdmin && mostrarPacientes" class=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       <div *ngFor="let paciente of pacientesLista" (click)="seleccionarPaciente(paciente)"
         class="relative group cursor-pointer w-32 h-32 sm:w-48 sm:h-48 bg-gray-200 overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-105">
-        <!-- Imagen cuadrada del especialista -->
         <img [src]="paciente.foto1" alt="Foto de {{paciente.nombre}}" class="object-cover w-full h-full">
-        <!-- Nombre del especialista que se muestra al hacer hover -->
         <div
           class="absolute inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300">
           <span>{{paciente.nombre}}</span>
         </div>
       </div>
     </div>
-
-    <!-- <div *ngIf="especialidadesXDoctor.length > 0 " class="flex justify-center flex-wrap gap-4">
-                  <div *ngFor="let especialidad of especialidadesXDoctor"
-                  class="group cursor-pointer w-40 h-28 sm:w-80 sm:h-44 transform transition-all duration-300 hover:-translate-y-2">
-             
-               <div class="bg-primary text-secondary py-2 px-4 text-center font-semibold">
-                 {{especialidad.nombre}}
-               </div>
-             
-               <div class="relative bg-gray-200 overflow-hidden shadow-lg w-full h-full">
-                 <img [src]="especialidad.foto ? especialidad.foto : fotoEspecialidad" alt="Foto de {{especialidad.nombre}}" 
-                      class="object-cover w-full h-full">
-                 <div class="absolute inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                   <span>{{especialidad.nombre}}</span>
-                 </div>
-               </div>
-             </div>
-             
-        </div> -->
   </div>
 
 

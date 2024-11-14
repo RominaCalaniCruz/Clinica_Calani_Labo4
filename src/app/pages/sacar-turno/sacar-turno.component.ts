@@ -58,14 +58,14 @@ export class SacarTurnoComponent implements OnInit {
     this.authSvc.userLog$.subscribe(async (res) => {
       if (res?.email) {
         this.usuarioInfo = (await this.fireSvc.obtenerUsuarioDatos(res.email)) as any;
-        console.log(this.usuarioInfo);
+        // console.log(this.usuarioInfo);
         this.esAdmin = this.usuarioInfo.perfil == Perfil.Administrador;
-        console.log(this.esAdmin);
+        // console.log(this.esAdmin);
 
         this.fireSvc.traerEspecialistas().subscribe((data) => {
 
           this.doctoresLista = data.filter(esp => esp.cuenta_habilitada);
-          console.log(this.doctoresLista);
+          // console.log(this.doctoresLista);
           this.spinnerSvc.hide();
           this.loading = false;
           this.mostrarDoctores = true;
@@ -75,14 +75,14 @@ export class SacarTurnoComponent implements OnInit {
           this.fireSvc.traerPacientes().subscribe((data) => {
 
             this.pacientesLista = data;
-            console.log(this.pacientesLista);
+            // console.log(this.pacientesLista);
 
           });
         }
 
         this.fireSvc.traerTurnos().subscribe((data) => {
           this.turnosLista = data;
-          console.log(this.turnosLista);
+          // console.log(this.turnosLista);
 
         });
 
@@ -96,7 +96,7 @@ export class SacarTurnoComponent implements OnInit {
 
   seleccionarEspecialista(especialista: Especialista) {
     this.doctorSeleccionado = especialista;
-    console.log('Especialista seleccionado:', especialista);
+    // console.log('Especialista seleccionado:', especialista);
     if (especialista && especialista.especialidades) {
       this.especialidadesXDoctor = especialista.especialidades;
       this.mostrarEspecialidades = true;
@@ -104,11 +104,11 @@ export class SacarTurnoComponent implements OnInit {
       this.toastM.success(`Seleccionaste a ${especialista.nombre} ${especialista.apellido}`);
     }
 
-    console.log('Especialidades del especialista:', this.especialidadesXDoctor);
+    // console.log('Especialidades del especialista:', this.especialidadesXDoctor);
   }
 
   async seleccionarEspecialidad(especialidad: Especialidad) {
-    console.log(especialidad);
+    // console.log(especialidad);
     this.especialidadSeleccionada = especialidad;
 
     if (this.esAdmin) {
@@ -125,7 +125,7 @@ export class SacarTurnoComponent implements OnInit {
       } else {
 
         this.diasAMostrar = this.generarDiasDisponibles(especialidad);
-        console.log(this.diasAMostrar);  
+        // console.log(this.diasAMostrar);  
         this.mostrarEspecialidades = false;
         this.mostrarDiasDisponibles = true;
       }
@@ -133,9 +133,9 @@ export class SacarTurnoComponent implements OnInit {
   }
   seleccionarHora(hora:any){
     this.horaSeleccionada = hora;
-    console.log(this.horaSeleccionada);
+    // console.log(this.horaSeleccionada);
     const horaConvertida = this.convertirADateTimestamp(this.diaSeleccionado,this.horaSeleccionada);
-        console.log(horaConvertida);
+        // console.log(horaConvertida);
         let htmlPaciente = "";
         if(this.pacienteSeleccionado == null){
           this.pacienteSeleccionado = this.usuarioInfo;
@@ -279,7 +279,7 @@ export class SacarTurnoComponent implements OnInit {
 
   obtenerHorarioPorDia(diaSemana: string, especialidad: Especialidad): HorarioAtencion | null {
     if (!especialidad.horariosAtencion) {
-      console.log("No hay horarios de atención disponibles.");
+      // console.log("No hay horarios de atención disponibles.");
       return null;
     }
     const horario = especialidad.horariosAtencion.find(h => {
@@ -287,7 +287,7 @@ export class SacarTurnoComponent implements OnInit {
       const habilitado = h.habilitado;
       return diaCoincide && habilitado;
     });
-    console.log("Horario encontrado:", horario);
+    // console.log("Horario encontrado:", horario);
     return horario || null;
   }
 
@@ -297,7 +297,7 @@ export class SacarTurnoComponent implements OnInit {
     this.diasAMostrar = this.generarDiasDisponibles(this.especialidadSeleccionada as Especialidad);
     this.mostrarPacientes = false;
     this.mostrarDiasDisponibles = true;
-    console.log(this.diasAMostrar);  
+    // console.log(this.diasAMostrar);  
   }
 
 
@@ -307,7 +307,7 @@ export class SacarTurnoComponent implements OnInit {
     const mes = parseInt(partesFecha[1], 10) - 1;  
     const dia = parseInt(partesFecha[2], 10);
     const fechaObj = new Date(Date.UTC(anio, mes, dia));    
-    const diasDeLaSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    const diasDeLaSemana = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
     const diaSemana = fechaObj.getUTCDay(); 
     return diasDeLaSemana[diaSemana];
   }
@@ -365,26 +365,26 @@ generarDiasDisponibles(especialidad: Especialidad) {
 
   seleccionarDia(dia: any) {
     this.diaSeleccionado = dia;
-    console.log(this.diaSeleccionado);
+    // console.log(this.diaSeleccionado);
     const diaConvertido = this.obtenerDiaSemana(this.diaSeleccionado);
-    console.log(diaConvertido);
-    console.log(this.especialidadSeleccionada);
+    // console.log(diaConvertido);
+    // console.log(this.especialidadSeleccionada);
     
     
         const horario = this.obtenerHorarioPorDia(diaConvertido, this.especialidadSeleccionada!);
         if(horario){
           const horaSinFiltro = this.generarHoras(horario?.rangoHorario.inicio, horario?.rangoHorario.fin, this.especialidadSeleccionada!.duracionTurno);
-          console.log(horaSinFiltro);
-          console.log(this.turnosLista);
-          console.log( this.especialidadSeleccionada!.nombre);
-          console.log(this.doctorSeleccionado!.id);
+          // console.log(horaSinFiltro);
+          // console.log(this.turnosLista);
+          // console.log( this.especialidadSeleccionada!.nombre);
+          // console.log(this.doctorSeleccionado!.id);
           
           
           
           this.horasAMostrarXDia = this.filtrarHorasOcupadas(horaSinFiltro,this.turnosLista,this.especialidadSeleccionada!.nombre,this.doctorSeleccionado!.id,this.diaSeleccionado);
           
           this.mostrarHorasDisponibles = true;
-          console.log(this.horasAMostrarXDia);
+          // console.log(this.horasAMostrarXDia);
           
         }
         

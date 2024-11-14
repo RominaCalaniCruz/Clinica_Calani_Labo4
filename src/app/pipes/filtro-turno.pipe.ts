@@ -7,33 +7,35 @@ import { Turno } from '../models/turno';
 })
 export class FiltroTurnoPipe implements PipeTransform {
 
-  transform(turnos: Turno[], searchText: string): Turno[] {
-    if (!turnos || !searchText) {
+  transform(turnos: Turno[], busquedaTexto: string): Turno[] {
+    if (!turnos || !busquedaTexto) {
       return turnos;
     }
 
-    searchText = searchText.toLowerCase();
+    busquedaTexto = busquedaTexto.toLowerCase();
 
     return turnos.filter(turno => {
       
-      const matchEspecialidad = turno.especialidad.nombre.toLowerCase().includes(searchText);
-      const matchEspecialistaNombre = turno.especialista.nombre.toLowerCase().includes(searchText);
-      const matchEspecialistaApellido = turno.especialista.apellido.toLowerCase().includes(searchText);
-      const matchComentario = turno.comentario?.toLowerCase().includes(searchText) || false;
-      const matchResenia = turno.resenia?.toLowerCase().includes(searchText) || false;
+      const matchEspecialidad = turno.especialidad.nombre.toLowerCase().includes(busquedaTexto);
+
+      const matchEspecialistaNombre = turno.especialista.nombre.toLowerCase().includes(busquedaTexto);
+      const matchEspecialistaApellido = turno.especialista.apellido.toLowerCase().includes(busquedaTexto);
+
+      const matchPacienteApellido = turno.paciente.apellido.toLowerCase().includes(busquedaTexto);
+      const matchPacienteNombre = turno.paciente.nombre.toLowerCase().includes(busquedaTexto);
 
       const matchHistoriaClinica = turno.historiaClinica && (
-        turno.historiaClinica.altura.toString().includes(searchText) ||
-        turno.historiaClinica.peso.toString().includes(searchText) ||
-        turno.historiaClinica.temperatura.toString().includes(searchText) ||
-        turno.historiaClinica.presion.toString().includes(searchText) ||
+        turno.historiaClinica.altura.toString().includes(busquedaTexto) ||
+        turno.historiaClinica.peso.toString().includes(busquedaTexto) ||
+        turno.historiaClinica.temperatura.toString().includes(busquedaTexto) ||
+        turno.historiaClinica.presion.toString().includes(busquedaTexto) ||
         turno.historiaClinica.datos_dinamicos.some(d => 
-          d.clave.toLowerCase().includes(searchText) || 
-          d.valor.toLowerCase().includes(searchText))
+          d.clave.toLowerCase().includes(busquedaTexto) || 
+          d.valor.toLowerCase().includes(busquedaTexto))
       );
 
       return matchEspecialidad || matchEspecialistaNombre || matchEspecialistaApellido ||
-             matchComentario || matchResenia || matchHistoriaClinica;
+           matchHistoriaClinica || matchPacienteNombre || matchPacienteApellido;
     });
   }
 

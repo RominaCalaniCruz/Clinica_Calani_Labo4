@@ -38,10 +38,20 @@ export interface Turno {
 }
 
 export enum EstadoTurno {
-    Libre = "Libre", 
     Pendiente = "Pendiente", 
     Aceptado = "Aceptado", 
     Rechazado = "Rechazado", 
     Cancelado = "Cancelado", 
     Finalizado = "Finalizado", 
+  }
+
+  export enum AccionesTurno {
+    Cancelar = "Cancelar", 
+    VerResenia = "Ver reseña",
+    Rechazar = "Rechazar", 
+    Aceptar = "Aceptar", 
+    Finalizar = "Finalizar", 
+    Encuesta = "Completar encuesta",
+    Calificar = "Calificar atención",
+    
   }

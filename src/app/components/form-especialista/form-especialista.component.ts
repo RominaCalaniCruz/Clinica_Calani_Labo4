@@ -75,8 +75,8 @@ nuevaOpcion = false;
 
         }
       }
-      console.log("resultado:");
-      console.log(this.opcionesSelec);
+      // console.log("resultado:");
+      // console.log(this.opcionesSelec);
       
       
       const formValues = this.especialistaForm.getRawValue();
@@ -104,7 +104,7 @@ nuevaOpcion = false;
         this.especialistaForm.reset();
 
       } catch (error) {
-        console.log("ERROR"+error);    
+        // console.log("ERROR"+error);    
         this.toastM.error(error as string,"ERROR");    
       }
       finally{
@@ -144,7 +144,7 @@ nuevaOpcion = false;
     this.opcionesSelec = this.especialidades.filter((x:Especialidad)=>especialidadesSeleccionadas.includes(x.nombre));
   // console.log(this.opcionesSelec);
   const areasXAgregar = this.opcionesSelec.filter(obj=>obj.id == "");
-console.log(areasXAgregar);
+// console.log(areasXAgregar);
 
   }
 

@@ -1,1 +1,94 @@
-<p>mis-turnos works!</p>
+<div class="pt-3 flex flex-col items-center justify-center w-full pb-5 mx-1 md:mx-auto">
+
+
+    <div class="relative w-full items-center justify-center md:w-5/6 overflow-x-auto sm:rounded-lg">
+        <div class="rounded-tl-lg rounded-tr-lg w-full py-4 overflow-hidden bg-tertiary shadow-lg px-12">
+            <div class="flex justify-between">
+                <div class="inline-flex w-7/12 px-2 lg:px-6 h-12 bg-transparent">
+                    <div class="flex flex-wrap items-stretch w-full h-full mb-6 relative">
+                        <div class="flex">
+                            <span class="flex items-center leading-normal bg-primary rounded rounded-r-none border border-r-0 border-none lg:px-3 py-2 whitespace-no-wrap text-grey-dark text-sm">
+                                <svg width="18" height="18" class="w-4 lg:w-auto" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8.11086 15.2217C12.0381 15.2217 15.2217 12.0381 15.2217 8.11086C15.2217 4.18364 12.0381 1 8.11086 1C4.18364 1 1 4.18364 1 8.11086C1 12.0381 4.18364 15.2217 8.11086 15.2217Z" stroke="#455A64" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M16.9993 16.9993L13.1328 13.1328" stroke="#455A64" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </span>
+                        </div>
+                        <input [(ngModel)]="filtroBusqueda" type="text" class="flex-shrink flex-grow flex-auto leading-normal tracking-wide w-px flex-1 border border-none border-l-0 rounded rounded-l-none px-3 relative focus:outline-none text-sm lg:text-sm lg:text-base text-black " placeholder="Buscar por especialidad, especialista o historia clinica">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+            <thead class=" w-full text-sm text-secondary uppercase bg-primary">
+                <tr>
+                    <th *ngIf="esPaciente || esAdmin" scope="col" class="px-6 py-3 ">
+                        Especialista
+                    </th>
+                    <th scope="col" class="px-6 py-3 ">
+                        Especialidad
+                    </th>
+                    <th *ngIf="esEspecialista || esAdmin" scope="col" class="px-6 py-3 ">
+                        Paciente
+                    </th>
+                    <th scope="col" class="px-6 py-3 ">
+                        Fecha del turno
+                    </th>
+                    <th scope="col" class="px-6 py-3 ">
+                        Estado
+                    </th>
+                    <th scope="col" class="px-6 py-3 ">
+                        Opciones
+                    </th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <tr *ngIf="!loading && turnosLista.length === 0">
+                    <td colspan="6" class="text-white bg-tertiary text-center text-2xl py-4">
+                        NO HAY TURNOS TODAVIA
+                    </td>
+                </tr>
+                <tr class="bg-neutral-100	  border-b hover:bg-gray-50 " *ngFor="let turno of turnosLista | filtroTurno : filtroBusqueda">
+
+                    <td *ngIf="esPaciente || esAdmin" class="px-6 py-4 font-bold tracking-wide">
+                        {{turno.especialista.nombre + " " + turno.especialista.apellido}}
+                    </td>
+                    <td class="px-6 py-4 font-bold tracking-wide">
+                        {{turno.especialidad.nombre}}
+                    </td>
+                    <td *ngIf="esEspecialista || esAdmin" class="px-6 py-4 font-bold tracking-wide">
+                        {{turno.paciente.nombre}} <br>
+                        {{turno.paciente.apellido}}
+                    </td>
+                    <td class="px-6 py-4 font-bold tracking-wide">
+                        {{turno.fecha_turno.toDate() | date: 'dd/MM/yyyy'}} <br>
+                        {{turno.fecha_turno.toDate() | date: 'HH:mm'}}
+                    </td>
+                    <td class="p-4 border-b ">
+                        <div class="w-max">
+                            <div class="relative border cursor-pointer grid items-center px-2 py-1 md:px-4 md:py-3 font-sans text-[13px] font-bold  uppercase rounded-md select-none whitespace-nowrap"
+                                [appEstadoTurno]="turno.estado" >
+                                <span class="">{{turno.estado}} </span>
+                            </div>
+                        </div>
+                    </td>
+                    <td  class="flex justify-evenly px-6 py-4 font-bold tracking-wide">
+                        <button *ngFor="let accionTexto of getAccionesPermitidas(turno)"  (click)="ejecutarAccion(turno, accionTexto)"
+                            class="relative hover:scale-[1.1] px-3 py-3 w-max h-max rounded overflow-hidden group bg-[#3fb4dd] hover:bg-gradient-to-r hover:from-[#3fb4dd] hover:to-[#3fb4dd] text-white hover:ring-2 hover:ring-offset-2 hover:ring-[#95cfe3] transition-all ease-out duration-300 text-sm font-semibold text-center whitespace-normal flex items-center justify-center">
+                            <span
+                                class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                            <span class="relative leading-4"> {{accionTexto}} </span>
+                        </button>
+                        
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<app-comentario *ngIf="dejarComentario" (guardar)="guardarComentario($event)"
+(seCancela)="cerrarModal()"></app-comentario>

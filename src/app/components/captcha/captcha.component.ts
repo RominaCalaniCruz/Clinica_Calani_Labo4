@@ -66,7 +66,7 @@ export class CaptchaComponent implements OnInit {
   }
   onInputChange(event: Event): void {
     this.userInput = (event.target as HTMLInputElement).value;
-    console.log('Texto ingresado:', this.userInput);
+    // console.log('Texto ingresado:', this.userInput);
   }
   traerImagenAleatoria() {
 
@@ -75,7 +75,7 @@ export class CaptchaComponent implements OnInit {
     }).then((res: any) => {
       if (res.type == "success") {
         this.imageRandomURL = res.response.urls.small;
-        console.log(this.imageRandomURL);
+        // console.log(this.imageRandomURL);
         this.loading = false;
       }
     });

@@ -28,18 +28,22 @@ module.exports = {
           '100%': { transform: 'translateY(100%)', opacity: '0' },
         },
         fadeOut: {
-          '0%': { opacity: '1' },
-          '100%': { opacity: '0' },
+          '0%': { opacity: '1', transform: 'scale(1)' },
+          '100%': { opacity: '0', transform: 'scale(0.9)' },
         },
         fadeInFromBottom: {
           '0%': { opacity: '0', transform: 'translateY(100%)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },fadeIn: {
+          '0%': { opacity: '0', transform: 'scale(0.9)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
         },
       },
       animation: {
         slideInUp: 'slideInUp 0.3s ease-out',
         slideOutDown: 'slideOutDown 0.3s ease-in',
         fadeOut: 'fadeOut 0.5s ease forwards',
+        fadeIn: 'fadeIn 0.3s ease-out',
         fadeInFromBottom: 'fadeInFromBottom 0.5s ease forwards',
       },
     },

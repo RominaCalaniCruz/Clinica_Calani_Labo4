@@ -11,7 +11,7 @@ import { Especialidad } from '../models/especialidad.model';
 import { LogsSistema } from '../models/logs-sistema';
 import { Especialista, Paciente, Perfil, Usuario } from '../models/usuario';
 import { map, Observable } from 'rxjs';
-import { Turno } from '../models/turno';
+import { EstadoTurno, Turno } from '../models/turno';
 export interface Message{
   email: string,
   nombre: string,
@@ -81,8 +81,6 @@ export class FirestoreService {
     const storage = getStorage();
     const filePath = `fotos_perfil/${imageName}`;
     const fileRef = ref(storage,filePath);
-    // const task = this.storage.upload(filePath, file);
-    // const url = getDownloadURL(fileRef);
     try {
       await uploadBytes(fileRef, file);
       return await getDownloadURL(fileRef);
@@ -95,8 +93,6 @@ export class FirestoreService {
     const storage = getStorage();
     const filePath = `fotos_especialidades/${imageName}`;
     const fileRef = ref(storage,filePath);
-    // const task = this.storage.upload(filePath, file);
-    // const url = getDownloadURL(fileRef);
     try {
       await uploadBytes(fileRef, file);
       return await getDownloadURL(fileRef);
@@ -105,6 +101,7 @@ export class FirestoreService {
       throw error; 
     }
   }
+
   async nuevaEsp(esp:Especialidad) {
     try {
       const docRef = await addDoc(collection(this.firestore, 'especialidades'), esp);
@@ -165,8 +162,6 @@ export class FirestoreService {
   cambiarEstado(estado: boolean, idUsuario : string){
     const coleccion = collection(this.firestore, 'usuarios');
     const documento = doc(coleccion,idUsuario);
-    //console.log(cliente.nombre);
-    //console.log(cliente.uid);
     return updateDoc(documento,{
       cuenta_habilitada: estado
     });
@@ -189,6 +184,16 @@ export class FirestoreService {
     });
   }
 
+  actualizarTurno(turno:Turno){
+    const coleccion = collection(this.firestore, 'turnos');
+    const documento = doc(coleccion,turno.id);
+
+    return updateDoc(documento,{
+      estado: turno.estado,
+      comentario: turno.comentario
+    });
+  }
+
   actualizarEspecialidadesUsuario(userId: string, especialidades: any[]): Promise<void> {
     const coleccion = collection(this.firestore, 'usuarios');
     const documento = doc(coleccion,userId);
@@ -196,22 +201,8 @@ export class FirestoreService {
     return updateDoc(documento,{ especialidades });
   }
 
-  async traerListass2(coleccion: string) {
-    const collectionRef = collection(this.firestore, coleccion);
-    const querySnapshot = await getDocs(query(collectionRef, orderBy('nombre', 'asc')));
-    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  }
 
 
-  async obtenerTurnosReservados(especialistaId: string, especialidadNombre: string) {
-    // Consultar turnos reservados para el especialista y especialidad en cuestión
-    const collectionRef = collection(this.firestore, "turnos");
-
-    const querySnapshot = await getDocs(
-      query(collectionRef, where('especialista.id', '==', especialistaId),where('especialidad.nombre', '==', especialidadNombre))
-    );
   
-    return querySnapshot.docs.map((doc:any) => doc.data() as Turno);
-  }
 
 }
