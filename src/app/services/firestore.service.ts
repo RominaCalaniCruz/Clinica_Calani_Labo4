@@ -194,6 +194,15 @@ export class FirestoreService {
     });
   }
 
+  guardarEncuestaTurno(turno:Turno){
+    const coleccion = collection(this.firestore, 'turnos');
+    const documento = doc(coleccion,turno.id);
+
+    return updateDoc(documento,{
+      encuesta: turno.encuesta
+    });
+  }
+
   actualizarEspecialidadesUsuario(userId: string, especialidades: any[]): Promise<void> {
     const coleccion = collection(this.firestore, 'usuarios');
     const documento = doc(coleccion,userId);

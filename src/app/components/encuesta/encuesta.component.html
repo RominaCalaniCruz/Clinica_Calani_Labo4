@@ -1,0 +1,68 @@
+<div
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300 ease-in-out">
+    <div
+        class="bg-white rounded-lg shadow-lg p-6 w-11/12 sm:w-96 max-w-lg relative transform transition-transform duration-300 ease-in-out scale-95 animate-fadeInFromBottom">
+        <h2 class="text-lg w-full text-center font-bold text-secondary mb-4">Encuesta referida al turno</h2>
+
+        <!-- <label class="block mb-2">Comentarios sobre la atención:</label>
+
+        <input type="text" [(ngModel)]="comentarios" placeholder="Comentario..."
+            class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" /> -->
+
+        <label class="block mb-2 text-center">Nivel de satisfacción:</label>
+        <div class="flex justify-center pace-x-2 mb-2">
+            <ng-container *ngFor="let estrella of [1, 2, 3, 4, 5]; let i = index">
+                <button (click)="calificar(i + 1)" [class.text-yellow-400]="i < nivelSatisfaccion"
+                    class="text-gray-300 mx-1 text-lg">
+                    <ng-icon name="jamStarF"></ng-icon>
+                </button>
+            </ng-container>
+        </div>
+
+        <label class="block mb-2 text-center">¿Recomendarias a este Especialista?</label>
+        <div class="flex flex-wrap justify-center">
+            <div class="flex items-center me-4">
+                <input [(ngModel)]="recomendarias" [value]="true" checked id="green-radio" type="radio" value=""
+                    name="recomendar-radio"
+                    class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="green-radio" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sí</label>
+            </div>
+            <div class="flex items-center me-4">
+                <input [(ngModel)]="recomendarias" [value]="false"  id="red-radio" type="radio" value=""
+                    name="recomendar-radio"
+                    class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="red-radio" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
+            </div>
+            
+        </div>
+
+        <label class="block mb-2 mt-2 text-center">¿Te atendieron puntual?</label>
+        <div class="flex flex-wrap mb-5 justify-center">
+            <div class="flex items-center me-4">
+                <input [(ngModel)]="atencionPuntual" [value]="true" checked id="orange-radio" type="radio" value=""
+                    name="puntual-radio"
+                    class="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="orange-radio" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Por
+                    supuesto</label>
+            </div>
+
+            <div class="flex items-center me-4">
+                <input [(ngModel)]="atencionPuntual" [value]="false" id="blue-radio" type="radio" value=""
+                    name="puntual-radio"
+                    class="w-4 h-4 text-yellow-400 bg-gray-100 border-gray-300 focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="blue-radio"
+                    class="ms-2 font-medium text-gray-900 dark:text-gray-300">Lamentablemente no</label>
+            </div>
+        </div>
+        <div class="flex justify-end space-x-2">
+            <button (click)="enviar()"
+                class="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-md transition duration-200 ease-in-out">
+                Enviar
+            </button>
+            <button (click)="cancelar()"
+                class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-md transition duration-200 ease-in-out">
+                Cancelar
+            </button>
+        </div>
+    </div>
+</div>

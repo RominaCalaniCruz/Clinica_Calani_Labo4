@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class ComentarioComponent {
   comentarioTexto: string = '';
+  @Input() titulo: string = 'Comentario sobre la cancelación';
+  // @Input() place: string = 'Comentario sobre la cancelación';
 
   @Output() guardar = new EventEmitter<string>();
   @Output() seCancela = new EventEmitter<void>();

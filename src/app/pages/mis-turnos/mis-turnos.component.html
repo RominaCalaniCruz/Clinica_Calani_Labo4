@@ -54,7 +54,7 @@
                     <td *ngIf="esPaciente || esAdmin" class="px-6 py-4 font-bold tracking-wide">
                         {{turno.especialista.nombre + " " + turno.especialista.apellido}}
                     </td>
-                    <td class="px-6 py-4 font-bold tracking-wide">
+                    <td class="px-3 py-2 font-bold tracking-wide">
                         {{turno.especialidad.nombre}}
                     </td>
                     <td *ngIf="esEspecialista || esAdmin" class="px-6 py-4 font-bold tracking-wide">
@@ -90,5 +90,10 @@
 </div>
 
 
-<app-comentario *ngIf="dejarComentario" (guardar)="guardarComentario($event)"
+<app-comentario [titulo]="tituloComp" *ngIf="dejarComentario" (guardar)="guardarComentario($event)"
 (seCancela)="cerrarModal()"></app-comentario>
+
+
+<app-encuesta  *ngIf="completarEncuesta" (guardar)="guardarEncuesta($event)" (seCancela)="cerrarModal()">
+
+</app-encuesta>

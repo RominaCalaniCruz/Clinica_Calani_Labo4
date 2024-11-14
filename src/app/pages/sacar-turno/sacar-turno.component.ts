@@ -68,8 +68,7 @@ export class SacarTurnoComponent implements OnInit {
             // console.log(this.doctoresLista);
             this.spinnerSvc.hide();
             this.loading = false;
-            this.mostrarDoctores = true;
-            
+            this.mostrarDoctores = true;            
           });
   
           if (this.esAdmin) {
@@ -154,7 +153,6 @@ export class SacarTurnoComponent implements OnInit {
         }
         Swal.fire({
           title: "<strong>Quieres confirmar el turno?</strong>",
-          text: `Fecha: ${this.diaSeleccionado} \nHora:${this.horaSeleccionada}\nEspecialidad: ${this.especialidadSeleccionada?.nombre} \nEspecialista:${this.doctorSeleccionado?.nombre}`,
           icon: "warning",
           html: `
        <div style="background-color: rgba(0, 255, 0, 0.1); padding: 20px; border-radius: 8px;">
@@ -214,7 +212,8 @@ export class SacarTurnoComponent implements OnInit {
                 apellido: this.pacienteSeleccionado!.apellido,
                 nombre:this.pacienteSeleccionado!.nombre
               },
-              resenia: ""
+              resenia: "",
+              encuesta: null
             }
             await this.fireSvc.nuevoTurno(nuevoTurno);
             this.spinnerSvc.hide();

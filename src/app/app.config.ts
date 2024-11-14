@@ -10,7 +10,10 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { provideHttpClient } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
 import { provideStorage,getStorage } from '@angular/fire/storage';
+import localeEsAR from '@angular/common/locales/es-AR'; // Importa los datos de localización en español (Argentina)
+import {registerLocaleData } from '@angular/common';
 
+registerLocaleData(localeEsAR);
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
