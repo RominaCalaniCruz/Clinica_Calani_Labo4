@@ -1,1 +1,128 @@
-<p>pacientes works!</p>
+<!-- <div class="flex flex-wrap gap-4">
+    <ng-container *ngFor="let paciente of pacientesUnicos">
+      <button class="flex flex-col items-center bg-gray-200 p-2 rounded-full hover:bg-gray-300 focus:outline-none">
+        <img 
+          [src]="paciente.foto" 
+          [alt]="paciente.nombre" 
+          class="w-26 h-26 object-cover rounded-full border border-gray-300">
+        <span class="text-sm mt-2 text-center">{{ paciente.nombre }}</span>
+      </button>
+    </ng-container>
+  </div> -->
+
+  <div class="pagina flex flex-col justify-center mx-auto items-center">
+
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div *ngFor="let paciente of pacientesUnicos"
+    (click)="mostrarTurnosPaciente(paciente)"
+      class="relative rounded-full group cursor-pointer w-32 h-32 sm:w-56 sm:h-56 bg-gray-200 overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-105">
+
+      <img [src]="paciente.foto" alt="Foto de {{paciente.nombre}}" class="object-cover w-full h-full">
+
+      <div
+        class="absolute inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300">
+        <span>{{paciente.nombre}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="verTurnos"  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300 ease-in-out">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 sm:w-96 max-w-lg relative transform transition-transform duration-300 ease-in-out scale-95 animate-fadeInFromBottom">
+    
+    <h2 class="text-lg font-semibold mb-4">Últimos turnos de {{ pacienteSeleccionado?.nombre }}</h2>
+    <div *ngIf="turnosPacienteSeleccionado.length > 0; else sinTurnos" class="space-y-4">
+      <div *ngFor="let turno of turnosPacienteSeleccionado" class="border p-4 rounded-lg bg-gray-50">
+        <p><strong>Fecha:</strong> {{ turno.fecha_turno.toDate() | date: 'short' }}</p>
+        <p><strong>Especialista:</strong> {{ turno.especialista.nombre }} {{ turno.especialista.apellido }}</p>
+        <p><strong>Especialidad:</strong> {{ turno.especialidad.nombre }} </p>
+        <p><strong>Estado del Turno:</strong> {{ turno.estado }}</p>
+        <div class="flex justify-end gap-4 mt-2">
+          <button (click)="verResenia(turno)" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 focus:outline-none">
+            Ver reseña
+          </button>
+          <button (click)="verHistoriaClinica(turno)" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 focus:outline-none">
+            Ver historia clínica
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-template #sinTurnos>
+      <p class="text-gray-500">No hay turnos disponibles para este paciente.</p>
+    </ng-template>
+    <div class="mt-6 flex justify-end">
+      <button
+        class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none"
+        (click)="cerrar()"
+      >
+        Cerrar
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+<div *ngIf="verHistoria" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300 ease-in-out">
+    <div class="bg-white max-h-[70vh] overflow-y-auto rounded-lg shadow-lg p-6 w-11/12 sm:w-[80vw] max-w-lg relative transform transition-transform duration-300 ease-in-out scale-95 animate-fadeInFromBottom">
+
+    <h2 class="text-xl font-bold text-gray-800 mb-6">
+      Historia clínica de: 
+      <span class="text-secondary">
+        {{ turnoSeleccionado?.paciente?.nombre }} {{ turnoSeleccionado?.paciente?.apellido }}
+      </span>
+    </h2>
+  
+      <div class="border-b border-secondary py-4">
+
+        <h3 *ngIf="turnoSeleccionado?.historiaClinica" class="text-lg text-center px-3 py-2 bg-primary  font-semibold text-secondary">
+          Fecha: 
+          <span class="text-gray-900">
+            {{ turnoSeleccionado.fecha_turno.toDate() | date:'dd/MM/yyyy - HH:mm' }}
+          </span> |
+          Especialista: 
+          <span class="text-gray-900">
+            {{ turnoSeleccionado?.especialista?.nombre }} {{ turnoSeleccionado?.especialista?.apellido }}
+          </span>
+        </h3>
+  
+        <div *ngIf="turnoSeleccionado?.historiaClinica" class="mt-4 grid grid-cols-2 gap-4">
+          <p class="text-sm text-gray-600">
+            <span class="font-medium">Altura:</span> {{ turnoSeleccionado?.historiaClinica?.altura }} cm
+          </p>
+          <p class="text-sm text-gray-600">
+            <span class="font-medium">Peso:</span> {{ turnoSeleccionado?.historiaClinica?.peso }} kg
+          </p>
+          <p class="text-sm text-gray-600">
+            <span class="font-medium">Temperatura:</span> {{ turnoSeleccionado?.historiaClinica?.temperatura }} °C
+          </p>
+          <p class="text-sm text-gray-600">
+            <span class="font-medium">Presión:</span> {{ turnoSeleccionado?.historiaClinica?.presion }} mmHg
+          </p>
+  
+          <div *ngIf="turnoSeleccionado.historiaClinica?.datos_dinamicos" class="col-span-2 mt-2">
+            <h4 class="text-sm font-semibold text-gray-800">Datos adicionales:</h4>
+            <ul class="list-disc list-inside text-sm text-gray-600 mt-1">
+              <li *ngFor="let dato of turnoSeleccionado?.historiaClinica?.datos_dinamicos">
+                <span class="font-medium">{{ dato.clave }}:</span> {{ dato.valor }}
+              </li>
+            </ul>
+          </div>
+        </div>
+  
+        <ng-template #noHistoriaClinica>
+          <p class="text-sm text-gray-500 mt-4">
+            Este turno no tiene historia clínica registrada.
+          </p>
+        </ng-template>
+      </div>
+      <div class="mt-6 flex justify-end">
+        <button
+          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none"
+          (click)="cerrar()"
+        >
+          Cerrar
+        </button>
+      </div>
+</div>
+</div>

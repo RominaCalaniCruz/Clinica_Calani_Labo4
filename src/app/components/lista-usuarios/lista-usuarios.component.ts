@@ -15,13 +15,16 @@ import { FormAdminComponent } from '../form-admin/form-admin.component';
 import { Perfil } from '../../models/usuario';
 import { FormEspecialistaComponent } from '../form-especialista/form-especialista.component';
 import { FormPacienteComponent } from '../form-paciente/form-paciente.component';
+import * as ExcelJS from 'exceljs';
+import { tablerFileTypeCsv, tablerFileTypeXls } from '@ng-icons/tabler-icons';
+import { DescargarInfoDirective } from '../../directives/descargar-info.directive';
 
 
 @Component({
   selector: 'app-lista-usuarios',
   standalone: true,
-  imports: [CommonModule, NgxSpinnerComponent, NgxSpinnerModule, HabilitadoPipe, ColorEstadoDirective, NgIconComponent,ColorPerfilDirective,FormAdminComponent,FormEspecialistaComponent,FormPacienteComponent],
-  providers: provideIcons({ matAddBoxRound }),
+  imports: [CommonModule, DescargarInfoDirective, NgxSpinnerComponent, NgxSpinnerModule, HabilitadoPipe, ColorEstadoDirective, NgIconComponent,ColorPerfilDirective,FormAdminComponent,FormEspecialistaComponent,FormPacienteComponent],
+  providers: provideIcons({ matAddBoxRound,tablerFileTypeCsv,tablerFileTypeXls }),
   templateUrl: './lista-usuarios.component.html',
   styleUrl: './lista-usuarios.component.scss'
 })
@@ -98,5 +101,62 @@ export class ListaUsuariosComponent implements OnInit {
     } else {
       this.listaFiltrada = this.listaUsuarios;
     }
+  }
+
+  async descargarExcel(){
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Usuarios');
+    worksheet.columns = [
+      { header: 'Correo electronico', key: 'email', width: 25 },
+      { header: 'Nombre', key: 'nombre', width: 15 },
+      { header: 'Apellido', key: 'apellido', width: 15 },
+      { header: 'Edad', key: 'edad', width: 10 },
+      { header: 'DNI', key: 'dni', width: 15 },
+      { header: 'Perfil', key: 'perfil', width: 15 },
+      { header: 'URL Foto n1', key: 'foto1', width: 15},
+      { header: 'URL Foto n2', key: 'foto2', width: 15},
+      { header: 'Obra Social', key: 'obraSocial', width: 20 },
+      { header: 'Cuenta habilitada', key: 'cuentaHabilitada', width: 20 },
+
+    ];
+
+    this.listaUsuarios.forEach((usuario:any) => {
+      worksheet.addRow({
+        email: usuario.email,
+        nombre: usuario.nombre,
+        apellido: usuario.apellido,
+        edad: usuario.edad,
+        dni: usuario.dni,
+        perfil: usuario.perfil,
+        foto1: usuario.foto1,
+        foto2: usuario.foto2,
+        obraSocial: usuario.obraSocial || '-',
+        cuentaHabilitada: usuario.cuenta_habilitada || '-'
+      });
+    });
+    worksheet.getRow(1).eachCell((cell) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '006680' },
+      };
+      cell.font = {
+        color: { argb: 'FFFFFFFF' },
+      };
+      cell.alignment = {
+        vertical: 'middle',
+        horizontal: 'center',
+      };
+    });
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = 'usuarios_datos.xlsx';
+    anchor.click();
+    window.URL.revokeObjectURL(url);
+  
+      
   }
 }

@@ -102,6 +102,22 @@
             <ng-icon name="matSettingsApplications " class="me-2"></ng-icon>
             Usuarios</a>
         </li>
+        <li *ngIf="estaLogueado && authSvc.tipoPerfilActual == 'Administrador'">
+          <a [ngClass]="{'active-route': isActiveRoute('/informes')}" (click)="toggleSubmenu()"  id="mega-menu-button"
+            class="flex items-center block py-2 px-3 cursor-pointer transition-all text-white  hover:bg-gray-100  font-semibold  md:hover:text-secondary md:hover:bg-primary md:py-2">
+            <ng-icon name="tablerFileAnalytics " class="me-2"></ng-icon>
+            Informes</a>
+            <div *ngIf="isSubmenuOpen" id="mega-menu-dropdown" class="absolute z-10 w-48 bg-white shadow-lg rounded-md mt-2 z-50">
+              <ul class="space-y-2 p-2">
+                <li (click)="goToInforme(1)" ><a [ngClass]="{'active-sub-route': isActiveRoute('/informes/1')}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Logs</a></li>
+                <li  (click)="goToInforme(2)"><a [ngClass]="{'active-sub-route': isActiveRoute('/informes/2')}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Turnos por Especialidad</a></li>
+                <li  (click)="goToInforme(3)"><a [ngClass]="{'active-sub-route': isActiveRoute('/informes/3')}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Turnos por día</a></li>
+                <li  (click)="goToInforme(4)"><a [ngClass]="{'active-sub-route': isActiveRoute('/informes/4')}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Turnos por Especialista</a></li>
+                <li (click)="goToInforme(5)"><a [ngClass]="{'active-sub-route': isActiveRoute('/informes/5')}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Turnos Finalizados por Especialista</a></li>
+              </ul>
+            </div>
+            
+        </li>
       </ul>
     </div>
   </div>

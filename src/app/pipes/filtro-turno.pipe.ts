@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Turno } from '../models/turno';
+import { HistoriaClinica } from '../models/historia-clinica.model';
 
 @Pipe({
   name: 'filtroTurno',
@@ -23,20 +24,28 @@ export class FiltroTurnoPipe implements PipeTransform {
 
       const matchPacienteApellido = turno.paciente.apellido.toLowerCase().includes(busquedaTexto);
       const matchPacienteNombre = turno.paciente.nombre.toLowerCase().includes(busquedaTexto);
+      const matchHistoriaClinica = this.matchHistoriaClinica(turno.historiaClinica, busquedaTexto);
+      
 
-      const matchHistoriaClinica = turno.historiaClinica && (
-        turno.historiaClinica.altura.toString().includes(busquedaTexto) ||
-        turno.historiaClinica.peso.toString().includes(busquedaTexto) ||
-        turno.historiaClinica.temperatura.toString().includes(busquedaTexto) ||
-        turno.historiaClinica.presion.toString().includes(busquedaTexto) ||
-        turno.historiaClinica.datos_dinamicos.some(d => 
-          d.clave.toLowerCase().includes(busquedaTexto) || 
-          d.valor.toLowerCase().includes(busquedaTexto))
-      );
 
       return matchEspecialidad || matchEspecialistaNombre || matchEspecialistaApellido ||
            matchHistoriaClinica || matchPacienteNombre || matchPacienteApellido;
     });
   }
 
+  matchHistoriaClinica(historiaClinica: HistoriaClinica | null, busquedaTexto: string): boolean {
+    if (!historiaClinica) return false;
+  
+    return (
+      historiaClinica.altura.toString().includes(busquedaTexto) ||
+      historiaClinica.peso.toString().includes(busquedaTexto) ||
+      historiaClinica.temperatura.toString().includes(busquedaTexto) ||
+      historiaClinica.presion.toString().includes(busquedaTexto) ||
+      historiaClinica.datos_dinamicos.some(d =>
+
+        d.clave.toString().toLowerCase().includes(busquedaTexto) || 
+        d.valor.toString().toLowerCase().includes(busquedaTexto)
+      )
+    );
+  }
 }

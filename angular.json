@@ -34,9 +34,11 @@
             "styles": [
               "src/styles.scss",
               "node_modules/ngx-toastr/toastr.css",
-              "node_modules/ngx-spinner/animations/ball-clip-rotate-multiple.css"
+              "node_modules/ngx-spinner/animations/ball-clip-rotate-multiple.css",
+               "node_modules/simple-datatables/src/css/style.css"
             ],
-            "scripts": []
+            "scripts": [
+]
           },
           "configurations": {
             "production": {
@@ -95,7 +97,8 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [ "node_modules/jquery/dist/jquery.min.js",
+            "node_modules/datatables.net/js/jquery.dataTables.min.js"]
           }
         }
       }

@@ -29,6 +29,8 @@ export class EncuestaComponent {
       satisfaccion: this.nivelSatisfaccion,
        recomendar: this.recomendarias
     }
+    console.log(this.encuesta);
+    
     this.guardar.emit(this.encuesta);
   }
 

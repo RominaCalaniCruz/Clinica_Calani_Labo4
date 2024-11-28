@@ -54,7 +54,7 @@
                     <td *ngIf="esPaciente || esAdmin" class="px-6 py-4 font-bold tracking-wide">
                         {{turno.especialista.nombre + " " + turno.especialista.apellido}}
                     </td>
-                    <td class="px-3 py-2 font-bold tracking-wide">
+                    <td class="px-6 py-4 font-bold tracking-wide">
                         {{turno.especialidad.nombre}}
                     </td>
                     <td *ngIf="esEspecialista || esAdmin" class="px-6 py-4 font-bold tracking-wide">
@@ -73,7 +73,7 @@
                             </div>
                         </div>
                     </td>
-                    <td  class="flex justify-evenly px-6 py-4 font-bold tracking-wide">
+                    <td  class="flex justify-evenly px-3 py-4 font-bold tracking-wide">
                         <button *ngFor="let accionTexto of getAccionesPermitidas(turno)"  (click)="ejecutarAccion(turno, accionTexto)"
                             class="relative hover:scale-[1.1] px-3 py-3 w-max h-max rounded overflow-hidden group bg-[#3fb4dd] hover:bg-gradient-to-r hover:from-[#3fb4dd] hover:to-[#3fb4dd] text-white hover:ring-2 hover:ring-offset-2 hover:ring-[#95cfe3] transition-all ease-out duration-300 text-sm font-semibold text-center whitespace-normal flex items-center justify-center">
                             <span
@@ -97,3 +97,7 @@
 <app-encuesta  *ngIf="completarEncuesta" (guardar)="guardarEncuesta($event)" (seCancela)="cerrarModal()">
 
 </app-encuesta>
+
+<app-historia-clinica *ngIf="llenarHistoria" (guardar)="guardarHistoriaClinica($event)" (seCancela)="cerrarModal()" >
+
+</app-historia-clinica>

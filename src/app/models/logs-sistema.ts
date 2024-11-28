@@ -2,6 +2,8 @@ import { Timestamp } from "firebase/firestore";
 
 export interface LogsSistema {
     fecha: Timestamp;
-    usuario_email: string; 
-    
+    correo: string; 
+    nombre_completo: string;
+    perfil: string;
+    foto: string;
 }

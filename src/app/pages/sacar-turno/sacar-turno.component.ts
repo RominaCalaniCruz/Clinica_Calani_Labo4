@@ -141,10 +141,7 @@ export class SacarTurnoComponent implements OnInit {
         let htmlPaciente = "";
         if(this.pacienteSeleccionado == null){
           this.pacienteSeleccionado = this.usuarioInfo;
-          htmlPaciente = `<tr>
-          <td style="padding: 8px; border: 1px solid #bee8f4; font-weight: bold; background-color: #f4fdf4;">Paciente:</td>
-          <td style="padding: 8px; border: 1px solid #bee8f4; background-color: #f4fdf4;">${this.pacienteSeleccionado?.nombre} ${this.pacienteSeleccionado?.apellido} (Tú)</td>
-          </tr>`
+          
         }else{
           htmlPaciente = `<tr>
           <td style="padding: 8px; border: 1px solid #bee8f4; font-weight: bold; background-color: #f4fdf4;">Paciente:</td>
@@ -210,7 +207,8 @@ export class SacarTurnoComponent implements OnInit {
               paciente: {
                 id: this.pacienteSeleccionado!.id,
                 apellido: this.pacienteSeleccionado!.apellido,
-                nombre:this.pacienteSeleccionado!.nombre
+                nombre:this.pacienteSeleccionado!.nombre,
+                foto: this.pacienteSeleccionado!.foto1
               },
               resenia: "",
               encuesta: null

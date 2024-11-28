@@ -19,6 +19,8 @@ import moment from 'moment';
 import { env } from '../../../environmentConfig';
 import { EdadPipe } from '../../pipes/edad.pipe';
 import { DniPipe } from '../../pipes/dni.pipe';
+import { Perfil } from '../../models/usuario';
+import { HistoriaClinicaTurnosComponent } from '../historia-clinica-turnos/historia-clinica-turnos.component';
 
 interface RangoHorario {
   rangoHorario: [number, number];
@@ -33,7 +35,7 @@ type HorariosPorDia = { [dia: string]: RangoHorario[] };
   imports: [
     CommonModule,
     HorarioSeleccionadoDirective,    
-    FormsModule, EdadPipe, DniPipe
+    FormsModule, EdadPipe, DniPipe, HistoriaClinicaTurnosComponent
   ],
   templateUrl: './mi-perfil.component.html',
   styleUrl: './mi-perfil.component.scss',
@@ -46,11 +48,12 @@ export class MiPerfilComponent implements OnInit {
   diaSelec = ' ';
   spinnerSvc = inject(NgxSpinnerService);
   @ViewChild('diasSelect') mySelect!: ElementRef<HTMLSelectElement>;
-
+  verHistoriaClinica=false;
   usuarioInfo?: any;
   loading = true;
   especialidades!: Array<any>;
   activeTab!: string;
+  turnosLista : any[] = [];
   horaNuevaInicio: number = env.horaInicio;
   horaNuevaFin: number = env.horaCierre;
   diasLista = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
@@ -59,6 +62,7 @@ export class MiPerfilComponent implements OnInit {
   selectedDays: { [key: string]: string } = {};
   opcionesDias: any;
   horariosXDias: HorariosPorDia = {};
+  esPaciente = false;
   constructor(private cdRef: ChangeDetectorRef) {
   }
 
@@ -71,10 +75,11 @@ export class MiPerfilComponent implements OnInit {
           this.usuarioInfo = res;
           this.spinnerSvc.hide();
           this.loading = false;
+          this.esPaciente = this.usuarioInfo.perfil === Perfil.Paciente;
+
         });
         if (this.usuarioInfo?.especialidades) {
           this.especialidades = this.usuarioInfo.especialidades;
-
           this.especialidades.forEach((especialidad: Especialidad) => {
             const diasOcupados = especialidad.horariosAtencion
               ? especialidad.horariosAtencion.map((horario) => horario.dia)
@@ -104,6 +109,10 @@ export class MiPerfilComponent implements OnInit {
       
     });
   }
+  mostrarHistoria(){
+    this.verHistoriaClinica = true;
+  }
+  
   hayDiasDisponibles(espId: string): boolean {
     return Object.keys(this.diasDisponiblesPorEspecialidad[espId]).length != 0;
   }
@@ -509,5 +518,10 @@ export class MiPerfilComponent implements OnInit {
 
   showTab(tabId: string) {
     this.activeTab = tabId;
+  }
+
+  async verHistorialClinico(){
+    this.turnosLista = await this.fireSvc.traerTurnosxIdPaciente(this.usuarioInfo?.id)
+    
   }
 }

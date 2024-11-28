@@ -30,7 +30,7 @@ export class AuthService {
     const personaLogueada = await this.fireSvc.obtenerUsuarioDatos(email) as any;
 
     return signInWithEmailAndPassword(auth, email, pass)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user;
         let mensaje = '';
         if (!user.emailVerified && personaLogueada.perfil != Perfil.Administrador) {
@@ -46,8 +46,11 @@ export class AuthService {
           return;
         }
         // console.log(user.email);
+        const datosUser = await this.fireSvc.obtenerUsuarioDatos(email) as any;
+        console.log(datosUser);
+        
         this.toastM.info(`Hola, ${(user.displayName) ? user.displayName : user.email}`, 'Bienvenido');
-        this.fireSvc.guardarLog(email);
+        this.fireSvc.guardarLog(datosUser);
         this.router.navigate(['mi-perfil']);
         return user;
       }).catch((error) => {

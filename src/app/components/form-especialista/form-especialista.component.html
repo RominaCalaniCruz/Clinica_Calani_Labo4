@@ -200,7 +200,7 @@
       <div class="flex w-full justify-center">
       <button type="submit"
         class="w-full md:w-2/5 tracking-wide text-center justify-center mt-0 text-white font-bold py-2 px-4 bg-gradient-to-r from-[#3CB0E1] via-[#3CB0E1] to-[#6078EA] hover:bg-gradient-to-br"
-        [disabled]="especialistaForm.invalid" (click)="crearEspecialista()" [appCursor]="especialistaForm.invalid">
+        [disabled]="especialistaForm.invalid || !captchaResp" (click)="crearEspecialista()" [appCursor]="especialistaForm.invalid || !captchaResp">
         Crear Cuenta
       </button>
       </div>

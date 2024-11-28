@@ -34,15 +34,27 @@ export class FirestoreService {
     return addDoc(col, objeto);
   }
 
-  guardarLog(email: string) {
+  guardarLog(user: any) {
     const currentDate = Timestamp.fromDate(new Date());
     const log : LogsSistema = {
-      usuario_email: email,
+      correo: user.email,
+      foto: user.foto1,
+      nombre_completo: user.nombre + " " + user.apellido,
+      perfil: user.perfil,
       fecha: currentDate
     };
     this.guardarDato('logs_sistema', log);
   }
-
+  async loadLogo(){
+    // Ruta de tu logo en Firebase Storage
+    let logo = "";
+    const logoPath = 'logo.png';
+    const logoRef = ref(getStorage(), logoPath);
+    logo = await getDownloadURL(logoRef);
+    console.log(logo);
+    
+    return await getDownloadURL(logoRef);
+  }
   traerLista(coleccionNombre:string){
     let col = collection(this.firestore, coleccionNombre);
     return collectionData(col);
@@ -69,6 +81,12 @@ export class FirestoreService {
     let col = collection(this.firestore, 'turnos');
     // const consulta = query(col, orderBy('nombre', 'asc'));
     return collectionData(query(col, orderBy('fecha_turno','desc')));
+  }
+  
+  traerLogs():Observable<any[]>{
+    let col = collection(this.firestore, 'logs_sistema');
+    // const consulta = query(col, orderBy('nombre', 'asc'));
+    return collectionData(query(col, orderBy('fecha','desc')));
   }
   
   async traerListass(coleccion: string) {
@@ -203,6 +221,17 @@ export class FirestoreService {
     });
   }
 
+  guardarHistoriaClinica(turno:Turno){
+    const coleccion = collection(this.firestore, 'turnos');
+    const documento = doc(coleccion,turno.id);
+
+    return updateDoc(documento,{
+      historiaClinica: turno.historiaClinica,
+      estado: EstadoTurno.Finalizado,
+      resenia: turno.resenia
+    });
+  }
+
   actualizarEspecialidadesUsuario(userId: string, especialidades: any[]): Promise<void> {
     const coleccion = collection(this.firestore, 'usuarios');
     const documento = doc(coleccion,userId);
@@ -210,8 +239,27 @@ export class FirestoreService {
     return updateDoc(documento,{ especialidades });
   }
 
+  traerTurnosxIdPaciente2(id: string):Observable<any[]>{
+    let col = collection(this.firestore, 'turnos');
+    // const consulta = query(col, orderBy('nombre', 'asc'));
+    return collectionData(query(col, where('paciente.id','==',id))) as Observable<any[]>;
+  }
 
 
-  
+
+  async traerTurnosxIdPaciente(id: string) {
+    let col = collection(this.firestore, 'turnos');
+    // const consulta = query(col, where('paciente.id', '==', id));
+
+    const querySnapshot = await getDocs(query(col, where('paciente.id', '==', id)));
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  }
+  async traerTurnosxIdEspecialista(id: string) {
+    let col = collection(this.firestore, 'turnos');
+    // const consulta = query(col, where('paciente.id', '==', id));
+
+    const querySnapshot = await getDocs(query(col, where('especialista.id', '==', id)));
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  }
 
 }

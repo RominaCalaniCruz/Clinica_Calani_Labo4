@@ -1,0 +1,77 @@
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300 ease-in-out">
+    <div class="bg-white max-h-[70vh] overflow-y-auto rounded-lg shadow-lg p-6 w-11/12 sm:w-[80vw] max-w-lg relative transform transition-transform duration-300 ease-in-out scale-95 animate-fadeInFromBottom">
+<div class="flex flex-row justify-center">
+    <h2 class="text-xl font-bold text-gray-800 mb-6">
+      Historia clínica de: 
+      <span class="text-secondary">
+        {{ turnosFiltrados[0]?.paciente?.nombre }} {{ turnosFiltrados[0]?.paciente?.apellido }}
+      </span>
+    </h2>
+    <button id="download-btn" type="button"  (click)="descargarPDF()"
+  class="text-white mx-3 bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm md:text-lg px-5 py-2.5 text-center">
+  <p class="cursor-pointer">Descargar PDF</p>
+</button>
+
+</div>
+    <div  #historiaClinica id="historiaClinica" *ngIf="turnosFiltrados.length > 0; else noTurnos">
+      <div *ngFor="let turno of turnosFiltrados" class="border-b border-secondary py-4">
+
+        <h3 *ngIf="turno?.historiaClinica" class="text-lg text-center px-3 py-2 bg-primary  font-semibold text-secondary">
+          Fecha: 
+          <span class="text-gray-900">
+            {{ turno.fecha_turno.toDate() | date:'dd/MM/yyyy - HH:mm' }}
+          </span> |
+          Especialista: 
+          <span class="text-gray-900">
+            {{ turno?.especialista?.nombre }} {{ turno?.especialista?.apellido }}
+          </span>
+        </h3>
+  
+        <div *ngIf="turno?.historiaClinica" class="mt-4 grid grid-cols-2 gap-4">
+          <p class="text-sm text-gray-600">
+            <span class="font-medium">Altura:</span> {{ turno?.historiaClinica?.altura }} cm
+          </p>
+          <p class="text-sm text-gray-600">
+            <span class="font-medium">Peso:</span> {{ turno?.historiaClinica?.peso }} kg
+          </p>
+          <p class="text-sm text-gray-600">
+            <span class="font-medium">Temperatura:</span> {{ turno?.historiaClinica?.temperatura }} °C
+          </p>
+          <p class="text-sm text-gray-600">
+            <span class="font-medium">Presión:</span> {{ turno?.historiaClinica?.presion }} mmHg
+          </p>
+  
+          <div *ngIf="turno.historiaClinica?.datos_dinamicos" class="col-span-2 mt-2">
+            <h4 class="text-sm font-semibold text-gray-800">Datos adicionales:</h4>
+            <ul class="list-disc list-inside text-sm text-gray-600 mt-1">
+              <li *ngFor="let dato of turno?.historiaClinica?.datos_dinamicos">
+                <span class="font-medium">{{ dato.clave }}:</span> {{ dato.valor }}
+              </li>
+            </ul>
+          </div>
+        </div>
+  
+        <ng-template #noHistoriaClinica>
+          <p class="text-sm text-gray-500 mt-4">
+            Este turno no tiene historia clínica registrada.
+          </p>
+        </ng-template>
+      </div>
+    </div>
+    <div class="mt-6 flex justify-end">
+        <button
+          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none"
+          (click)="cerrar()"
+        >
+          Cerrar
+        </button>
+      </div>
+</div>
+</div>
+
+    <ng-template #noTurnos>
+      <p class="text-gray-500 text-center mt-6">
+        No se encontraron turnos para este paciente.
+      </p>
+    </ng-template>
+    

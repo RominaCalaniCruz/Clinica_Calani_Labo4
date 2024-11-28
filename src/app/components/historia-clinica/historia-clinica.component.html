@@ -1,0 +1,149 @@
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300 ease-in-out">
+    <div class="bg-white max-h-[70vh] overflow-y-auto rounded-lg shadow-lg p-6 w-11/12 sm:w-[80vw] max-w-lg relative transform transition-transform duration-300 ease-in-out scale-95 animate-fadeInFromBottom">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Historia Clinica</h2>
+
+      
+      <form [formGroup]="historiaForm">
+        <div class="bg-white w-full grid grid-cols-2 gap-4">
+          <div class="mb-4">
+            <label for="altura" class="block text-sm font-medium text-gray-700">Altura (cm):</label>
+            <input
+              type="number"
+              formControlName="altura"
+              id="altura"
+              class="mt-2 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <small *ngIf="historiaForm.get('altura')?.invalid && historiaForm.get('altura')?.touched" class="text-red-500">
+              Altura mínima: 10 cm
+            </small>
+          </div>
+    
+          <div class="mb-4">
+            <label for="peso" class="block text-sm font-medium text-gray-700">Peso (kg):</label>
+            <input
+              type="number"
+              formControlName="peso"
+              id="peso"
+              class="mt-2 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <small *ngIf="historiaForm.get('peso')?.invalid && historiaForm.get('peso')?.touched" class="text-red-500">
+              El peso debe ser mayor a 0
+            </small>
+          </div>
+    
+          <div class="mb-4">
+            <label for="temperatura" class="block text-sm font-medium text-gray-700">Temperatura (°C):</label>
+            <input
+              type="number"
+              formControlName="temperatura"
+              id="temperatura"
+              class="mt-2 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <small *ngIf="historiaForm.get('temperatura')?.invalid && historiaForm.get('temperatura')?.touched" class="text-red-500">
+              La temperatura debe ser mayor a 0
+            </small>
+          </div>
+    
+          <div class="mb-4">
+            <label for="presion" class="block text-sm font-medium text-gray-700">Presión (mm/Hg):</label>
+            <input
+              type="number"
+              formControlName="presion"
+              id="presion"
+              class="mt-2 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+        </div>
+    
+        <h3 class="text-lg mt-4 mb-4">Agregar más datos</h3>
+        <div *ngFor="let dato of historiaForm.get('datos_dinamicos')?.value; let i = index" class="mb-2 text-center w-full">
+          <div class="flex flex-row justify-center w-full">
+            <p class="text-sm font-medium text-gray-800 mx-5"><strong>{{ dato.clave }}:</strong></p>
+            <p class="text-sm font-medium text-gray-800 mx-5">{{ dato.valor }}</p>
+          </div>
+        </div>
+    
+        <!-- <div class="flex flex-row space-x-4 mb-4">
+          <input
+            type="text"
+            formControlName="nuevoDatoClave"
+            placeholder="Clave"
+            class="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="text"
+            formControlName="nuevoDatoValor"
+            placeholder="Valor"
+            class="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="button"
+            (click)="agregarDatoDinamico2()"
+            class="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            Agregar
+          </button>
+        </div> -->
+        <div class="flex flex-row space-x-4 mb-4">
+          <input type="text"             class="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          formControlName="nuevoDatoClave" placeholder="Clave" />
+          <input type="text"            class="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          formControlName="nuevoDatoValor" placeholder="Valor" />
+          <button type="button" class="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500" (click)="agregarDatoTexto()" [disabled]="datosDinamicos.length >= 6">Agregar</button>
+        </div>
+        <div *ngIf="!datoRange" class="flex flex-row space-x-4 mb-4">
+          <input type="text" formControlName="nuevoDatoRangeClave" placeholder="Clave range" class="w-full p-2 border border-gray-300 rounded-md" />
+          <input type="range" formControlName="nuevoDatoRangeValor" min="0" max="100" class="w-full mt-2" />
+          <button type="button"  class="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"  (click)="agregarDatoRange()" [disabled]="datosDinamicos.length >= 6">Agregar Rango</button>
+        </div>
+        <div *ngIf="!datoNumber" class="flex flex-row space-x-4 mb-4">
+          <input type="text" class="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500" formControlName="nuevoDatoNumericoClave" placeholder="Clave" />
+          <input type="number" class="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500" formControlName="nuevoDatoNumericoValor" placeholder="Ingrese un número" />
+          <button type="button"  class="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"  (click)="agregarDatoNumerico()" [disabled]="datosDinamicos.length >= 6">Agregar Dato Numérico</button>
+        </div>
+        <div *ngIf="!datoSwitch" class="flex flex-row space-x-4 mb-4">
+          <input type="text" formControlName="nuevoDatoSwitchClave" placeholder="Clave switch" class="w-full p-2 border border-gray-300 rounded-md" />
+  
+  <!-- Switch estilizado con la estructura proporcionada -->
+  <label class="inline-flex items-center mb-5 cursor-pointer">
+    <input type="checkbox" formControlName="nuevoDatoSwitchValor" value="" class="sr-only peer" />
+    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Si/No</span>
+  </label>
+          <button type="button"  class="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"  (click)="agregarDatoSwitch()" [disabled]="datosDinamicos.length >= 6">Agregar Switch</button>
+        </div>
+        
+        <h3 class="text-lg mt-4 mb-4">Diagnostico/Reseña final del paciente</h3>
+
+        <div class="flex flex-col space-x-4 mb-4">
+          <input
+            type="text"
+            formControlName="resenia"
+            placeholder="Escribe aqui..."
+            class="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />         
+          <small *ngIf="historiaForm.get('resenia')?.invalid && historiaForm.get('resenia')?.touched" class="text-red-500">
+            Debe escribir una devolución al paciente.
+          </small> 
+        </div>
+
+        <div class="flex justify-center space-x-2">
+          <button
+          (click)="guardarHistoriaClinica()"
+            type="submit"
+            [disabled]="historiaForm.invalid"
+            class="bg-green-500 hover:bg-green-600 w-full text-white font-semibold px-4 py-2 rounded-md transition duration-200 ease-in-out"
+          >
+            Aceptar
+          </button>
+          <button
+            type="button"
+            (click)="cancelar()"
+            class="bg-red-500 hover:bg-red-600 w-full text-white font-semibold px-4 py-2 rounded-md transition duration-200 ease-in-out"
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>

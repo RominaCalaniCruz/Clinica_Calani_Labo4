@@ -19,7 +19,8 @@ export interface Turno {
     paciente:{
         id: string,
         nombre:string,
-        apellido:string
+        apellido:string,
+        foto: string
     };
 
     fecha_turno: Timestamp; //El paciente debe tener la posibilidad de elegir turno dentro de los proximos 15 dias

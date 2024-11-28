@@ -68,4 +68,36 @@ export const routes: Routes = [
         canActivate:[estaLogueadoGuard],
         data: {animation: "pacientes"}        
     },
+    
+    {
+        path: 'informes/1',
+        loadComponent: () =>
+            import('./components/lista-logs/lista-logs.component').then((c) => c.ListaLogsComponent),
+        // canActivate:[estaLogueadoGuard]
+    },
+    {
+        path: 'informes/2',
+        loadComponent: () =>
+            import('./components/grafico-esp/grafico-esp.component').then((c) => c.GraficoEspComponent),
+        // canActivate:[estaLogueadoGuard]
+    },
+    {
+        path: 'informes/3',
+        loadComponent: () =>
+            import('./components/grafico-dia/grafico-dia.component').then((c) => c.GraficoDiaComponent),
+        // canActivate:[estaLogueadoGuard]
+    },
+    {
+        path: 'informes/4',
+        loadComponent: () =>
+            import('./components/grafico-medico/grafico-medico.component').then((c) => c.GraficoMedicoComponent),
+        // canActivate:[estaLogueadoGuard]
+    },
+    {
+        path: 'informes/5',
+        loadComponent: () =>
+            import('./components/grafico-medico-fin/grafico-medico-fin.component').then((c) => c.GraficoMedicoFinComponent),
+        // canActivate:[estaLogueadoGuard]
+    }
+    
 ];
